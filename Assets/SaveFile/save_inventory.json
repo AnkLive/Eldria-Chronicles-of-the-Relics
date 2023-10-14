@@ -1,0 +1,113 @@
+{
+  "InventorySections": {
+    "Spell": {
+      "InventorySection": [],
+      "TotalStrengthLimit": 7.0,
+      "CurrentTotalStrength": 0.0
+    },
+    "Weapon": {
+      "InventorySection": [
+        {
+          "Item": {
+            "ItemType": "Weapon",
+            "ItemId": "test_weapon_item",
+            "IsEquipment": false,
+            "hideFlags": "None",
+            "Damage": 46.0
+          },
+          "SlotId": 3,
+          "IsEmpty": false,
+          "IsEquipmentSlot": false
+        }
+      ],
+      "TotalStrengthLimit": 0.0,
+      "CurrentTotalStrength": 0.0
+    },
+    "Artefact": {
+      "InventorySection": [
+        {
+          "Item": {
+            "ItemType": "Artefact",
+            "ItemId": "test_artefact_item",
+            "IsEquipment": false,
+            "name": "New Artefact Item",
+            "hideFlags": "None",
+            "Strength": 3.0,
+            "BoostDamage": 4.0,
+            "BoostHealth": 4.0,
+            "BoostMovementSpeed": 2.0
+          },
+          "SlotId": 2,
+          "IsEmpty": false,
+          "IsEquipmentSlot": false
+        },
+        {
+          "Item": {
+            "ItemType": "Artefact",
+            "ItemId": "test_artefact_item",
+            "IsEquipment": false,
+            "name": "New Artefact Item",
+            "hideFlags": "None",
+            "Strength": 3.0,
+            "BoostDamage": 4.0,
+            "BoostHealth": 4.0,
+            "BoostMovementSpeed": 2.0
+          },
+          "SlotId": 7,
+          "IsEmpty": false,
+          "IsEquipmentSlot": false
+        },
+        {
+          "Item": {
+            "ItemType": "Artefact",
+            "ItemId": "test_artefact_item",
+            "IsEquipment": false,
+            "name": "New Artefact Item",
+            "hideFlags": "None",
+            "Strength": 3.0,
+            "BoostDamage": 4.0,
+            "BoostHealth": 4.0,
+            "BoostMovementSpeed": 2.0
+          },
+          "SlotId": 8,
+          "IsEmpty": false,
+          "IsEquipmentSlot": true
+        },
+        {
+          "Item": {
+            "ItemType": "Artefact",
+            "ItemId": "test_artefact_item",
+            "IsEquipment": false,
+            "name": "New Artefact Item",
+            "hideFlags": "None",
+            "Strength": 3.0,
+            "BoostDamage": 4.0,
+            "BoostHealth": 4.0,
+            "BoostMovementSpeed": 2.0
+          },
+          "SlotId": 10,
+          "IsEmpty": false,
+          "IsEquipmentSlot": true
+        },
+        {
+          "Item": {
+            "ItemType": "Artefact",
+            "ItemId": "test_artefact_item",
+            "IsEquipment": false,
+            "name": "New Artefact Item",
+            "hideFlags": "None",
+            "Strength": 3.0,
+            "BoostDamage": 4.0,
+            "BoostHealth": 4.0,
+            "BoostMovementSpeed": 2.0
+          },
+          "SlotId": 12,
+          "IsEmpty": false,
+          "IsEquipmentSlot": true
+        }
+      ],
+      "TotalStrengthLimit": 5.0,
+      "CurrentTotalStrength": -9.0
+    }
+  }
+}
