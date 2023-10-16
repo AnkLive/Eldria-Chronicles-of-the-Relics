@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PlayerStatsSaveLoader : MonoBehaviour, IInitialize
+public class PlayerStatsSaveLoader : MonoBehaviour, IInitialize<PlayerStatsSaveLoader>, ISaveLoader<Player>
 {
     private string _path;
     private IDataHandler<Player> _dataHandler;
@@ -11,14 +11,15 @@ public class PlayerStatsSaveLoader : MonoBehaviour, IInitialize
         _path = Application.dataPath + "/SaveFile/player_stats.json";
         _dataHandler = new DataHandler<Player>(_path);
         LoadData();
+        Debug.LogWarning("PlayerStatsSaveLoader");
     }
 
-    public Player GetPlayer()
+    public Player GetData()
     {
         return _player;
     }
 
-    public void SetPlayer(Player player)
+    public void SetData(Player player)
     {
         _player = player;
         _dataHandler.SaveData(player);

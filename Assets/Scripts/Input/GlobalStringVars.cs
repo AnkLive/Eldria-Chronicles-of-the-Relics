@@ -11,7 +11,7 @@ public class GlobalStringVars : ScriptableObject
         
         private void SetVars()
         {
-                StringVarsList = inputVarsSaveLoader.GetDataVars();
+                StringVarsList = inputVarsSaveLoader.GetData();
         }
 
         public KeyCode GetVars(string keyCodeString)

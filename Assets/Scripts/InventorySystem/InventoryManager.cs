@@ -5,7 +5,7 @@ using UnityEngine;
 namespace InventorySystem
 {
     [Serializable]
-    public class InventoryManager : MonoBehaviour, IInitialize
+    public class InventoryManager : MonoBehaviour, IInitialize<InventoryManager>
     {
         public InventorySaveLoader inventorySaveLoader;
         [SerializeField] public InventoryUIManager UIManager;
@@ -91,7 +91,7 @@ namespace InventorySystem
 
         private void SaveInventory()
         {
-            inventorySaveLoader.SetInventory(inventory);
+            inventorySaveLoader.SetData(inventory);
         }
 
         public void SetCurrentSelectedItem(int slotId)

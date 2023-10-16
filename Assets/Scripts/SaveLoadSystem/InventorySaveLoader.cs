@@ -3,7 +3,13 @@ using System.Collections.Generic;
 using InventorySystem;
 using UnityEngine;
 
-public class InventorySaveLoader : MonoBehaviour, IInitialize
+public interface IInventorySaveLoader
+{
+    public InventorySaveLoader.InventorySectionDataContainer GetData(EItemType itemType);
+    public void SetData(Inventory inventory);
+}
+
+public class InventorySaveLoader : MonoBehaviour, IInitialize<InventorySaveLoader>, IInventorySaveLoader
 {
     private string _path;
     private IDataHandler<InventoryDataContainer> _dataHandler;
@@ -13,9 +19,10 @@ public class InventorySaveLoader : MonoBehaviour, IInitialize
         _path = Application.dataPath + "/SaveFile/save_inventory.json";
         _dataHandler = new DataHandler<InventoryDataContainer>(_path);
         LoadData();
+        Debug.LogWarning("InventorySaveLoader");
     }
 
-    public InventorySectionDataContainer GetInventory(EItemType itemType)
+    public InventorySectionDataContainer GetData(EItemType itemType)
     {
         if (_dataHandler.LoadData() != null)
         {
@@ -25,7 +32,7 @@ public class InventorySaveLoader : MonoBehaviour, IInitialize
         return null;
     }
     
-    public void SetInventory(Inventory inventory)
+    public void SetData(Inventory inventory)
     {
         var data = new InventoryDataContainer();
         data.InventorySections.Clear();

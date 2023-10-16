@@ -2,6 +2,7 @@
 
 public interface IPlayerStatsModifier
 {
+    void SetPlayer(Player player);
     float GetModifiedMovementSpeed();
     float GetModifiedMaxHealth();
     float GetModifiedMaxShield();
@@ -13,10 +14,12 @@ public interface IPlayerStatsModifier
     float GetModifiedSpellRange(float spellRange);
     float GetModifiedSpellDamage(float spellDamage);
     float GetModifiedSpellRecovery(float spellRecovery);
+    float GetModifiedSpellStatusChance(float spellStatusChance);
     float GetModifiedDashingCooldown();
 }
 
-public class PlayerStatsModifier : MonoBehaviour, IPlayerStatsModifier
+
+public class PlayerStatsModifier : IPlayerStatsModifier
 {
     private Player _player;
     
@@ -83,5 +86,10 @@ public class PlayerStatsModifier : MonoBehaviour, IPlayerStatsModifier
     public float GetModifiedDashingCooldown()
     {
         return _player.DashingCooldown + _player.DashingCooldownMultiplier;
-    } 
+    }
+
+    public void SetPlayer(Player player)
+    {
+        _player = player;
+    }
 }

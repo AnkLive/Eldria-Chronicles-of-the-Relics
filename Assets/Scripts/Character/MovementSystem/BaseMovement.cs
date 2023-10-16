@@ -43,7 +43,7 @@ namespace Platformer.MovementSystem
     /// <summary>
     /// Содержит информацию о способностях объекта двигаться
     /// </summary>
-    public abstract class BaseMovement : MonoBehaviour, IMovable, IBounce, IDash, IGrounded, IInitialize, IInputInitialize 
+    public abstract class BaseMovement : MonoBehaviour, IMovable, IBounce, IDash, IGrounded, IInputInitialize 
     {
 
         #region Методы
@@ -51,7 +51,7 @@ namespace Platformer.MovementSystem
         /// <summary>
         /// Получение ссылок на компоненты
         /// </summary>
-        public abstract void Initialize();
+        //public abstract void Initialize();
         /// <summary>
         /// Реализация прыжка
         /// </summary>

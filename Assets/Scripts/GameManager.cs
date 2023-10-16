@@ -5,22 +5,23 @@ using Zenject;
 
 public class GameManager : MonoBehaviour
 {
+    [Inject] private SceneLoader _sceneLoader;
     public LoadingLevel level;
     public string levelName;
     public GameLoadingManager gameLoadingManager;
-    public static GameManager Instance;
     
     private void Awake()
     {
-        if (Instance == null)
+        DontDestroyOnLoad(gameObject);
+    }
+    
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+            _sceneLoader.LoadScene("GamePlayScene");
         }
-        else
-        {
-            Destroy(gameObject);
-        }
+        
     }
     
     private void OnEnable()
@@ -35,16 +36,16 @@ public class GameManager : MonoBehaviour
     
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        
         if (scene.name == "LoadingGameScene")
         {
             gameLoadingManager.StartLoadGameData();
-            SceneManager.LoadScene("MainMenuScene");
+            _sceneLoader.LoadScene("MainMenuScene");
         }
         else if (scene.name == "GamePlayScene")
         {
             gameLoadingManager.InventoryManager = FindObjectOfType<InventoryManager>();
             gameLoadingManager.StartInitializeObjects();
-            
             level.LoadLevelFromAddressable(levelName);
         }
     }

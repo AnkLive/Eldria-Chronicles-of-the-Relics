@@ -21,7 +21,7 @@ namespace Platformer.EnemyState
         
         [field:SerializeField] public PlayerDetect DetectCollider { get; private set; }
 
-        public override void Initialize()
+        public void Initialize()
         {
             base.Initialize();
             

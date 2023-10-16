@@ -7,13 +7,9 @@ namespace Platformer.MovementSystem
     [RequireComponent(typeof(Rigidbody2D))]
     public class Movement : BaseMovement
     {
-        private IPlayerStatsModifier playerStatsModifier;
-
         [Inject]
-        public void Construct(IPlayerStatsModifier playerStatsModifier)
-        {
-            this.playerStatsModifier = playerStatsModifier;
-        }
+        private IPlayerStatsModifier playerStatsModifier;
+        
         #region Переменные которые не выводятся в инспекторе
 
         public Rigidbody2D RigidbodyObject  { get; private set; }
@@ -96,11 +92,18 @@ namespace Platformer.MovementSystem
 
         #region Методы
 
-        public override void Initialize() 
+        // public override void Initialize() 
+        // {
+        //     RigidbodyObject = GetComponent<Rigidbody2D>();
+        //     _inputsArray = GetComponents<IInput>();
+        //     MovementSpeed = playerStatsModifier.GetModifiedMovementSpeed();
+        // }
+        
+        public void Initialize()
         {
             RigidbodyObject = GetComponent<Rigidbody2D>();
             _inputsArray = GetComponents<IInput>();
-            //MovementSpeed = playerStatsModifier.GetModifiedMovementSpeed();
+            MovementSpeed = playerStatsModifier.GetModifiedMovementSpeed();
         }
 
         private void Update() 

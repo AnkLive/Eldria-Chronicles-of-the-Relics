@@ -12,11 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
   m_Name: Characters
   m_EditorClassIdentifier: 
-  m_GroupName: Packed Assets
+  m_GroupName: Characters
   m_Data:
     m_SerializedData: []
   m_GUID: a58d383ae2dd0ca40bc4eb5c7a99f7a3
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 892ec029529cdad4b826e25b668b7f6d
+    m_Address: Player
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: a9f32368a701c3449a1cdd555bb02f65, type: 2}
   m_SchemaSet:

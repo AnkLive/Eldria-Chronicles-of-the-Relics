@@ -26,7 +26,7 @@ MonoBehaviour:
   <CurrentShield>k__BackingField: 0
   <MaxHealthMultiplier>k__BackingField: 0
   <MaxShieldMultiplier>k__BackingField: 0
-  <MovementSpeed>k__BackingField: 0
+  <MovementSpeed>k__BackingField: 50
   <MovementSpeedMultiplier>k__BackingField: 0
   <AttackDamage>k__BackingField: 0
   <AttackSpeed>k__BackingField: 0

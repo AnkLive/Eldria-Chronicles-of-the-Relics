@@ -2,48 +2,49 @@ using System;
 using System.Collections;
 using InventorySystem;
 using UnityEngine;
+using Zenject;
+
+public interface IInitialize<T>
+{
+    public void Initialize();
+}
 
 public class GameLoadingManager : MonoBehaviour
 {
+    [Inject]
+    private ISaveLoader<Player> playerStatsSaveLoader;
+    [Inject]
+    private IInitialize<PlayerStatsSaveLoader> playerStatsInitialize;
+    [Inject]
+    private IInitialize<InventorySaveLoader> inventorySaveLoader;
+    [Inject]
+    private IInitialize<InputVarsSaveLoader> inputVarsSaveLoader;
     public  InventoryManager InventoryManager { get; set; }
     
-    [SerializeField] private InventorySaveLoader inventorySaveLoader;
-    [SerializeField] private PlayerStatsSaveLoader playerStatsSaveLoader;
-    [SerializeField] private InputVarsSaveLoader inputVarsSaveLoader;
-    
     private bool _isLoading;
-
+    
     public event Action DataLoaded;
-    public static event Action UIInitialized;
-
-    private void LoadData()
-    {
-        inventorySaveLoader.Initialize();
-        playerStatsSaveLoader.Initialize();
-        inputVarsSaveLoader.Initialize();
-    }
-
-    private void InitializeObjects()
-    {
-        InventoryManager.inventorySaveLoader = inventorySaveLoader;
-        InventoryManager.Initialize();
-    }
+    public event Action UIInitialized;
 
     public void StartLoadGameData()
     {
         StartCoroutine(LoadGameData());
+        _isLoading = false;
     }
 
     public void StartInitializeObjects()
     {
         StartCoroutine(InitializeUI());
+        _isLoading = false;
     }
 
     private IEnumerator LoadGameData()
     {
         _isLoading = true;
         Debug.Log("Loading data...");
-        LoadData();
+        inventorySaveLoader.Initialize();
+        playerStatsInitialize.Initialize();
+        inputVarsSaveLoader.Initialize();
         yield return new WaitUntil(() => !_isLoading);
         Debug.Log("Data loaded.");
         DataLoaded?.Invoke();
@@ -51,8 +52,9 @@ public class GameLoadingManager : MonoBehaviour
 
     private IEnumerator InitializeUI()
     {
-        Debug.Log("Initializing UI...");
-        InitializeObjects();
+        _isLoading = true;
+        Debug.Log("Initializing...");
+        InventoryManager.Initialize();
         yield return new WaitUntil(() => !_isLoading);
         Debug.Log("UI initialized.");
         UIInitialized?.Invoke();

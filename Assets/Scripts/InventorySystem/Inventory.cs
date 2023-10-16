@@ -71,18 +71,18 @@ namespace InventorySystem
             {
                 var type = (EItemType)itemType;
                 
-                if (inventorySaveLoader.GetInventory(type) != null)
+                if (inventorySaveLoader.GetData(type) != null)
                 {
-                    Sections[type].TotalStrengthLimit = inventorySaveLoader.GetInventory(type).TotalStrengthLimit;
-                    Sections[type].CurrentTotalStrength = inventorySaveLoader.GetInventory(type).CurrentTotalStrength;
-                    int count = inventorySaveLoader.GetInventory(type).InventorySection.Count;
+                    Sections[type].TotalStrengthLimit = inventorySaveLoader.GetData(type).TotalStrengthLimit;
+                    Sections[type].CurrentTotalStrength = inventorySaveLoader.GetData(type).CurrentTotalStrength;
+                    int count = inventorySaveLoader.GetData(type).InventorySection.Count;
                     
                     for (int i = 0; i < count; i++)
                     {
-                        var item = inventorySaveLoader.GetInventory(type).InventorySection[i].Item;
+                        var item = inventorySaveLoader.GetData(type).InventorySection[i].Item;
                         item.Icon = _itemStorage.GetItemDescriptionById(item.ItemId).sprite;
                         item.ItemDescription = _itemStorage.GetItemDescriptionById(item.ItemId).description;
-                        Sections[type].SetSlotById(item, inventorySaveLoader.GetInventory(type).InventorySection[i].SlotId);
+                        Sections[type].SetSlotById(item, inventorySaveLoader.GetData(type).InventorySection[i].SlotId);
                     }
                 }
             }
