@@ -1,38 +1,42 @@
-﻿using UnityEngine;
+﻿using System.IO;
+using UnityEngine;
 
 public class PlayerStatsSaveLoader : MonoBehaviour, IInitialize<PlayerStatsSaveLoader>, ISaveLoader<Player>
 {
     private string _path;
     private IDataHandler<Player> _dataHandler;
-    private Player _player;
+    private Player _data;
 
     public void Initialize()
     {
-        _path = Application.dataPath + "/SaveFile/player_stats.json";
+        _path = Path.Combine(Application.dataPath, "/SaveFile/save_vars.json");
         _dataHandler = new DataHandler<Player>(_path);
         LoadData();
-        Debug.LogWarning("PlayerStatsSaveLoader");
     }
 
     public Player GetData()
     {
-        return _player;
+        return _data;
     }
 
-    public void SetData(Player player)
+    public void SetData(Player data)
     {
-        _player = player;
-        _dataHandler.SaveData(player);
+        _data = data;
+        _dataHandler.SaveData(data);
     }
 
     private void LoadData()
     {
-        _player = _dataHandler.LoadData();
+        _data = _dataHandler.LoadData();
 
-        if (_player == null)
+        if (_data == null)
         {
-            _player = new Player();
+            _data = ScriptableObject.CreateInstance<Player>();
+            Debug.LogWarning("Загрузка [PlayerStatsSaveLoader]: данные не были загружены или файл данных пуст");
         }
-        Debug.LogWarning("Данные игрока загружены");
+        else
+        {
+            Debug.LogWarning("Загрузка [PlayerStatsSaveLoader]: загружено");
+        }
     }
 }

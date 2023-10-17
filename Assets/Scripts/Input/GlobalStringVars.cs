@@ -1,17 +1,18 @@
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
 
 [Serializable]
 [CreateAssetMenu(fileName = "New Global String Vars", menuName = "System/Global String Vars", order = 0)]
 public class GlobalStringVars : ScriptableObject
-{
-        [SerializeField] private InputVarsSaveLoader inputVarsSaveLoader;
+{ 
+        [SerializeField, JsonIgnore] private InputVarsSaveLoader inputVarsSaveLoader;
         [field: SerializeField] private List<StringVar> StringVarsList = new();
         
         private void SetVars()
         {
-                StringVarsList = inputVarsSaveLoader.GetData();
+                StringVarsList = inputVarsSaveLoader.GetData().StringVarsList;
         }
 
         public KeyCode GetVars(string keyCodeString)

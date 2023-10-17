@@ -1,89 +1,43 @@
-using System;
-using System.Collections.Generic;
+using System.IO;
 using InventorySystem;
 using UnityEngine;
 
-public interface IInventorySaveLoader
-{
-    public InventorySaveLoader.InventorySectionDataContainer GetData(EItemType itemType);
-    public void SetData(Inventory inventory);
-}
-
-public class InventorySaveLoader : MonoBehaviour, IInitialize<InventorySaveLoader>, IInventorySaveLoader
+public class InventorySaveLoader : MonoBehaviour, IInitialize<InventorySaveLoader>, ISaveLoader<Inventory>
 {
     private string _path;
-    private IDataHandler<InventoryDataContainer> _dataHandler;
+    private IDataHandler<Inventory> _dataHandler;
+    private Inventory _data;
     
     public void Initialize()
     {
-        _path = Application.dataPath + "/SaveFile/save_inventory.json";
-        _dataHandler = new DataHandler<InventoryDataContainer>(_path);
+        _path = Path.Combine(Application.dataPath, "/SaveFile/save_vars.json");
+        _dataHandler = new DataHandler<Inventory>(_path);
         LoadData();
-        Debug.LogWarning("InventorySaveLoader");
     }
 
-    public InventorySectionDataContainer GetData(EItemType itemType)
+    public Inventory GetData()
     {
-        if (_dataHandler.LoadData() != null)
-        {
-            return _dataHandler.LoadData().InventorySections.TryGetValue(itemType, out var section) ? section : new InventorySectionDataContainer();
-        }
-
-        return null;
+        return _data;
     }
     
-    public void SetData(Inventory inventory)
+    public void SetData(Inventory data)
     {
-        var data = new InventoryDataContainer();
-        data.InventorySections.Clear();
-
-        for (int i = 0; i < inventory.Sections.Count; i++)
-        {
-            EItemType itemType = (EItemType)i;
-            data.InventorySections[itemType] = new InventorySectionDataContainer
-            {
-                TotalStrengthLimit = inventory.Sections[itemType].TotalStrengthLimit,
-                CurrentTotalStrength = inventory.Sections[itemType].CurrentTotalStrength
-            };
-
-            for (int j = 0; j < inventory.Sections[itemType].GetCountSlotInventory(); j++)
-            {
-                if (inventory.Sections[itemType].GetSlotById(j).Item != null)
-                {
-                    data.InventorySections[itemType].InventorySection.Add(inventory.Sections[itemType].GetSlotById(j));
-                }
-            }
-        }
+        _data = data;
         _dataHandler.SaveData(data);
     }
 
     private void LoadData()
     {
-        var data = _dataHandler.LoadData();
-
-        if (data == null)
+        _data = _dataHandler.LoadData();
+        
+        if (_data == null)
         {
-            data = new InventoryDataContainer();
+            _data = new Inventory();
+            Debug.LogWarning("Загрузка [InventorySaveLoader]: данные не были загружены или файл данных пуст");
         }
-
-        if (data.InventorySections == null)
+        else
         {
-            data.InventorySections = new Dictionary<EItemType, InventorySectionDataContainer>();
+            Debug.LogWarning("Загрузка [InventorySaveLoader]: загружено");
         }
-        Debug.LogWarning("Данные инвентаря загружены");
-    }
-    
-    [Serializable]
-    private class InventoryDataContainer
-    {
-        public Dictionary<EItemType, InventorySectionDataContainer> InventorySections = new();
-    }
-    
-    [Serializable]
-    public class InventorySectionDataContainer
-    {
-        public List<InventorySlot> InventorySection = new();
-        public float TotalStrengthLimit;
-        public float CurrentTotalStrength;
     }
 }

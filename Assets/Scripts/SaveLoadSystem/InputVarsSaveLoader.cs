@@ -1,56 +1,42 @@
-using System;
-using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
-public class InputVarsSaveLoader : MonoBehaviour, IInitialize<InputVarsSaveLoader>, ISaveLoader<List<StringVar>>
+public class InputVarsSaveLoader : MonoBehaviour, IInitialize<InputVarsSaveLoader>, ISaveLoader<GlobalStringVars>
 {
-    private VarsData _data;
-    
     private string _path;
-    private IDataHandler<VarsData> _dataHandler;
+    private IDataHandler<GlobalStringVars> _dataHandler;
+    private GlobalStringVars _data;
 
     public void Initialize()
     {
-        _path = Application.dataPath + "/SaveFile/save_vars.json";
-        _dataHandler = new DataHandler<VarsData>(_path);
+        _path = Path.Combine(Application.dataPath, "/SaveFile/save_vars.json");
+        _dataHandler = new DataHandler<GlobalStringVars>(_path);
         LoadData();
-        Debug.LogWarning("InputVarsSaveLoader");
     }
 
-    public void SetData(List<StringVar> stringVars)
+    public void SetData(GlobalStringVars data)
     {
-        var data = new VarsData();
-        
-        for (int i = 0; i < stringVars.Count; i++)
-        {
-            data.StringVars = stringVars;
-        }
+        _data = data;
         _dataHandler.SaveData(data);
     }
 
-    public List<StringVar> GetData()
+    public GlobalStringVars GetData()
     {
-        return _dataHandler.LoadData().StringVars;
+        return _data;
     }
     
     private void LoadData()
     {
-        var data = _dataHandler.LoadData();
-
-        if (data == null)
+        _data = _dataHandler.LoadData();
+        
+        if (_data == null)
         {
-            data = new VarsData();
+            _data = ScriptableObject.CreateInstance<GlobalStringVars>();
+            Debug.LogWarning("Загрузка [GlobalStringVars]: данные не были загружены или файл данных пуст");
         }
-
-        if (data.StringVars == null)
+        else
         {
-            data.StringVars = new List<StringVar>();
+            Debug.LogWarning("Загрузка [GlobalStringVars]: загружено");
         }
-    }
-    
-    [Serializable]
-    public class VarsData
-    {
-        public List<StringVar> StringVars = new();
     }
 }

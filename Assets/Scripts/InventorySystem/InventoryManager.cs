@@ -1,13 +1,15 @@
 using System;
 using ItemSystem;
 using UnityEngine;
+using Zenject;
 
 namespace InventorySystem
 {
     [Serializable]
     public class InventoryManager : MonoBehaviour, IInitialize<InventoryManager>
     {
-        public InventorySaveLoader inventorySaveLoader;
+        [Inject]
+        private ISaveLoader<Inventory> _inventorySaveLoader;
         [SerializeField] public InventoryUIManager UIManager;
         [SerializeField] private EquippedSpells EquippedSpells;
         public Item testItemSpell;
@@ -25,9 +27,18 @@ namespace InventorySystem
             UIManager.OpenInventory();
             UIManager.Init();
             
-            inventory = new Inventory(itemStorage);
-            inventory.InitializeInventorySections(UIManager.inventoryPanel, UIManager.equipmentPanel,  startTotalStrengthLimitArtefactSection, startTotalStrengthLimitSpellSection);
-            inventory.LoadInventoryItems(inventorySaveLoader);
+            inventory = new Inventory
+            {
+                itemStorage = itemStorage
+            };
+            inventory.InitializeInventorySections
+                (
+                    _inventorySaveLoader.GetData(), 
+                    UIManager.inventoryPanel, 
+                    UIManager.equipmentPanel,  
+                    startTotalStrengthLimitArtefactSection, 
+                    startTotalStrengthLimitSpellSection
+                    );
 
             UIManager.OnCloseInventory += SaveInventory;
             UIManager.OnOpenInventory += SaveInventory;
@@ -50,12 +61,12 @@ namespace InventorySystem
             UIManager.SetInventoryStrength(inventory.Sections[currentInventorySection].CurrentTotalStrength);
         }
 
-        private void OnDisable()
-        {
-            UIManager.OnChangeInventorySection -= SetCurrentInventorySection;
-            inventory.Sections[EItemType.Artefact].OnChangedStrengthInventory -= GetStrengthInventory;
-            inventory.Sections[EItemType.Spell].OnChangedStrengthInventory -= GetStrengthInventory;
-        }
+        // private void OnDisable()
+        // {
+        //     UIManager.OnChangeInventorySection -= SetCurrentInventorySection;
+        //     inventory.Sections[EItemType.Artefact].OnChangedStrengthInventory -= GetStrengthInventory;
+        //     inventory.Sections[EItemType.Spell].OnChangedStrengthInventory -= GetStrengthInventory;
+        // }
         
         public void SetCurrentInventorySection(EItemType section)
         {
@@ -91,7 +102,7 @@ namespace InventorySystem
 
         private void SaveInventory()
         {
-            inventorySaveLoader.SetData(inventory);
+            _inventorySaveLoader.SetData(inventory);
         }
 
         public void SetCurrentSelectedItem(int slotId)

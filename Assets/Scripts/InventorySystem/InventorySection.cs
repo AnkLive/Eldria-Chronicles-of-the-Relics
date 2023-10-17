@@ -17,7 +17,7 @@ namespace InventorySystem
             TotalStrengthLimit = totalStrengthLimit;
         }
         
-        private List<InventorySlot> _inventorySlotList = new();
+        public List<InventorySlot> InventorySlotList { get; set; } = new();
         
         [JsonIgnore] private List<IconSetter> _iconSetterList = new();
         
@@ -30,21 +30,16 @@ namespace InventorySystem
 
         public EItemType InventoryType { get; }
 
-        public void Initialize(Transform panel, bool isEquipment)
-        {
-            AddSlot(panel, isEquipment);
-        }
-
         public int GetCountSlotInventory()
         {
-            return _inventorySlotList.Count;
+            return InventorySlotList.Count;
         }
 
         public List<Item> GetAllEquipmentItems()
         {
             List<Item> list = new();
             
-            foreach (var slot in _inventorySlotList)
+            foreach (var slot in InventorySlotList)
             {
                 if (slot.Item != null && slot.Item.IsEquipment)
                 {
@@ -57,7 +52,7 @@ namespace InventorySystem
         
         public void SetSlotById(Item item, int slotId)
         {
-            var slot = _inventorySlotList.Find(s => s.SlotId == slotId);
+            var slot = InventorySlotList.Find(s => s.SlotId == slotId);
 
             if (slot != null)
             { 
@@ -72,12 +67,12 @@ namespace InventorySystem
         
         public InventorySlot GetSlotById(int slotId)
         {
-            return _inventorySlotList.FirstOrDefault(slot => slot.SlotId == slotId);
+            return InventorySlotList.FirstOrDefault(slot => slot.SlotId == slotId);
         }
 
-        private void AddSlot(Transform panel, bool isEquipment)
+        public void AddIconSetter(Transform panel)
         {
-            int slotCount = _inventorySlotList.Count;
+            int slotCount = _iconSetterList.Count;
             
             for (int i = 0; i < panel.childCount; i++)
             {
@@ -85,7 +80,24 @@ namespace InventorySystem
                 
                 if (slot != null)
                 {
-                    _inventorySlotList.Add(new InventorySlot(slotCount, isEquipment));
+                    _iconSetterList.Add(slot);
+                    _iconSetterList[slotCount].SlotId = slotCount;
+                    slotCount++;
+                }
+            }
+        }
+        
+        public void AddSlot(Transform panel, bool isEquipment)
+        {
+            int slotCount = InventorySlotList.Count;
+            
+            for (int i = 0; i < panel.childCount; i++)
+            {
+                var slot = panel.GetChild(i).GetComponent<IconSetter>();
+                
+                if (slot != null)
+                {
+                    InventorySlotList.Add(new InventorySlot(slotCount, isEquipment));
                     _iconSetterList.Add(slot);
                     _iconSetterList[slotCount].SlotId = slotCount;
                     slotCount++;
@@ -97,7 +109,7 @@ namespace InventorySystem
         {
             if (!CheckInventoryFullness())
             {
-                var emptySlot = _inventorySlotList.Find(slot => slot.IsEmpty);
+                var emptySlot = InventorySlotList.Find(slot => slot.IsEmpty);
                 
                 if (emptySlot != null && !emptySlot.IsEquipmentSlot)
                 {
@@ -115,13 +127,13 @@ namespace InventorySystem
 
         private bool CheckInventoryFullness()
         {
-            return _inventorySlotList.All(slot => !slot.IsEmpty || slot.IsEquipmentSlot);
+            return InventorySlotList.All(slot => !slot.IsEmpty || slot.IsEquipmentSlot);
         }
 
         public void MoveItem(int oldSlotId, int newSlotId)
         {
-            InventorySlot oldSlot = _inventorySlotList.Find(s => s.SlotId == oldSlotId);
-            InventorySlot newSlot = _inventorySlotList.Find(s => s.SlotId == newSlotId);
+            InventorySlot oldSlot = InventorySlotList.Find(s => s.SlotId == oldSlotId);
+            InventorySlot newSlot = InventorySlotList.Find(s => s.SlotId == newSlotId);
 
             if (newSlot == oldSlot)
             {

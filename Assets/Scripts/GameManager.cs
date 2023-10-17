@@ -39,13 +39,10 @@ public class GameManager : MonoBehaviour
         
         if (scene.name == "LoadingGameScene")
         {
-            gameLoadingManager.StartLoadGameData();
             _sceneLoader.LoadScene("MainMenuScene");
         }
         else if (scene.name == "GamePlayScene")
         {
-            gameLoadingManager.InventoryManager = FindObjectOfType<InventoryManager>();
-            gameLoadingManager.StartInitializeObjects();
             level.LoadLevelFromAddressable(levelName);
         }
     }
