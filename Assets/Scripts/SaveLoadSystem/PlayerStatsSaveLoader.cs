@@ -9,7 +9,7 @@ public class PlayerStatsSaveLoader : MonoBehaviour, IInitialize<PlayerStatsSaveL
 
     public void Initialize()
     {
-        _path = Path.Combine(Application.dataPath, "/SaveFile/save_vars.json");
+        _path = Path.Combine(Application.dataPath, "SaveFile/player_stats.json");
         _dataHandler = new DataHandler<Player>(_path);
         LoadData();
     }

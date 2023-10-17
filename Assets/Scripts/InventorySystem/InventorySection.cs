@@ -19,7 +19,7 @@ namespace InventorySystem
         
         public List<InventorySlot> InventorySlotList { get; set; } = new();
         
-        [JsonIgnore] private List<IconSetter> _iconSetterList = new();
+        [JsonIgnore] public List<IconSetter> IconSetterList { get; set; } = new();
         
         [field: JsonIgnore] public event Action<List<Item>> OnEquippedItem = delegate {  };
         [field: JsonIgnore] public event Action OnChangedStrengthInventory = delegate {  };
@@ -58,7 +58,7 @@ namespace InventorySystem
             { 
                 slot.Item = item;
                 slot.IsEmpty = false;
-                var iconSetter = _iconSetterList[slotId];
+                var iconSetter = IconSetterList[slotId];
                 iconSetter.SetIcon(item.Icon);
                 iconSetter.IsEmpty = slot.IsEmpty; 
                 Debug.Log($"Добавлен предмет - {item.ItemId} в инвентарь - {InventoryType} в слот {slotId}");
@@ -72,7 +72,7 @@ namespace InventorySystem
 
         public void AddIconSetter(Transform panel)
         {
-            int slotCount = _iconSetterList.Count;
+            int slotCount = IconSetterList.Count;
             
             for (int i = 0; i < panel.childCount; i++)
             {
@@ -80,8 +80,8 @@ namespace InventorySystem
                 
                 if (slot != null)
                 {
-                    _iconSetterList.Add(slot);
-                    _iconSetterList[slotCount].SlotId = slotCount;
+                    IconSetterList.Add(slot);
+                    IconSetterList[slotCount].SlotId = slotCount;
                     slotCount++;
                 }
             }
@@ -98,8 +98,8 @@ namespace InventorySystem
                 if (slot != null)
                 {
                     InventorySlotList.Add(new InventorySlot(slotCount, isEquipment));
-                    _iconSetterList.Add(slot);
-                    _iconSetterList[slotCount].SlotId = slotCount;
+                    IconSetterList.Add(slot);
+                    IconSetterList[slotCount].SlotId = slotCount;
                     slotCount++;
                 }
             }
@@ -115,7 +115,7 @@ namespace InventorySystem
                 {
                     emptySlot.Item = item;
                     emptySlot.IsEmpty = false;
-                    var emptyIconSetter = _iconSetterList[emptySlot.SlotId];
+                    var emptyIconSetter = IconSetterList[emptySlot.SlotId];
                     emptyIconSetter.SetIcon(item.Icon);
                     emptyIconSetter.IsEmpty = emptySlot.IsEmpty;
                     OnAddItem.Invoke();
@@ -248,14 +248,14 @@ namespace InventorySystem
             UpdateIconSetter(oldSlot);
 
             // Устанавливаем пустой спрайт для fromSlot (пустого слота)
-            _iconSetterList[oldSlot.SlotId].Icon.sprite = null;
+            IconSetterList[oldSlot.SlotId].Icon.sprite = null;
 
             Debug.Log($"Предмет - {newSlot.Item.ItemId} инвентаря - {InventoryType} перемещен из слота - {oldSlot.SlotId} в слот - {newSlot.SlotId}");
         }
 
         private void UpdateIconSetter(InventorySlot slot)
         {
-            var iconSetter = _iconSetterList[slot.SlotId];
+            var iconSetter = IconSetterList[slot.SlotId];
             iconSetter.IsEmpty = slot.IsEmpty;
 
             if (slot.IsEmpty)

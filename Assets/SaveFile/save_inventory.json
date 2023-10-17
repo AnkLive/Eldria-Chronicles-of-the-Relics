@@ -1,7 +1,7 @@
 {
   "Sections": {
     "Spell": {
-      "_inventorySlotList": [
+      "InventorySlotList": [
         {
           "SlotId": 0,
           "IsEmpty": true,
@@ -63,18 +63,10 @@
       "InventoryType": 0
     },
     "Weapon": {
-      "_inventorySlotList": [
+      "InventorySlotList": [
         {
-          "Item": {
-            "ItemType": "Weapon",
-            "ItemId": "test_weapon_item",
-            "IsEquipment": false,
-            "name": "New Weapon Item",
-            "hideFlags": "None",
-            "Damage": 46.0
-          },
           "SlotId": 0,
-          "IsEmpty": false,
+          "IsEmpty": true,
           "IsEquipmentSlot": false
         },
         {
@@ -82,7 +74,6 @@
             "ItemType": "Weapon",
             "ItemId": "test_weapon_item",
             "IsEquipment": false,
-            "name": "New Weapon Item",
             "hideFlags": "None",
             "Damage": 46.0
           },
@@ -95,7 +86,6 @@
             "ItemType": "Weapon",
             "ItemId": "test_weapon_item",
             "IsEquipment": false,
-            "name": "New Weapon Item",
             "hideFlags": "None",
             "Damage": 46.0
           },
@@ -104,8 +94,15 @@
           "IsEquipmentSlot": false
         },
         {
+          "Item": {
+            "ItemType": "Weapon",
+            "ItemId": "test_weapon_item",
+            "IsEquipment": false,
+            "hideFlags": "None",
+            "Damage": 46.0
+          },
           "SlotId": 3,
-          "IsEmpty": true,
+          "IsEmpty": false,
           "IsEquipmentSlot": false
         },
         {
@@ -119,8 +116,15 @@
           "IsEquipmentSlot": false
         },
         {
+          "Item": {
+            "ItemType": "Weapon",
+            "ItemId": "test_weapon_item",
+            "IsEquipment": false,
+            "hideFlags": "None",
+            "Damage": 46.0
+          },
           "SlotId": 6,
-          "IsEmpty": true,
+          "IsEmpty": false,
           "IsEquipmentSlot": false
         },
         {
@@ -139,7 +143,7 @@
       "InventoryType": 1
     },
     "Artefact": {
-      "_inventorySlotList": [
+      "InventorySlotList": [
         {
           "SlotId": 0,
           "IsEmpty": true,

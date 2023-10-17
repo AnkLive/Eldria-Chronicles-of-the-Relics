@@ -11,7 +11,7 @@ namespace InventorySystem
     {
         [JsonIgnore] public ItemStorage itemStorage;
 
-        public Dictionary<EItemType, InventorySection> Sections { get; set; } = new();
+        public Dictionary<EItemType, InventorySection> Sections { get; set; }
         
         public void AddItem(Item item)
         {
@@ -35,30 +35,30 @@ namespace InventorySystem
         {
             foreach (EItemType type in Enum.GetValues(typeof(EItemType)))
             {
-                InventorySection section = new InventorySection
-                    (type, type == EItemType.Artefact ? 
-                        startTotalStrengthLimitArtefactSection : 
-                        type == EItemType.Spell ? 
-                            startTotalStrengthLimitSpellSection : 
-                            0
-                    );
-
-                if (inventory?.Sections[type] != null)
+                Sections.Add(type, new InventorySection(type, type == EItemType.Weapon ? 0 : (type == EItemType.Artefact ? startTotalStrengthLimitArtefactSection : startTotalStrengthLimitSpellSection)));
+        
+                if (inventory?.Sections.ContainsKey(type) == true)
                 {
-                    section.InventorySlotList = inventory.Sections[type].InventorySlotList;
-                    section.TotalStrengthLimit = inventory.Sections[type].TotalStrengthLimit;
-                    section.CurrentTotalStrength = inventory.Sections[type].CurrentTotalStrength;
+                    Sections[type].InventorySlotList = inventory.Sections[type].InventorySlotList;
+                    Sections[type].TotalStrengthLimit = inventory.Sections[type].TotalStrengthLimit;
+                    Sections[type].CurrentTotalStrength = inventory.Sections[type].CurrentTotalStrength;
+                    Sections[type].AddIconSetter(inventoryPanel.GetChild((int)type));
+                    Sections[type].AddIconSetter(equipmentPanel.GetChild((int)type));
+            
+                    foreach (var slot in inventory.Sections[type].InventorySlotList)
+                    {
+                        if (slot?.Item != null)
+                        {
+                            slot.Item.Icon = itemStorage.GetItemDescriptionById(slot.Item.ItemId).sprite;
+                            Sections[type].IconSetterList[slot.SlotId].SetIcon(slot.Item.Icon);
+                        }
+                    }
                 }
                 else
                 {
-                    section.AddSlot(inventoryPanel.GetChild((int)type), false);
-                    section.AddSlot(equipmentPanel.GetChild((int)type), true);
+                    Sections[type].AddSlot(inventoryPanel.GetChild((int)type), false);
+                    Sections[type].AddSlot(equipmentPanel.GetChild((int)type), true);
                 }
-
-                section.AddIconSetter(inventoryPanel.GetChild((int)type));
-                section.AddIconSetter(equipmentPanel.GetChild((int)type));
-
-                Sections.Add(type, section);
             }
         }
 

@@ -9,7 +9,7 @@ public class InputVarsSaveLoader : MonoBehaviour, IInitialize<InputVarsSaveLoade
 
     public void Initialize()
     {
-        _path = Path.Combine(Application.dataPath, "/SaveFile/save_vars.json");
+        _path = Path.Combine(Application.dataPath, "SaveFile/save_vars.json");
         _dataHandler = new DataHandler<GlobalStringVars>(_path);
         LoadData();
     }

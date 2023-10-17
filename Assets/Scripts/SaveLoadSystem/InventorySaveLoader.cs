@@ -10,7 +10,7 @@ public class InventorySaveLoader : MonoBehaviour, IInitialize<InventorySaveLoade
     
     public void Initialize()
     {
-        _path = Path.Combine(Application.dataPath, "/SaveFile/save_vars.json");
+        _path = Path.Combine(Application.dataPath, "SaveFile/save_inventory.json");
         _dataHandler = new DataHandler<Inventory>(_path);
         LoadData();
     }
@@ -23,6 +23,7 @@ public class InventorySaveLoader : MonoBehaviour, IInitialize<InventorySaveLoade
     public void SetData(Inventory data)
     {
         _data = data;
+        Debug.LogWarning(data.Sections.Count);
         _dataHandler.SaveData(data);
     }
 
