@@ -19,9 +19,9 @@ namespace InventorySystem
         
         public List<InventorySlot> InventorySlotList { get; set; } = new();
         
-        [JsonIgnore] public List<IconSetter> IconSetterList { get; set; } = new();
+        [JsonIgnore] public List<UIItemIconSetter> IconSetterList { get; set; } = new();
         
-        [field: JsonIgnore] public event Action<List<Item>> OnEquippedItem = delegate {  };
+        [field: JsonIgnore] public event Action<List<ItemBase>> OnEquippedItem = delegate {  };
         [field: JsonIgnore] public event Action OnChangedStrengthInventory = delegate {  };
         [field: JsonIgnore] public event Action OnAddItem = delegate {  };
         
@@ -35,33 +35,33 @@ namespace InventorySystem
             return InventorySlotList.Count;
         }
 
-        public List<Item> GetAllEquipmentItems()
+        public List<ItemBase> GetAllEquipmentItems()
         {
-            List<Item> list = new();
+            List<ItemBase> list = new();
             
             foreach (var slot in InventorySlotList)
             {
-                if (slot.Item != null && slot.Item.IsEquipment)
+                if (slot.ItemBase != null && slot.ItemBase.IsEquipment)
                 {
-                    list.Add(slot.Item);
-                    Debug.Log(slot.Item.IsEquipment);
+                    list.Add(slot.ItemBase);
+                    Debug.Log(slot.ItemBase.IsEquipment);
                 }
             }
             return list;
         }
         
-        public void SetSlotById(Item item, int slotId)
+        public void SetSlotById(ItemBase itemBase, int slotId)
         {
             var slot = InventorySlotList.Find(s => s.SlotId == slotId);
 
             if (slot != null)
             { 
-                slot.Item = item;
+                slot.ItemBase = itemBase;
                 slot.IsEmpty = false;
                 var iconSetter = IconSetterList[slotId];
-                iconSetter.SetIcon(item.Icon);
+                iconSetter.SetIcon(itemBase.Icon);
                 iconSetter.IsEmpty = slot.IsEmpty; 
-                Debug.Log($"Добавлен предмет - {item.ItemId} в инвентарь - {InventoryType} в слот {slotId}");
+                Debug.Log($"Добавлен предмет - {itemBase.ItemId} в инвентарь - {InventoryType} в слот {slotId}");
             }
         }
         
@@ -76,7 +76,7 @@ namespace InventorySystem
             
             for (int i = 0; i < panel.childCount; i++)
             {
-                var slot = panel.GetChild(i).GetComponent<IconSetter>();
+                var slot = panel.GetChild(i).GetComponent<UIItemIconSetter>();
                 
                 if (slot != null)
                 {
@@ -93,7 +93,7 @@ namespace InventorySystem
             
             for (int i = 0; i < panel.childCount; i++)
             {
-                var slot = panel.GetChild(i).GetComponent<IconSetter>();
+                var slot = panel.GetChild(i).GetComponent<UIItemIconSetter>();
                 
                 if (slot != null)
                 {
@@ -105,7 +105,7 @@ namespace InventorySystem
             }
         }
 
-        public void AddItem(Item item)
+        public void AddItem(ItemBase itemBase)
         {
             if (!CheckInventoryFullness())
             {
@@ -113,10 +113,10 @@ namespace InventorySystem
                 
                 if (emptySlot != null && !emptySlot.IsEquipmentSlot)
                 {
-                    emptySlot.Item = item;
+                    emptySlot.ItemBase = itemBase;
                     emptySlot.IsEmpty = false;
                     var emptyIconSetter = IconSetterList[emptySlot.SlotId];
-                    emptyIconSetter.SetIcon(item.Icon);
+                    emptyIconSetter.SetIcon(itemBase.Icon);
                     emptyIconSetter.IsEmpty = emptySlot.IsEmpty;
                     OnAddItem.Invoke();
                     return;
@@ -140,26 +140,26 @@ namespace InventorySystem
                 return;
             }
 
-            if (oldSlot != null && newSlot != null && oldSlot.Item != null)
+            if (oldSlot != null && newSlot != null && oldSlot.ItemBase != null)
             {
-                Debug.Log($"Попытка перенести предмет - {oldSlot.Item.ItemId} инвентаря - {InventoryType} из слота - {oldSlot.SlotId} в слот - {newSlot.SlotId}");
+                Debug.Log($"Попытка перенести предмет - {oldSlot.ItemBase.ItemId} инвентаря - {InventoryType} из слота - {oldSlot.SlotId} в слот - {newSlot.SlotId}");
 
                 // Если тип предмета Weapon, просто перемещаем его
-                if (oldSlot.Item is WeaponItem)
+                if (oldSlot.ItemBase is WeaponItemBase)
                 {
                     if (newSlot.IsEquipmentSlot)
                     {
-                        oldSlot.Item.IsEquipment = true;
+                        oldSlot.ItemBase.IsEquipment = true;
                     }
                     else
                     {
-                        oldSlot.Item.IsEquipment = false;
+                        oldSlot.ItemBase.IsEquipment = false;
                     }
                     
-                    Debug.Log($"Экипирован предмет {oldSlot.Item.ItemId}");
+                    Debug.Log($"Экипирован предмет {oldSlot.ItemBase.ItemId}");
                     OnEquippedItem.Invoke(GetAllEquipmentItems());
                     
-                    if (newSlot.Item != null)
+                    if (newSlot.ItemBase != null)
                     {
                         // Если целевой слот не пустой, поменяем местами предметы
                         SwapItems(oldSlot, newSlot);
@@ -173,9 +173,9 @@ namespace InventorySystem
                 else
                 {
                     // Проверка на сумму Strength предмета и текущей суммы Strength
-                    if ((oldSlot.Item is SpellItem spellItem && spellItem.Strength > 0) || (oldSlot.Item is ArtefactItem artefactItem && artefactItem.Strength > 0))
+                    if ((oldSlot.ItemBase is SpellItemBase spellItem && spellItem.Strength > 0) || (oldSlot.ItemBase is ArtefactItemBase artefactItem && artefactItem.Strength > 0))
                     {
-                        float itemStrength = (oldSlot.Item as SpellItem)?.Strength ?? (oldSlot.Item as ArtefactItem)?.Strength ?? 0;
+                        float itemStrength = (oldSlot.ItemBase as SpellItemBase)?.Strength ?? (oldSlot.ItemBase as ArtefactItemBase)?.Strength ?? 0;
                         float totalStrength = itemStrength + CurrentTotalStrength;
 
                         if (oldSlot.IsEquipmentSlot && !newSlot.IsEquipmentSlot)
@@ -190,27 +190,27 @@ namespace InventorySystem
                             if (newSlot.IsEquipmentSlot)
                             {
                                 CurrentTotalStrength = totalStrength;
-                                oldSlot.Item.IsEquipment = true;
+                                oldSlot.ItemBase.IsEquipment = true;
                             }
                         }
                         
                         OnChangedStrengthInventory.Invoke();
                         OnEquippedItem.Invoke(GetAllEquipmentItems());
-                        Debug.Log($"Экипирован предмет {oldSlot.Item.ItemId}");
+                        Debug.Log($"Экипирован предмет {oldSlot.ItemBase.ItemId}");
                     }
                     
                     // Проверка на удаление предмета из слота экипировки
-                    if (!newSlot.IsEquipmentSlot && oldSlot.IsEquipmentSlot &&  oldSlot.Item != null)
+                    if (!newSlot.IsEquipmentSlot && oldSlot.IsEquipmentSlot &&  oldSlot.ItemBase != null)
                     {
-                        float itemStrength = (oldSlot.Item as SpellItem)?.Strength ?? (oldSlot.Item as ArtefactItem)?.Strength ?? 0;
+                        float itemStrength = (oldSlot.ItemBase as SpellItemBase)?.Strength ?? (oldSlot.ItemBase as ArtefactItemBase)?.Strength ?? 0;
                         CurrentTotalStrength -= itemStrength;
                         OnChangedStrengthInventory.Invoke();
-                        oldSlot.Item.IsEquipment = false;
+                        oldSlot.ItemBase.IsEquipment = false;
                         
-                        Debug.Log($"Снят предмет {oldSlot.Item.ItemId}");
+                        Debug.Log($"Снят предмет {oldSlot.ItemBase.ItemId}");
                     }
                     
-                    if (newSlot.Item != null)
+                    if (newSlot.ItemBase != null)
                     {
                         // Если целевой слот не пустой, поменяем местами предметы
                         SwapItems(oldSlot, newSlot);
@@ -226,20 +226,20 @@ namespace InventorySystem
 
         private void SwapItems(InventorySlot oldSlot, InventorySlot newSlot)
         {
-            (oldSlot.Item, newSlot.Item) = (newSlot.Item, oldSlot.Item);
+            (oldSlot.ItemBase, newSlot.ItemBase) = (newSlot.ItemBase, oldSlot.ItemBase);
 
             (oldSlot.IsEmpty, newSlot.IsEmpty) = (newSlot.IsEmpty, oldSlot.IsEmpty);
 
             UpdateIconSetter(oldSlot);
             UpdateIconSetter(newSlot);
 
-            Debug.Log($"Предметы обменены. Предмет - {oldSlot.Item.ItemId} из слота - {oldSlot.SlotId} перемещен в слот - {newSlot.SlotId}");
+            Debug.Log($"Предметы обменены. Предмет - {oldSlot.ItemBase.ItemId} из слота - {oldSlot.SlotId} перемещен в слот - {newSlot.SlotId}");
         }
 
         private void MoveItemToEmptySlot(InventorySlot oldSlot, InventorySlot newSlot)
         {
-            newSlot.Item = oldSlot.Item;
-            oldSlot.Item = null;
+            newSlot.ItemBase = oldSlot.ItemBase;
+            oldSlot.ItemBase = null;
 
             newSlot.IsEmpty = false;
             oldSlot.IsEmpty = true;
@@ -250,7 +250,7 @@ namespace InventorySystem
             // Устанавливаем пустой спрайт для fromSlot (пустого слота)
             IconSetterList[oldSlot.SlotId].Icon.sprite = null;
 
-            Debug.Log($"Предмет - {newSlot.Item.ItemId} инвентаря - {InventoryType} перемещен из слота - {oldSlot.SlotId} в слот - {newSlot.SlotId}");
+            Debug.Log($"Предмет - {newSlot.ItemBase.ItemId} инвентаря - {InventoryType} перемещен из слота - {oldSlot.SlotId} в слот - {newSlot.SlotId}");
         }
 
         private void UpdateIconSetter(InventorySlot slot)
@@ -265,7 +265,7 @@ namespace InventorySystem
             }
             else
             {
-                iconSetter.SetIcon(slot.Item.Icon); // Устанавливаем иконку предмета
+                iconSetter.SetIcon(slot.ItemBase.Icon); // Устанавливаем иконку предмета
             }
         }
     }

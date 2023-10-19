@@ -3,7 +3,7 @@ using UnityEngine;
 
 [CreateAssetMenu(menuName = "Characters/Player")]
 [Serializable]
-public class Player : CharacterInfo
+public class PlayerAttributes : CharacterAttributes
 {
     [field: Header("")]
     [field: SerializeField] public float MaxMana { get; set; }
@@ -28,4 +28,14 @@ public class Player : CharacterInfo
     [field: SerializeField] public float DashingTime { get; set; }
     [field: Header("")]
     [field: SerializeField] public float DashingCooldownMultiplier { get; set; }
+    [field: Header("")]
+    [field: SerializeField] public float MaxHealthMultiplier { get; set; }
+    [field: SerializeField] public float MaxShieldMultiplier { get; set; }
+    [field: Header("")]
+    [field: SerializeField] public float MovementSpeedMultiplier { get; set; }
+    [field: Header("")]
+    [field: SerializeField] public float AttackDamageMultiplier { get; set; }
+    [field: SerializeField] public float AttackSpeedMultiplier { get; set; }
+    [field: SerializeField] public float AttackRangeMultiplier { get; set; }
+    [field: SerializeField] public float AttackStatusChanceMultiplier { get; set; }
 }

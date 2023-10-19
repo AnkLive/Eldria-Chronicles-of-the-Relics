@@ -5,9 +5,9 @@ namespace ItemSystem
 {
     [Serializable]
     [CreateAssetMenu(fileName = "New Artefact Item", menuName = "Inventory/Items/Artefact Item", order = 0)]
-    public class ArtefactItem : Item
+    public class ArtefactItemBase : ItemBase
     {
-        public ArtefactItem() : base(EItemType.Artefact) { }
+        public ArtefactItemBase() : base(EItemType.Artefact) { }
 
         [field: SerializeField] public float Strength { get; set; }
         [field: SerializeField] public float BoostDamage { get; set; }

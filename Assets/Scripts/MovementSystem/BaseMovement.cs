@@ -1,7 +1,5 @@
 using UnityEngine;
 
-namespace Platformer.MovementSystem
-{
 
     #region Интерфесы
 
@@ -96,4 +94,3 @@ namespace Platformer.MovementSystem
         #endregion
 
     }
-}

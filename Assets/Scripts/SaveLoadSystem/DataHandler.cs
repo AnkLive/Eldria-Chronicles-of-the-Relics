@@ -33,11 +33,11 @@ public class DataHandler<T> : IDataHandler<T>
         try
         {
             File.WriteAllText(_path, json);
-            Debug.LogWarning($"[DataHandler] - Успешно: произошло сохранение");
+            Debug.LogWarning($"Cохранение [DataHandler] - Успешно: произошло сохранение");
         }
         catch (JsonException e)
         {
-            Debug.LogError($"[DataHandler] - Ошибка: ошибка сохранения данных - {data.GetType().Name}:\n{e.Message}");
+            Debug.LogError($"Cохранение [DataHandler] - Ошибка: ошибка сохранения данных - {data.GetType().Name}:\n{e.Message}");
         }
     }
 
@@ -68,7 +68,7 @@ public class DataHandler<T> : IDataHandler<T>
             }
             catch (JsonException e)
             {
-                Debug.LogError($"[DataHandler] - Ошибка: ошибка загрузки данных:\n{e.Message}");
+                Debug.LogError($"Загрузка [DataHandler] - Ошибка: ошибка загрузки данных:\n{e.Message}");
                 return default(T); // Возврат пустых данных по умолчанию
             }
         }

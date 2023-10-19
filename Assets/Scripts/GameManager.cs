@@ -1,4 +1,3 @@
-using InventorySystem;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
@@ -6,9 +5,6 @@ using Zenject;
 public class GameManager : MonoBehaviour
 {
     [Inject] private SceneLoader _sceneLoader;
-    public LoadingLevel level;
-    public string levelName;
-    public GameLoadingManager gameLoadingManager;
     
     private void Awake()
     {
@@ -20,6 +16,7 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             _sceneLoader.LoadScene("GamePlayScene");
+            
         }
         
     }
@@ -43,7 +40,7 @@ public class GameManager : MonoBehaviour
         }
         else if (scene.name == "GamePlayScene")
         {
-            level.LoadLevelFromAddressable(levelName);
+            
         }
     }
 }

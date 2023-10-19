@@ -2,13 +2,13 @@ using System.Collections;
 using UnityEngine;
 using Zenject;
 
-namespace Platformer.MovementSystem
-{
     [RequireComponent(typeof(Rigidbody2D))]
-    public class Movement : BaseMovement
+    public class CharacterMovement : BaseMovement
     {
         [Inject]
         private IPlayerStatsModifier playerStatsModifier;
+        [Inject]
+        private ISaveLoader<PlayerAttributes> playerStats;
         
         #region Переменные которые не выводятся в инспекторе
 
@@ -92,17 +92,11 @@ namespace Platformer.MovementSystem
 
         #region Методы
 
-        // public override void Initialize() 
-        // {
-        //     RigidbodyObject = GetComponent<Rigidbody2D>();
-        //     _inputsArray = GetComponents<IInput>();
-        //     MovementSpeed = playerStatsModifier.GetModifiedMovementSpeed();
-        // }
-        
         public void Initialize()
         {
             RigidbodyObject = GetComponent<Rigidbody2D>();
             _inputsArray = GetComponents<IInput>();
+            playerStatsModifier.SetPlayer(playerStats.GetData());
             MovementSpeed = playerStatsModifier.GetModifiedMovementSpeed();
         }
 
@@ -284,4 +278,3 @@ namespace Platformer.MovementSystem
 
         #endregion
     }
-}

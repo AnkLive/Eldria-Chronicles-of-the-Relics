@@ -1,25 +1,25 @@
 ﻿using System.IO;
 using UnityEngine;
 
-public class PlayerStatsSaveLoader : MonoBehaviour, IInitialize<PlayerStatsSaveLoader>, ISaveLoader<Player>
+public class PlayerStatsSaveLoader : MonoBehaviour, IInitialize<PlayerStatsSaveLoader>, ISaveLoader<PlayerAttributes>
 {
     private string _path;
-    private IDataHandler<Player> _dataHandler;
-    private Player _data;
+    private IDataHandler<PlayerAttributes> _dataHandler;
+    private PlayerAttributes _data;
 
     public void Initialize()
     {
         _path = Path.Combine(Application.dataPath, "SaveFile/player_stats.json");
-        _dataHandler = new DataHandler<Player>(_path);
+        _dataHandler = new DataHandler<PlayerAttributes>(_path);
         LoadData();
     }
 
-    public Player GetData()
+    public PlayerAttributes GetData()
     {
         return _data;
     }
 
-    public void SetData(Player data)
+    public void SetData(PlayerAttributes data)
     {
         _data = data;
         _dataHandler.SaveData(data);
@@ -31,7 +31,7 @@ public class PlayerStatsSaveLoader : MonoBehaviour, IInitialize<PlayerStatsSaveL
 
         if (_data == null)
         {
-            _data = ScriptableObject.CreateInstance<Player>();
+            _data = ScriptableObject.CreateInstance<PlayerAttributes>();
             Debug.LogWarning("Загрузка [PlayerStatsSaveLoader]: данные не были загружены или файл данных пуст");
         }
         else

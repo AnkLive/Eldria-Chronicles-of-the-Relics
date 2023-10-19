@@ -5,10 +5,10 @@ using UnityEngine;
 
 [Serializable]
 [CreateAssetMenu(fileName = "New Global String Vars", menuName = "System/Global String Vars", order = 0)]
-public class GlobalStringVars : ScriptableObject
+public class StringVariableManager : ScriptableObject
 { 
         [SerializeField, JsonIgnore] private InputVarsSaveLoader inputVarsSaveLoader;
-        [field: SerializeField] private List<StringVar> StringVarsList = new();
+        [field: SerializeField] private List<StringVariable> StringVarsList = new();
         
         private void SetVars()
         {
@@ -30,7 +30,7 @@ public class GlobalStringVars : ScriptableObject
                 return KeyCode.F;
         }
         
-        public List<StringVar> GetVarsList ()
+        public List<StringVariable> GetVarsList ()
         {
                 return StringVarsList;
         }

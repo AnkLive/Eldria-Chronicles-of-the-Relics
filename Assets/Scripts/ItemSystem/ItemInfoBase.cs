@@ -10,7 +10,7 @@ public enum EItemType
 
 namespace ItemSystem
 {
-    public abstract class ItemInfo : ScriptableObject
+    public abstract class ItemInfoBase : ScriptableObject
     {
         [field: SerializeField] public string ItemId      { get; set; }
         [field: SerializeField] public EItemType ItemType { get; set; }

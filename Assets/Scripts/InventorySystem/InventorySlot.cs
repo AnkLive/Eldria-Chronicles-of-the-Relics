@@ -10,10 +10,10 @@ namespace InventorySystem
         {
             SlotId = slotId;
             IsEquipmentSlot = isEquipmentSlot;
-            Item = null; // Инициализируем ItemInfo значением по умолчанию (null)
+            ItemBase = null;
         }
 
-        public Item Item { get; set; }
+        public ItemBase ItemBase { get; set; }
         public int SlotId { get; }
         public bool IsEmpty { get; set; } = true;
         public bool IsEquipmentSlot { get; set; }

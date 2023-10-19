@@ -6,7 +6,7 @@ namespace InventorySystem
 {
     public class DragAndDropInventoryItem : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
     {
-        private IconSetter _oldSlot;
+        private UIItemIconSetter _oldSlot;
         private InventoryManager _inventoryManager;
         private InventoryUIManager _UIManager;
         private RectTransform _rectTransform;
@@ -14,7 +14,7 @@ namespace InventorySystem
 
         private void Start()
         {
-            _oldSlot = transform.GetComponentInParent<IconSetter>();
+            _oldSlot = transform.GetComponentInParent<UIItemIconSetter>();
             _inventoryManager = FindObjectOfType<InventoryManager>();
             _UIManager = FindObjectOfType<InventoryUIManager>();
             _rectTransform = GetComponent<RectTransform>();
@@ -71,7 +71,7 @@ namespace InventorySystem
             if (currentRaycast.isValid)
             {
                 var iconSetter = currentRaycast.gameObject.transform.parent.parent
-                    .GetComponent<IconSetter>();
+                    .GetComponent<UIItemIconSetter>();
                 
                 if (iconSetter != null && ShouldItemBeMoved(currentRaycast.screenPosition))
                 {
@@ -80,7 +80,7 @@ namespace InventorySystem
             }
         }
 
-        private void ExchangeSlotData(IconSetter newSlot)
+        private void ExchangeSlotData(UIItemIconSetter newSlot)
         {
             _inventoryManager.inventory.Sections[_inventoryManager.currentInventorySection]
                 .MoveItem(_oldSlot.SlotId, newSlot.SlotId);

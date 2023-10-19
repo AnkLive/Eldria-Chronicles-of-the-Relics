@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace InventorySystem
 {
-    public class IconSetter : MonoBehaviour
+    public class UIItemIconSetter : MonoBehaviour
     {
         public Image Icon { get; set; }
         public int SlotId { get; set; }

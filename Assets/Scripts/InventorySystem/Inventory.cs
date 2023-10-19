@@ -11,20 +11,20 @@ namespace InventorySystem
     {
         [JsonIgnore] public ItemStorage itemStorage;
 
-        public Dictionary<EItemType, InventorySection> Sections { get; set; }
+        public Dictionary<EItemType, InventorySection> Sections { get; set; } = new();
         
-        public void AddItem(Item item)
+        public void AddItem(ItemBase itemBase)
         {
             for (int i = 0; i < Sections.Count; i++)
             {
                 EItemType type = (EItemType)i;
-                Debug.Log($"Поиск соответствия предмета - {item.ItemId} с инвентарем - {type}");
+                Debug.Log($"Поиск соответствия предмета - {itemBase.ItemId} с инвентарем - {type}");
                 
-                if (item.ItemType == Sections[type].InventoryType)
+                if (itemBase.ItemType == Sections[type].InventoryType)
                 {
-                    Debug.Log($"Попытка добавить предмет - {item.ItemId} в инвентарь - {type}");
-                    item.Icon = itemStorage.GetItemDescriptionById(item.ItemId).sprite;
-                    Sections[type].AddItem(item);
+                    Debug.Log($"Попытка добавить предмет - {itemBase.ItemId} в инвентарь - {type}");
+                    itemBase.Icon = itemStorage.GetItemDescriptionById(itemBase.ItemId).sprite;
+                    Sections[type].AddItem(itemBase);
                     return;
                 }
             }
@@ -47,10 +47,10 @@ namespace InventorySystem
             
                     foreach (var slot in inventory.Sections[type].InventorySlotList)
                     {
-                        if (slot?.Item != null)
+                        if (slot?.ItemBase != null)
                         {
-                            slot.Item.Icon = itemStorage.GetItemDescriptionById(slot.Item.ItemId).sprite;
-                            Sections[type].IconSetterList[slot.SlotId].SetIcon(slot.Item.Icon);
+                            slot.ItemBase.Icon = itemStorage.GetItemDescriptionById(slot.ItemBase.ItemId).sprite;
+                            Sections[type].IconSetterList[slot.SlotId].SetIcon(slot.ItemBase.Icon);
                         }
                     }
                 }

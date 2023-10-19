@@ -4,9 +4,9 @@ using System;
 using ItemSystem;
 using UnityEngine;
 
-public class ItemConverter : JsonConverter<Item>
+public class ItemConverter : JsonConverter<ItemBase>
 {
-    public override Item ReadJson(JsonReader reader, Type objectType, Item existingValue, bool hasExistingValue, JsonSerializer serializer)
+    public override ItemBase ReadJson(JsonReader reader, Type objectType, ItemBase existingValue, bool hasExistingValue, JsonSerializer serializer)
     {
         JObject jsonObject = JObject.Load(reader);
         EItemType itemType = jsonObject["ItemType"]!.ToObject<EItemType>();
@@ -25,7 +25,7 @@ public class ItemConverter : JsonConverter<Item>
         }
     }
 
-    public override void WriteJson(JsonWriter writer, Item value, JsonSerializer serializer)
+    public override void WriteJson(JsonWriter writer, ItemBase value, JsonSerializer serializer)
     {
         JObject jsonObject = new JObject();
         jsonObject["ItemType"] = value.ItemType.ToString();
@@ -46,13 +46,13 @@ public class ItemConverter : JsonConverter<Item>
         switch (value.ItemType)
         {
             case EItemType.Artefact:
-                WriteArtefactProperties(jsonObject, (ArtefactItem)value);
+                WriteArtefactProperties(jsonObject, (ArtefactItemBase)value);
                 break;
             case EItemType.Weapon:
-                WriteWeaponProperties(jsonObject, (WeaponItem)value);
+                WriteWeaponProperties(jsonObject, (WeaponItemBase)value);
                 break;
             case EItemType.Spell:
-                WriteSpellProperties(jsonObject, (SpellItem)value);
+                WriteSpellProperties(jsonObject, (SpellItemBase)value);
                 break;
             // Добавьте другие типы Item по мере необходимости
         }
@@ -60,64 +60,64 @@ public class ItemConverter : JsonConverter<Item>
         jsonObject.WriteTo(writer);
     }
 
-    private ArtefactItem CreateArtefactItem(string itemId, JObject jsonObject)
+    private ArtefactItemBase CreateArtefactItem(string itemId, JObject jsonObject)
     {
         // Создать и вернуть ArtefactItem на основе данных из JSON
-        ArtefactItem artefactItem = ScriptableObject.CreateInstance<ArtefactItem>();
-        artefactItem.ItemId = itemId;
-        artefactItem.ItemType = jsonObject["ItemType"].ToObject<EItemType>();
-        artefactItem.IsEquipment = jsonObject["IsEquipment"].ToObject<bool>();
-        artefactItem.Strength = jsonObject["Strength"].ToObject<float>();
-        artefactItem.BoostDamage = jsonObject["BoostDamage"].ToObject<int>();
-        artefactItem.BoostHealth = jsonObject["BoostHealth"].ToObject<int>();
-        artefactItem.BoostMovementSpeed = jsonObject["BoostMovementSpeed"].ToObject<int>();
-        return artefactItem;
+        ArtefactItemBase artefactItemBase = ScriptableObject.CreateInstance<ArtefactItemBase>();
+        artefactItemBase.ItemId = itemId;
+        artefactItemBase.ItemType = jsonObject["ItemType"].ToObject<EItemType>();
+        artefactItemBase.IsEquipment = jsonObject["IsEquipment"].ToObject<bool>();
+        artefactItemBase.Strength = jsonObject["Strength"].ToObject<float>();
+        artefactItemBase.BoostDamage = jsonObject["BoostDamage"].ToObject<int>();
+        artefactItemBase.BoostHealth = jsonObject["BoostHealth"].ToObject<int>();
+        artefactItemBase.BoostMovementSpeed = jsonObject["BoostMovementSpeed"].ToObject<int>();
+        return artefactItemBase;
     }
 
-    private WeaponItem CreateWeaponItem(string itemId, JObject jsonObject)
+    private WeaponItemBase CreateWeaponItem(string itemId, JObject jsonObject)
     {
         // Создать и вернуть WeaponItem на основе данных из JSON
-        WeaponItem weaponItem = ScriptableObject.CreateInstance<WeaponItem>();
-        weaponItem.ItemId = itemId;
-        weaponItem.ItemType = jsonObject["ItemType"].ToObject<EItemType>();
-        weaponItem.IsEquipment = jsonObject["IsEquipment"].ToObject<bool>();
-        weaponItem.Damage = jsonObject["Damage"].ToObject<int>();
-        return weaponItem;
+        WeaponItemBase weaponItemBase = ScriptableObject.CreateInstance<WeaponItemBase>();
+        weaponItemBase.ItemId = itemId;
+        weaponItemBase.ItemType = jsonObject["ItemType"].ToObject<EItemType>();
+        weaponItemBase.IsEquipment = jsonObject["IsEquipment"].ToObject<bool>();
+        weaponItemBase.Damage = jsonObject["Damage"].ToObject<int>();
+        return weaponItemBase;
     }
 
-    private SpellItem CreateSpellItem(string itemId, JObject jsonObject)
+    private SpellItemBase CreateSpellItem(string itemId, JObject jsonObject)
     {
         // Создать и вернуть SpellItem на основе данных из JSON
-        SpellItem spellItem = ScriptableObject.CreateInstance<SpellItem>();
-        spellItem.ItemId = itemId;
-        spellItem.ItemType = jsonObject["ItemType"].ToObject<EItemType>();
-        spellItem.IsEquipment = jsonObject["IsEquipment"].ToObject<bool>();
-        spellItem.Strength = jsonObject["Strength"].ToObject<float>();
-        spellItem.Damage = jsonObject["Damage"].ToObject<int>();
-        spellItem.Cooldown = jsonObject["Cooldown"].ToObject<int>();
-        return spellItem;
+        SpellItemBase spellItemBase = ScriptableObject.CreateInstance<SpellItemBase>();
+        spellItemBase.ItemId = itemId;
+        spellItemBase.ItemType = jsonObject["ItemType"].ToObject<EItemType>();
+        spellItemBase.IsEquipment = jsonObject["IsEquipment"].ToObject<bool>();
+        spellItemBase.Strength = jsonObject["Strength"].ToObject<float>();
+        spellItemBase.Damage = jsonObject["Damage"].ToObject<int>();
+        spellItemBase.Cooldown = jsonObject["Cooldown"].ToObject<int>();
+        return spellItemBase;
     }
 
-    private void WriteArtefactProperties(JObject jsonObject, ArtefactItem artefactItem)
+    private void WriteArtefactProperties(JObject jsonObject, ArtefactItemBase artefactItemBase)
     {
-        jsonObject["Strength"] = artefactItem.Strength;
-        jsonObject["BoostDamage"] = artefactItem.BoostDamage;
-        jsonObject["BoostHealth"] = artefactItem.BoostHealth;
-        jsonObject["BoostMovementSpeed"] = artefactItem.BoostMovementSpeed;
+        jsonObject["Strength"] = artefactItemBase.Strength;
+        jsonObject["BoostDamage"] = artefactItemBase.BoostDamage;
+        jsonObject["BoostHealth"] = artefactItemBase.BoostHealth;
+        jsonObject["BoostMovementSpeed"] = artefactItemBase.BoostMovementSpeed;
         // Добавьте другие свойства ArtefactItem, если они есть
     }
 
-    private void WriteWeaponProperties(JObject jsonObject, WeaponItem weaponItem)
+    private void WriteWeaponProperties(JObject jsonObject, WeaponItemBase weaponItemBase)
     {
-        jsonObject["Damage"] = weaponItem.Damage;
+        jsonObject["Damage"] = weaponItemBase.Damage;
         // Добавьте другие свойства WeaponItem, если они есть
     }
 
-    private void WriteSpellProperties(JObject jsonObject, SpellItem spellItem)
+    private void WriteSpellProperties(JObject jsonObject, SpellItemBase spellItemBase)
     {
-        jsonObject["Strength"] = spellItem.Strength;
-        jsonObject["Damage"] = spellItem.Damage;
-        jsonObject["Cooldown"] = spellItem.Cooldown;
+        jsonObject["Strength"] = spellItemBase.Strength;
+        jsonObject["Damage"] = spellItemBase.Damage;
+        jsonObject["Cooldown"] = spellItemBase.Cooldown;
         // Добавьте другие свойства SpellItem, если они есть
     }
 }

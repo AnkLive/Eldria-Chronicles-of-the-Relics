@@ -1,7 +1,7 @@
 using System;
 
 [Serializable]
-public class StringVar
+public class StringVariable
 {
     public string keyCode;
     public string vars;

@@ -5,10 +5,10 @@ namespace ItemSystem
 {
     [CreateAssetMenu(menuName = "Items/Item")]
     [Serializable]
-    public class Item : ItemInfo
+    public class ItemBase : ItemInfoBase
     {
-        public Item() { }
-        protected Item(EItemType itemType)
+        public ItemBase() { }
+        protected ItemBase(EItemType itemType)
         {
             ItemType = itemType;
         }

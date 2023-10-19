@@ -256,7 +256,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   level: {fileID: 1714536126309026391, guid: a69d53e2e24adeb438df959349297038, type: 3}
   levelName: TestLevel
-  gameLoadingManager: {fileID: 1461827702}
 --- !u!4 &1461827701
 Transform:
   m_ObjectHideFlags: 0

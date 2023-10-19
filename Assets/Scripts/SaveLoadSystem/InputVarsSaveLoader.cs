@@ -1,26 +1,26 @@
 using System.IO;
 using UnityEngine;
 
-public class InputVarsSaveLoader : MonoBehaviour, IInitialize<InputVarsSaveLoader>, ISaveLoader<GlobalStringVars>
+public class InputVarsSaveLoader : MonoBehaviour, IInitialize<InputVarsSaveLoader>, ISaveLoader<StringVariableManager>
 {
     private string _path;
-    private IDataHandler<GlobalStringVars> _dataHandler;
-    private GlobalStringVars _data;
+    private IDataHandler<StringVariableManager> _dataHandler;
+    private StringVariableManager _data;
 
     public void Initialize()
     {
         _path = Path.Combine(Application.dataPath, "SaveFile/save_vars.json");
-        _dataHandler = new DataHandler<GlobalStringVars>(_path);
+        _dataHandler = new DataHandler<StringVariableManager>(_path);
         LoadData();
     }
 
-    public void SetData(GlobalStringVars data)
+    public void SetData(StringVariableManager data)
     {
         _data = data;
         _dataHandler.SaveData(data);
     }
 
-    public GlobalStringVars GetData()
+    public StringVariableManager GetData()
     {
         return _data;
     }
@@ -31,7 +31,7 @@ public class InputVarsSaveLoader : MonoBehaviour, IInitialize<InputVarsSaveLoade
         
         if (_data == null)
         {
-            _data = ScriptableObject.CreateInstance<GlobalStringVars>();
+            _data = ScriptableObject.CreateInstance<StringVariableManager>();
             Debug.LogWarning("Загрузка [GlobalStringVars]: данные не были загружены или файл данных пуст");
         }
         else

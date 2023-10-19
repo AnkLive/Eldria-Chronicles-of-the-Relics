@@ -1,9 +1,8 @@
-using Platformer.MovementSystem;
 using UnityEngine;
 
 namespace Platformer.EnemyState
 {
-    public class EnemyState : Movement
+    public class EnemyState : CharacterMovement
     {
         private State CurrentState;
         
@@ -23,7 +22,7 @@ namespace Platformer.EnemyState
 
         public void Initialize()
         {
-            base.Initialize();
+            //base.Initialize();
             
             DetectCollider.TriggerEvent += Detect;
             SetState(StartState);

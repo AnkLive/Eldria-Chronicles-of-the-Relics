@@ -1,12 +1,13 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class InventoryUIManager : MonoBehaviour
 {
     [SerializeField] public InputVarsSaveLoader inputVarsSaveLoader;
-    public GlobalStringVars stringVars;
+    public StringVariableManager stringVariableManager;
     [Space]
     public Transform inventoryPanel;
     public Transform equipmentPanel;
@@ -77,7 +78,7 @@ public class InventoryUIManager : MonoBehaviour
 
     private void ToggleInventory()
     {
-        if (Input.GetKeyDown(stringVars.GetVars("OPEN_CLOSE_INVENTORY")))
+        if (Input.GetKeyDown(stringVariableManager.GetVars("OPEN_CLOSE_INVENTORY")))
         {
             isOpen = !isOpen;
 

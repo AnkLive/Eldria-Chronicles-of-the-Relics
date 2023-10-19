@@ -1,23 +1,24 @@
 using System.Collections.Generic;
 using ItemSystem;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace InventorySystem
 {
-    public class EquippedSpells : MonoBehaviour
+    public class SpellEquipmentManager : MonoBehaviour
     {
         public InventoryManager inventoryManager;
-        public GlobalStringVars stringVars;
+        public StringVariableManager stringVariableManager;
         public ItemStorage itemStorage;
         public List<string> currentEquipmentSpells = new();
-        public IconSetter iconSetter;
+        [FormerlySerializedAs("iconSetter")] public UIItemIconSetter uiItemIconSetter;
 
         public void Initialize()
         {
             inventoryManager.inventory.Sections[EItemType.Spell].OnEquippedItem += SetCurrentEquipmentSpells;
         }
 
-        private void SetCurrentEquipmentSpells(List<Item> listId)
+        private void SetCurrentEquipmentSpells(List<ItemBase> listId)
         {
             List<string> list = new List<string>();
             
@@ -35,21 +36,21 @@ namespace InventorySystem
 
         private void SwapCurrentSpell()
         {
-            if (Input.GetKeyDown(stringVars.GetVars("FIRST_SPELL_SLOT")) && !string.IsNullOrEmpty(currentEquipmentSpells[0]))
+            if (Input.GetKeyDown(stringVariableManager.GetVars("FIRST_SPELL_SLOT")) && !string.IsNullOrEmpty(currentEquipmentSpells[0]))
             {
-                iconSetter.SetIcon(itemStorage.GetItemDescriptionById(currentEquipmentSpells[0]).sprite);
+                uiItemIconSetter.SetIcon(itemStorage.GetItemDescriptionById(currentEquipmentSpells[0]).sprite);
                 Debug.Log($"Выбрано заклинание - {currentEquipmentSpells[0]}");
                 return;
             }
-            if (Input.GetKeyDown(stringVars.GetVars("TWO_SPELL_SLOT")) && !string.IsNullOrEmpty(currentEquipmentSpells[1]))
+            if (Input.GetKeyDown(stringVariableManager.GetVars("TWO_SPELL_SLOT")) && !string.IsNullOrEmpty(currentEquipmentSpells[1]))
             {
-                iconSetter.SetIcon(itemStorage.GetItemDescriptionById(currentEquipmentSpells[1]).sprite);
+                uiItemIconSetter.SetIcon(itemStorage.GetItemDescriptionById(currentEquipmentSpells[1]).sprite);
                 Debug.Log($"Выбрано заклинание - {currentEquipmentSpells[1]}");
                 return;
             }
-            if (Input.GetKeyDown(stringVars.GetVars("THREE_SPELL_SLOT")) && !string.IsNullOrEmpty(currentEquipmentSpells[2]))
+            if (Input.GetKeyDown(stringVariableManager.GetVars("THREE_SPELL_SLOT")) && !string.IsNullOrEmpty(currentEquipmentSpells[2]))
             {
-                iconSetter.SetIcon(itemStorage.GetItemDescriptionById(currentEquipmentSpells[2]).sprite);
+                uiItemIconSetter.SetIcon(itemStorage.GetItemDescriptionById(currentEquipmentSpells[2]).sprite);
                 Debug.Log($"Выбрано заклинание - {currentEquipmentSpells[2]}");
                 return;
             }

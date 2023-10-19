@@ -1,6 +1,7 @@
 using System;
 using ItemSystem;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace InventorySystem
@@ -11,10 +12,10 @@ namespace InventorySystem
         [Inject]
         private ISaveLoader<Inventory> _inventorySaveLoader;
         [SerializeField] public InventoryUIManager UIManager;
-        [SerializeField] private EquippedSpells EquippedSpells;
-        public Item testItemSpell;
-        public Item testItemWeapon;
-        public Item testItemArtefact;
+        [SerializeField] private SpellEquipmentManager spellEquipmentManager;
+        public ItemBase testItemBaseSpell;
+        public ItemBase testItemBaseWeapon;
+        public ItemBase testItemBaseArtefact;
         [SerializeField] private ItemStorage itemStorage;
         public Inventory inventory;
         public EItemType currentInventorySection = EItemType.Weapon;
@@ -53,7 +54,7 @@ namespace InventorySystem
             UIManager.CloseInventory();
             Debug.LogWarning("Инвентарь загружен");
             
-            EquippedSpells.Initialize();
+            spellEquipmentManager.Initialize();
         }
 
         private void GetStrengthInventory()
@@ -83,19 +84,19 @@ namespace InventorySystem
         {
             if (Input.GetKeyDown(KeyCode.Alpha7))
             {
-                inventory.AddItem(testItemSpell);
+                inventory.AddItem(testItemBaseSpell);
                 return;
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha8))
             {
-                inventory.AddItem(testItemWeapon);
+                inventory.AddItem(testItemBaseWeapon);
                 return;
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha9))
             {
-                inventory.AddItem(testItemArtefact);
+                inventory.AddItem(testItemBaseArtefact);
                 return;
             }
         }
@@ -107,9 +108,9 @@ namespace InventorySystem
 
         public void SetCurrentSelectedItem(int slotId)
         {
-            if (inventory.Sections[currentInventorySection].GetSlotById(slotId).Item != null)
+            if (inventory.Sections[currentInventorySection].GetSlotById(slotId).ItemBase != null)
             {
-                UIManager.SetItemDescriptionText(itemStorage.GetItemDescriptionById(inventory.Sections[currentInventorySection].GetSlotById(slotId).Item.ItemId).description);
+                UIManager.SetItemDescriptionText(itemStorage.GetItemDescriptionById(inventory.Sections[currentInventorySection].GetSlotById(slotId).ItemBase.ItemId).description);
             }
         }
     }
