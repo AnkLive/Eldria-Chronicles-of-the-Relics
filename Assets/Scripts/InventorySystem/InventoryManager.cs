@@ -77,7 +77,7 @@ namespace InventorySystem
 
         private void Update()
         {
-            HandleInput();
+            //HandleInput();
         }
         
         private void HandleInput()

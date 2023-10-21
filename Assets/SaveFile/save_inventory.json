@@ -70,37 +70,16 @@
           "IsEquipmentSlot": false
         },
         {
-          "Item": {
-            "ItemType": "Weapon",
-            "ItemId": "test_weapon_item",
-            "IsEquipment": false,
-            "hideFlags": "None",
-            "Damage": 46.0
-          },
           "SlotId": 1,
           "IsEmpty": false,
           "IsEquipmentSlot": false
         },
         {
-          "Item": {
-            "ItemType": "Weapon",
-            "ItemId": "test_weapon_item",
-            "IsEquipment": false,
-            "hideFlags": "None",
-            "Damage": 46.0
-          },
           "SlotId": 2,
           "IsEmpty": false,
           "IsEquipmentSlot": false
         },
         {
-          "Item": {
-            "ItemType": "Weapon",
-            "ItemId": "test_weapon_item",
-            "IsEquipment": false,
-            "hideFlags": "None",
-            "Damage": 46.0
-          },
           "SlotId": 3,
           "IsEmpty": false,
           "IsEquipmentSlot": false
@@ -116,13 +95,6 @@
           "IsEquipmentSlot": false
         },
         {
-          "Item": {
-            "ItemType": "Weapon",
-            "ItemId": "test_weapon_item",
-            "IsEquipment": false,
-            "hideFlags": "None",
-            "Damage": 46.0
-          },
           "SlotId": 6,
           "IsEmpty": false,
           "IsEquipmentSlot": false

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using Zenject;
@@ -12,6 +13,7 @@ using Zenject;
         
         #region Переменные которые не выводятся в инспекторе
 
+        private Controller _controller;
         public Rigidbody2D RigidbodyObject  { get; private set; }
         [Tooltip("Направление движения")]
         public float ObjectMovement         { get; private set; }
@@ -29,11 +31,6 @@ using Zenject;
 
         [Tooltip("Стоит ли объект на земле")]
         public bool IsGrounded              { get; private set; }
-
-        [Tooltip("Содержит информацию о пользовательском вводе")]
-        public InputData Inputs              { get; private set; }
-        [Tooltip("пользовательский ввод в виде массива")]
-        private IInput[] _inputsArray;
 
         [Tooltip("Совершил ли объект бросок")]
         public bool IsDashing                { get; private set; }
@@ -94,17 +91,30 @@ using Zenject;
 
         public void Initialize()
         {
+            AddFixedUpdate();
+            _controller = new Controller();
+            _controller.Enable();
+            _controller.Main.Jump.performed += context => PerformJump();
+            _controller.Main.Dash.performed += context => PerformDash();
             RigidbodyObject = GetComponent<Rigidbody2D>();
-            _inputsArray = GetComponents<IInput>();
             playerStatsModifier.SetPlayer(playerStats.GetData());
             MovementSpeed = playerStatsModifier.GetModifiedMovementSpeed();
         }
 
-        private void Update() 
+        // private void OnEnable()
+        // {
+        //     _controller.Enable();
+        // }
+        //
+        // private void OnDisable()
+        // {
+        //     _controller.Disable();
+        // }
+
+        public override void OnTick() 
         {
             if(!IsDashing)
             {
-                GatherInputs();
                 SetInputData();
 
                 if(CanDashing)
@@ -112,19 +122,19 @@ using Zenject;
             }
         }
 
-        private void FixedUpdate() 
+        public override void OnFixedTick() 
         {
             if(!IsDashing)
             {
                 
-                if(CanFly)
-                    CheckGroundedStatus();
+                //if(CanFly)
+                    //CheckGroundedStatus();
 
                 if(CanMove)
                     Move(CalculateGravityModifier());
 
-                if(CanJump)
-                    PerformJump();
+                //if(CanJump)
+                    //PerformJump();
             }
         }
 
@@ -132,7 +142,7 @@ using Zenject;
         {
             UpdateCurrentPositionJump();
 
-            if (IsJump && !IsMaxHeightJump)
+            //if (IsJump && !IsMaxHeightJump)
                 Move(JumpForce);
 
             UpdateIsMaxHeightJump();
@@ -218,41 +228,21 @@ using Zenject;
 
         private void UpdateJumpInput()
         {
-            if (Inputs.IsJumped && IsGrounded)
-                IsJump = true;
-            else if (Inputs.Jumped || IsMaxHeightJump)
-                IsJump = false;
+            //if (_controller.Main.Jump.ReadValue<bool>() && IsGrounded)
+                IsJump = _controller.Main.Jump.ReadValue<bool>();
+            //else if (_controller.Main.Jump.ReadValue<bool>() || IsMaxHeightJump)
+                //IsJump = _controller.Main.Jump.ReadValue<bool>();
         }
 
         private void UpdateDashingInput()
         {
             if (CanDash)
-                IsDashing = Inputs.Dash;
+                IsDashing = _controller.Main.Dash.ReadValue<bool>();
         }
 
         private void UpdateMovementInput()
         {
-            ObjectMovement = 0.0f;  // Сбрасываем текущую скорость перед обновлением
-
-            // Проверяем ввод на движение влево и вправо
-            if (Inputs.MoveToLeft)
-            {
-                ObjectMovement = -1.0f; // Устанавливаем скорость влево
-            }
-            else if (Inputs.MoveToRight)
-            {
-                ObjectMovement = 1.0f; // Устанавливаем скорость вправо
-            }
-        }
-
-        public override void GatherInputs()
-        {
-            Inputs = new InputData();
-
-            foreach (var input in _inputsArray)
-            {       
-                Inputs = input.GenerateInput();
-            }
+            ObjectMovement = _controller.Main.Move.ReadValue<float>();  // Сбрасываем текущую скорость перед обновлением
         }
 
         private IEnumerator Dashing()

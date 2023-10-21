@@ -31,29 +31,29 @@ namespace InventorySystem
 
         private void Update()
         {
-            SwapCurrentSpell();
+            //SwapCurrentSpell();
         }
 
-        private void SwapCurrentSpell()
-        {
-            if (Input.GetKeyDown(stringVariableManager.GetVars("FIRST_SPELL_SLOT")) && !string.IsNullOrEmpty(currentEquipmentSpells[0]))
-            {
-                uiItemIconSetter.SetIcon(itemStorage.GetItemDescriptionById(currentEquipmentSpells[0]).sprite);
-                Debug.Log($"Выбрано заклинание - {currentEquipmentSpells[0]}");
-                return;
-            }
-            if (Input.GetKeyDown(stringVariableManager.GetVars("TWO_SPELL_SLOT")) && !string.IsNullOrEmpty(currentEquipmentSpells[1]))
-            {
-                uiItemIconSetter.SetIcon(itemStorage.GetItemDescriptionById(currentEquipmentSpells[1]).sprite);
-                Debug.Log($"Выбрано заклинание - {currentEquipmentSpells[1]}");
-                return;
-            }
-            if (Input.GetKeyDown(stringVariableManager.GetVars("THREE_SPELL_SLOT")) && !string.IsNullOrEmpty(currentEquipmentSpells[2]))
-            {
-                uiItemIconSetter.SetIcon(itemStorage.GetItemDescriptionById(currentEquipmentSpells[2]).sprite);
-                Debug.Log($"Выбрано заклинание - {currentEquipmentSpells[2]}");
-                return;
-            }
-        }
+        // private void SwapCurrentSpell()
+        // {
+        //     if (Input.GetKeyDown(stringVariableManager.GetVars("FIRST_SPELL_SLOT")) && !string.IsNullOrEmpty(currentEquipmentSpells[0]))
+        //     {
+        //         uiItemIconSetter.SetIcon(itemStorage.GetItemDescriptionById(currentEquipmentSpells[0]).sprite);
+        //         Debug.Log($"Выбрано заклинание - {currentEquipmentSpells[0]}");
+        //         return;
+        //     }
+        //     if (Input.GetKeyDown(stringVariableManager.GetVars("TWO_SPELL_SLOT")) && !string.IsNullOrEmpty(currentEquipmentSpells[1]))
+        //     {
+        //         uiItemIconSetter.SetIcon(itemStorage.GetItemDescriptionById(currentEquipmentSpells[1]).sprite);
+        //         Debug.Log($"Выбрано заклинание - {currentEquipmentSpells[1]}");
+        //         return;
+        //     }
+        //     if (Input.GetKeyDown(stringVariableManager.GetVars("THREE_SPELL_SLOT")) && !string.IsNullOrEmpty(currentEquipmentSpells[2]))
+        //     {
+        //         uiItemIconSetter.SetIcon(itemStorage.GetItemDescriptionById(currentEquipmentSpells[2]).sprite);
+        //         Debug.Log($"Выбрано заклинание - {currentEquipmentSpells[2]}");
+        //         return;
+        //     }
+        // }
     }
 }

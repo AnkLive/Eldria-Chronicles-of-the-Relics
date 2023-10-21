@@ -73,7 +73,7 @@ public class InventoryUIManager : MonoBehaviour
 
     private void Update()
     {
-        ToggleInventory();
+        //ToggleInventory();
     }
 
     private void ToggleInventory()

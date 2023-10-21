@@ -41,15 +41,11 @@ using UnityEngine;
     /// <summary>
     /// Содержит информацию о способностях объекта двигаться
     /// </summary>
-    public abstract class BaseMovement : MonoBehaviour, IMovable, IBounce, IDash, IGrounded, IInputInitialize 
+    public abstract class BaseMovement : MonoCache, IMovable, IBounce, IDash, IGrounded 
     {
 
         #region Методы
-
-        /// <summary>
-        /// Получение ссылок на компоненты
-        /// </summary>
-        //public abstract void Initialize();
+        
         /// <summary>
         /// Реализация прыжка
         /// </summary>
@@ -86,10 +82,6 @@ using UnityEngine;
         /// Получение пользовательского ввода
         /// </summary>
         public abstract void SetInputData();
-        /// <summary>
-        /// Сбор входных данных
-        /// </summary>
-        public abstract void GatherInputs();
 
         #endregion
 

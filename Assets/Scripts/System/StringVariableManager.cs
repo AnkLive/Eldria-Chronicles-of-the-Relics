@@ -2,22 +2,28 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine;
+using Zenject;
 
 [Serializable]
 [CreateAssetMenu(fileName = "New Global String Vars", menuName = "System/Global String Vars", order = 0)]
-public class StringVariableManager : ScriptableObject
+public class StringVariableManager : ScriptableObject, IVariableHandler, IInitialize<StringVariableManager>
 { 
-        [SerializeField, JsonIgnore] private InputVarsSaveLoader inputVarsSaveLoader;
-        [field: SerializeField] private List<StringVariable> StringVarsList = new();
-        
-        private void SetVars()
+        [Inject, JsonIgnore] private ISaveLoader<StringVariableManager> _inputVarsSaveLoader;
+        [field: SerializeField] private List<StringVariable> stringVarsList = new();
+
+        public void Initialize()
         {
-                StringVarsList = inputVarsSaveLoader.GetData().StringVarsList;
+                SetVars(_inputVarsSaveLoader.GetData());
+        }
+        
+        public void SetVars(StringVariableManager data)
+        {
+                stringVarsList = data.stringVarsList;
         }
 
         public KeyCode GetVars(string keyCodeString)
         {
-                foreach (var stringVars in StringVarsList)
+                foreach (var stringVars in stringVarsList)
                 {
                         if (stringVars.keyCode == keyCodeString)
                         {
@@ -30,8 +36,8 @@ public class StringVariableManager : ScriptableObject
                 return KeyCode.F;
         }
         
-        public List<StringVariable> GetVarsList ()
-        {
-                return StringVarsList;
-        }
+        // public List<StringVariable> GetVarsList ()
+        // {
+        //         return stringVarsList;
+        // }
 }
