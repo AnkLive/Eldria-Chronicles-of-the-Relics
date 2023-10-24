@@ -1,53 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1738081127231855177
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1738081127231855176}
-  - component: {fileID: 1738081127231855179}
-  m_Layer: 0
-  m_Name: Player
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1738081127231855176
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1738081127231855177}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1738081128462634358}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &1738081127231855179
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1738081127231855177}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.3}
-  serializedVersion: 2
-  m_Radius: 0.23
 --- !u!1 &1738081128462634354
 GameObject:
   m_ObjectHideFlags: 0
@@ -60,10 +12,10 @@ GameObject:
   - component: {fileID: 1738081128462634359}
   - component: {fileID: 1738081128462634356}
   - component: {fileID: 1738081128462634357}
+  - component: {fileID: 6970889317820681100}
   - component: {fileID: 1738081128462634361}
   - component: {fileID: -5363851152584540651}
   - component: {fileID: 1738081128462634363}
-  - component: {fileID: 1177779681740112950}
   - component: {fileID: -1870105575074637166}
   m_Layer: 0
   m_Name: Cube
@@ -80,11 +32,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1738081128462634354}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.008000016, y: 0.647, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1738081127231855176}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -187,6 +138,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &6970889317820681100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1738081128462634354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3178618dc0944401a4251481a64f7384, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerAttributes: {fileID: 11400000, guid: 252358fbd8fb47445baa56e649b5914b, type: 2}
 --- !u!114 &1738081128462634361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,60 +163,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d211ee0dea29e9f468df320be5c8af61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <CanMove>k__BackingField: 1
-  <Acceleration>k__BackingField:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: -0.0001
-      value: -8
-      inSlope: Infinity
-      outSlope: Infinity
-      tangentMode: 103
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: Infinity
-      outSlope: Infinity
-      tangentMode: 103
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.0001
-      value: 8
-      inSlope: Infinity
-      outSlope: Infinity
-      tangentMode: 103
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  <InstantAcceleration>k__BackingField: 1
-  <ConstantAcceleration>k__BackingField: 0
-  <MovementSpeed>k__BackingField: 20
-  <AirborneMovementSpeed>k__BackingField: 2
-  <CanJump>k__BackingField: 1
-  <FallingSpeed>k__BackingField: 100
-  <MaxJumpHeight>k__BackingField: 15
-  <JumpForce>k__BackingField: 50
-  <MaxFallSpeed>k__BackingField: 50
-  <UpwardForce>k__BackingField: 35
-  <CanFly>k__BackingField: 1
-  <GroundColliderTransform>k__BackingField: {fileID: 1738081127231855176}
-  <RaycastRadius>k__BackingField: 1.1
-  <GroundMask>k__BackingField:
+  actionLogger: {fileID: 527949286356492923, guid: 212382e0d37e13749b0b3264b8daf710, type: 3}
+  canMove: 1
+  movementSpeed: 34.9
+  airborneMovementSpeed: 4
+  canJump: 1
+  fallingSpeed: 61.6
+  maxJumpHeight: 15
+  jumpForce: 95.3
+  maxFallSpeed: 37.7
+  upwardForce: 66.2
+  canDashing: 1
+  dashingCooldown: 1
+  dashingPower: 34.2
+  dashingTime: 4.2
+  groundCheckDistance: 1.1
+  groundMask:
     serializedVersion: 2
     m_Bits: 8
-  <CanDashing>k__BackingField: 1
-  <DashingCooldown>k__BackingField: 1
-  <DashingPower>k__BackingField: 100
-  <DashingTime>k__BackingField: 0.1
 --- !u!114 &-5363851152584540651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -373,18 +301,6 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
---- !u!114 &1177779681740112950
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1738081128462634354}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d605b49705d4f51a0cda754b9c7407f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-1870105575074637166
 MonoBehaviour:
   m_ObjectHideFlags: 0

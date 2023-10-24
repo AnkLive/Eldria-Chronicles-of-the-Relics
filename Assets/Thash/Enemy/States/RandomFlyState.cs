@@ -16,7 +16,7 @@ namespace Platformer.EnemyState
 
         public override void Init()
         {
-            _startPosition = EnemyState.RigidbodyObject.position;
+            //_startPosition = EnemyState.RigidbodyObject.position;
             SetNextPosition();
         }
 
@@ -41,7 +41,7 @@ namespace Platformer.EnemyState
             if (_isNextPosition)
                 SetNextPosition();
 
-            _isNextPosition = EnemyState.MoveToPosition(_nextPosition);
+            //_isNextPosition = EnemyState.MoveToPosition(_nextPosition);
         }
 
         private void SetNextPosition()

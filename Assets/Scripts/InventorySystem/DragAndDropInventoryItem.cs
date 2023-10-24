@@ -2,8 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace InventorySystem
-{
+
     public class DragAndDropInventoryItem : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
     {
         private UIItemIconSetter _oldSlot;
@@ -82,8 +81,8 @@ namespace InventorySystem
 
         private void ExchangeSlotData(UIItemIconSetter newSlot)
         {
-            _inventoryManager.inventory.Sections[_inventoryManager.currentInventorySection]
-                .MoveItem(_oldSlot.SlotId, newSlot.SlotId);
+            //_inventoryManager.inventory.Sections[_inventoryManager.currentInventorySection]
+                //.MoveItem(_oldSlot.SlotId, newSlot.SlotId);
         }
 
         private void SetItemImageTransparency(float alpha)
@@ -100,4 +99,3 @@ namespace InventorySystem
             return distance > threshold;
         }
     }
-}

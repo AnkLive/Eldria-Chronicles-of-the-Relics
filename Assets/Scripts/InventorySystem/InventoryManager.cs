@@ -4,18 +4,20 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Zenject;
 
-namespace InventorySystem
-{
     [Serializable]
     public class InventoryManager : MonoBehaviour, IInitialize<InventoryManager>
     {
+        private Controller _controller;
         [Inject]
         private ISaveLoader<Inventory> _inventorySaveLoader;
         [SerializeField] public InventoryUIManager UIManager;
         [SerializeField] private SpellEquipmentManager spellEquipmentManager;
         public ItemBase testItemBaseSpell;
-        public ItemBase testItemBaseWeapon;
+        public ItemBase testItemBaseSpell1;
+        public ItemBase testItemBaseWeapon1;
+        public ItemBase testItemBaseWeapon2;
         public ItemBase testItemBaseArtefact;
+        public ItemBase testItemBaseArtefact1;
         [SerializeField] private ItemStorage itemStorage;
         public Inventory inventory;
         public EItemType currentInventorySection = EItemType.Weapon;
@@ -25,6 +27,7 @@ namespace InventorySystem
         
         public void Initialize()
         {
+            _controller = new Controller();
             UIManager.OpenInventory();
             UIManager.Init();
             
@@ -41,6 +44,14 @@ namespace InventorySystem
                     startTotalStrengthLimitSpellSection
                     );
 
+            _controller.Enable();
+            _controller.Main.AddWeaponItem.performed += _ => AddWeaponItem1();
+            _controller.Main.AddWeaponItem1.performed += _ => AddWeaponItem2();
+            _controller.Main.AddArtefactItem.performed += _ => AddArtefactItem();
+            _controller.Main.AddSpellItem.performed += _ => AddSpellItem();
+            _controller.Main.AddArtefactItem1.performed += _ => AddArtefactItem1();
+            _controller.Main.AddSpellItem1.performed += _ => AddSpellItem1();
+            
             UIManager.OnCloseInventory += SaveInventory;
             UIManager.OnOpenInventory += SaveInventory;
             UIManager.OnChangeInventorySection += SetCurrentInventorySection;
@@ -75,30 +86,34 @@ namespace InventorySystem
             UIManager.SetInventoryStrength(inventory.Sections[currentInventorySection].CurrentTotalStrength);
         }
 
-        private void Update()
+        private void AddWeaponItem1()
         {
-            //HandleInput();
+            inventory.AddItem(testItemBaseWeapon1);
         }
         
-        private void HandleInput()
+        private void AddWeaponItem2()
         {
-            if (Input.GetKeyDown(KeyCode.Alpha7))
-            {
-                inventory.AddItem(testItemBaseSpell);
-                return;
-            }
-
-            if (Input.GetKeyDown(KeyCode.Alpha8))
-            {
-                inventory.AddItem(testItemBaseWeapon);
-                return;
-            }
-
-            if (Input.GetKeyDown(KeyCode.Alpha9))
-            {
-                inventory.AddItem(testItemBaseArtefact);
-                return;
-            }
+            inventory.AddItem(testItemBaseWeapon2);
+        }
+        
+        private void AddArtefactItem()
+        {
+            inventory.AddItem(testItemBaseArtefact);
+        }
+        
+        private void AddSpellItem()
+        {
+            inventory.AddItem(testItemBaseSpell);
+        }
+        
+        private void AddArtefactItem1()
+        {
+            inventory.AddItem(testItemBaseArtefact1);
+        }
+        
+        private void AddSpellItem1()
+        {
+            inventory.AddItem(testItemBaseSpell1);
         }
 
         private void SaveInventory()
@@ -114,4 +129,3 @@ namespace InventorySystem
             }
         }
     }
-}

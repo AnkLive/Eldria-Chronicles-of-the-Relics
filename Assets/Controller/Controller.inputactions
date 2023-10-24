@@ -40,20 +40,72 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "AddWeaponItem",
+                    "type": "Button",
+                    "id": "6eef82f5-858d-49c9-bc64-7dd8fe2acebc",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "AddWeaponItem1",
+                    "type": "Button",
+                    "id": "898e2e2e-d67b-4152-bf0b-07b09b1b7192",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "AddArtefactItem",
+                    "type": "Button",
+                    "id": "635a8679-9b44-487a-80f3-5af2c6befbeb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "AddArtefactItem1",
+                    "type": "Button",
+                    "id": "c08a2ec8-aeb9-4d04-872d-bd2e25da5833",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "AddSpellItem",
+                    "type": "Button",
+                    "id": "ccf7093a-57e3-4d1b-8dbb-6b30571156ad",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "AddSpellItem1",
+                    "type": "Button",
+                    "id": "78e3dbc4-881c-4b64-93f5-c8756eea0d51",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "LeftMouse",
+                    "type": "Button",
+                    "id": "28e33b74-aa1e-4d8f-87fc-7eff7919178f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "3ac42e81-22a5-45ba-b877-4c4c16145d57",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "1D Axis",
                     "id": "701f79c0-7d54-4294-90b0-4a5bffd28e95",
@@ -90,7 +142,7 @@
                 {
                     "name": "",
                     "id": "4f47c39b-2e21-4ac3-ae81-e3d7e7bb7fdb",
-                    "path": "<Keyboard>/f",
+                    "path": "<Keyboard>/leftShift",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -106,6 +158,105 @@
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "Inventory",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "f4b6c203-badd-4fe0-8242-6ecba09ea89e",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "positive",
+                    "id": "1f4509be-bdf1-438d-b95c-3208c233bdd6",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "be964877-5e77-4ef0-99f3-360451971767",
+                    "path": "<Keyboard>/8",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AddWeaponItem",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d0d62bb4-1102-48dd-bf88-ed3ab410eaa8",
+                    "path": "<Keyboard>/9",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AddArtefactItem",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "94173293-50e8-4829-afbe-afed036a7404",
+                    "path": "<Keyboard>/7",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AddSpellItem",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d644a430-0b43-4f81-b0a2-9e5e6b137cb9",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LeftMouse",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "10c72034-a898-45d3-afe6-07679b217bda",
+                    "path": "<Keyboard>/5",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AddWeaponItem1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "30126b4f-4c85-49b1-b05a-2cf0a56cf41d",
+                    "path": "<Keyboard>/6",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AddArtefactItem1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bfe3f769-8cdc-48c4-864a-abcb11ae4a1f",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AddSpellItem1",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

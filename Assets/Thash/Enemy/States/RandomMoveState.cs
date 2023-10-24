@@ -19,7 +19,7 @@ namespace Platformer.EnemyState
             if(_isNextPosition)
                 SetNextPosition();
 
-            _isNextPosition = EnemyState.MoveToPosition(new Vector2(_nextPosition, EnemyState.RigidbodyObject.position.y));
+            //_isNextPosition = EnemyState.MoveToPosition(new Vector2(_nextPosition, EnemyState.RigidbodyObject.position.y));
         }
         
         public void SetNextPosition() => _nextPosition = (_nextPosition == RightAnchor) ? LeftAnchor : RightAnchor;

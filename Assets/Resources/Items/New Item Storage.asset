@@ -22,3 +22,12 @@ MonoBehaviour:
   - itemId: test_weapon_item
     sprite: {fileID: 21300000, guid: 525ef3ad95151084c8e7e583b4cef57c, type: 3}
     description: test_weapon_item
+  - itemId: test_weapon_item_1
+    sprite: {fileID: 21300000, guid: 1e298ca749c993c498e9ceb738526892, type: 3}
+    description: test_weapon_item_1
+  - itemId: test_spell_item_1
+    sprite: {fileID: 21300000, guid: e698405035425e1469024f9f96770630, type: 3}
+    description: test_spell_item_1
+  - itemId: test_artefact_item_1
+    sprite: {fileID: 21300000, guid: 525ef3ad95151084c8e7e583b4cef57c, type: 3}
+    description: test_artefact_item_1

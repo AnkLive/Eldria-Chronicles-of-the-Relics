@@ -1,8 +1,6 @@
 using System;
 using ItemSystem;
 
-namespace InventorySystem
-{
     [Serializable]
     public class InventorySlot
     {
@@ -18,4 +16,3 @@ namespace InventorySystem
         public bool IsEmpty { get; set; } = true;
         public bool IsEquipmentSlot { get; set; }
     }
-}

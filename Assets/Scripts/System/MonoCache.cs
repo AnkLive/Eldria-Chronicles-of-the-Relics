@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class MonoCache : MonoBehaviour
@@ -21,15 +21,15 @@ public class MonoCache : MonoBehaviour
     
     protected void RemoveLateUpdate() => AllLateUpdate.Remove(this);
 
-    public void Tick() => OnTick();
+    public void RaiseRun() => Run();
     
-    public virtual void OnTick() { }
+    public virtual void Run() { }
     
-    public void FixedTick() => OnFixedTick();
+    public void RaiseFixedRun() => FixedRun();
     
-    public virtual void OnFixedTick() { }
+    public virtual void FixedRun() { }
     
-    public void LateTick() => OnLateTick();
+    public void RaiseLateRun() => LateRun();
     
-    public virtual void OnLateTick() { }
+    public virtual void LateRun() { }
 }

@@ -3,8 +3,6 @@ using ItemSystem;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace InventorySystem
-{
     public class SpellEquipmentManager : MonoBehaviour
     {
         public InventoryManager inventoryManager;
@@ -56,4 +54,3 @@ namespace InventorySystem
         //     }
         // }
     }
-}

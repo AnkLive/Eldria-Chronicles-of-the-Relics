@@ -16,8 +16,8 @@ namespace Platformer.EnemyState
                 IsFinished = true;
                 EnemyState.SetState(EnemyState.RandomMoveState);
             }
-            else
-                EnemyState.MoveToPosition(EnemyState.DetectObj.transform.position);
+            //else
+                //EnemyState.MoveToPosition(EnemyState.DetectObj.transform.position);
         }
     }
 }

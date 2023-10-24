@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Platformer.EnemyState
 {
-    public class EnemyState : CharacterMovement
+    public class EnemyState
     {
         private State CurrentState;
         
@@ -27,8 +27,8 @@ namespace Platformer.EnemyState
             DetectCollider.TriggerEvent += Detect;
             SetState(StartState);
             
-            if (RangedAttack)
-                FlyingObject = GetComponent<InitializeFlyingObject>();
+            //if (RangedAttack)
+                //FlyingObject = GetComponent<InitializeFlyingObject>();
         }
 
         private void Update()
@@ -41,7 +41,7 @@ namespace Platformer.EnemyState
 
         public void SetState(State state)
         {
-            CurrentState = Instantiate(state);
+            //CurrentState = Instantiate(state);
             CurrentState.EnemyState = this;
             CurrentState.Init();
         }

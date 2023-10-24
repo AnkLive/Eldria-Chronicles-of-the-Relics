@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class InventoryUIManager : MonoBehaviour
 {
+    private Controller _controller;
     [SerializeField] public InputVarsSaveLoader inputVarsSaveLoader;
     public StringVariableManager stringVariableManager;
     [Space]
@@ -40,10 +41,13 @@ public class InventoryUIManager : MonoBehaviour
 
     public void Init()
     {
+        _controller = new Controller();
         goToSpellPanel.onClick.AddListener(SetSpellCurrentSection);
         goToWeaponPanel.onClick.AddListener(SetWeaponCurrentSection);
         goToArtefactPanel.onClick.AddListener(SetArtefactCurrentSection);
         closeInventory.onClick.AddListener(CloseInventoryWithButton);
+        _controller.Enable();
+        _controller.Main.Inventory.performed += _ => ToggleInventory();
     }
 
     private void OnDisable()
@@ -78,8 +82,6 @@ public class InventoryUIManager : MonoBehaviour
 
     private void ToggleInventory()
     {
-        if (Input.GetKeyDown(stringVariableManager.GetVars("OPEN_CLOSE_INVENTORY")))
-        {
             isOpen = !isOpen;
 
             if (isOpen)
@@ -90,7 +92,6 @@ public class InventoryUIManager : MonoBehaviour
             {
                 OnCloseInventory.Invoke();
                 CloseInventory();
-            }
         }
 
         if (isWeaponInventoryPanel)

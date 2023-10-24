@@ -1,8 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace InventorySystem
-{
     public class UIItemIconSetter : MonoBehaviour
     {
         public Image Icon { get; set; }
@@ -21,4 +19,3 @@ namespace InventorySystem
             Icon.color = new Color(1, 1, 1, 1);
         }
     }
-}

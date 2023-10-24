@@ -19,7 +19,6 @@ public class PlayerAttributes : CharacterAttributes
     [field: SerializeField] public float MaxJumpHeight { get; set; }
     [field: SerializeField] public float JumpForce { get; set; }
     [field: SerializeField] public float UpwardForce { get; set; }
-    [field: SerializeField] public float FlySpeed { get; set; }
     [field: SerializeField] public float FallingSpeed { get; set; }
     [field: SerializeField] public float MaxFallSpeed { get; set; }
     [field: Header("")]
@@ -28,6 +27,9 @@ public class PlayerAttributes : CharacterAttributes
     [field: SerializeField] public float DashingTime { get; set; }
     [field: Header("")]
     [field: SerializeField] public float DashingCooldownMultiplier { get; set; }
+    [field: Header("")]
+    [field: SerializeField] public float GroundCheckDistance { get; set; }
+    [field: SerializeField] public int GroundMask { get; set; }
     [field: Header("")]
     [field: SerializeField] public float MaxHealthMultiplier { get; set; }
     [field: SerializeField] public float MaxShieldMultiplier { get; set; }

@@ -18,6 +18,7 @@ public abstract class CharacterAttributes : ScriptableObject
     [field: SerializeField] public float CurrentShield { get; set; }
     [field: Header("")]
     [field: SerializeField] public float MovementSpeed { get; set; }
+    [field: SerializeField] public float AirborneMovementSpeed { get; set; }
     [field: Header("")]
     [field: SerializeField] public float AttackDamage { get; set; }
     [field: SerializeField] public float AttackSpeed { get; set; }

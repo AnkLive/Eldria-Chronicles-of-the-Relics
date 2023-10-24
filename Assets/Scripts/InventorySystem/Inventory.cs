@@ -4,8 +4,6 @@ using ItemSystem;
 using Newtonsoft.Json;
 using UnityEngine;
 
-namespace InventorySystem
-{
     [Serializable]
     public class Inventory
     {
@@ -61,6 +59,4 @@ namespace InventorySystem
                 }
             }
         }
-
     }
-}
