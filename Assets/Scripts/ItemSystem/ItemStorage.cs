@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ItemSystem
-{
     [CreateAssetMenu(fileName = "New Item Storage", menuName = "Inventory/Item Storage", order = 0)]
     public class ItemStorage : ScriptableObject
     {
@@ -29,4 +27,3 @@ namespace ItemSystem
         public Sprite sprite;
         public string description;
     }
-}

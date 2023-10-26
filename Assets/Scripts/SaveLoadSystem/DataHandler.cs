@@ -30,6 +30,7 @@ public class DataHandler<T> : IDataHandler<T>
     public void SaveData(T data)
     {
         string json = JsonConvert.SerializeObject(data, Formatting.Indented);
+        
         try
         {
             File.WriteAllText(_path, json);
@@ -64,6 +65,7 @@ public class DataHandler<T> : IDataHandler<T>
                     NullValueHandling = NullValueHandling.Ignore,
                     Converters = new List<JsonConverter> { new ItemConverter() }
                 };
+                
                 return JsonConvert.DeserializeObject<T>(json);
             }
             catch (JsonException e)

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ItemSystem;
 using Newtonsoft.Json;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
@@ -16,7 +15,6 @@ public class InventorySection
     }
 
     public List<InventorySlot> InventorySlotList { get; set; } = new();
-
     [JsonIgnore] public List<UIItemIconSetter> IconSetterList { get; set; } = new();
 
     [field: JsonIgnore] public event Action<List<ItemBase>> OnEquippedItem = delegate { };
@@ -39,10 +37,10 @@ public class InventorySection
 
         foreach (var slot in InventorySlotList)
         {
+            
             if (slot.ItemBase != null && slot.ItemBase.IsEquipment)
             {
                 list.Add(slot.ItemBase);
-                Debug.Log(slot.ItemBase.IsEquipment);
             }
         }
 
@@ -158,7 +156,7 @@ public class InventorySection
         else
         {
             float itemStrength;
-            float equippedItemStrength = 0;
+            float equippedItemStrength;
             if (!newSlot.IsEmpty)
             {
                 equippedItemStrength = (newSlot.ItemBase as SpellItemBase)?.Strength ?? (newSlot.ItemBase as ArtefactItemBase)?.Strength ?? 0;
@@ -189,7 +187,6 @@ public class InventorySection
                 }
                 SwapItems(oldSlot, newSlot);
                 CurrentTotalStrength -= equippedItemStrength;
-                Debug.LogError(CurrentTotalStrength);
                 OnChangedStrengthInventory.Invoke();
                 MoveUnequippedItemsToTop();
                 return;

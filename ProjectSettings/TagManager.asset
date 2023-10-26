@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - EnemyRange
+  - Enemy
   layers:
   - Default
   - TransparentFX

@@ -125,6 +125,15 @@ public partial class @Controller : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RightMouse"",
+                    ""type"": ""Button"",
+                    ""id"": ""e1e4ace0-2400-4156-a41b-7d9ab064e1eb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -281,6 +290,17 @@ public partial class @Controller : IInputActionCollection2, IDisposable
                     ""action"": ""AddSpellItem1"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""59cf8a72-1e3b-43ef-84da-44e1aa07e9c6"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RightMouse"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -317,6 +337,7 @@ public partial class @Controller : IInputActionCollection2, IDisposable
         m_Main_AddSpellItem = m_Main.FindAction("AddSpellItem", throwIfNotFound: true);
         m_Main_AddSpellItem1 = m_Main.FindAction("AddSpellItem1", throwIfNotFound: true);
         m_Main_LeftMouse = m_Main.FindAction("LeftMouse", throwIfNotFound: true);
+        m_Main_RightMouse = m_Main.FindAction("RightMouse", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -387,6 +408,7 @@ public partial class @Controller : IInputActionCollection2, IDisposable
     private readonly InputAction m_Main_AddSpellItem;
     private readonly InputAction m_Main_AddSpellItem1;
     private readonly InputAction m_Main_LeftMouse;
+    private readonly InputAction m_Main_RightMouse;
     public struct MainActions
     {
         private @Controller m_Wrapper;
@@ -402,6 +424,7 @@ public partial class @Controller : IInputActionCollection2, IDisposable
         public InputAction @AddSpellItem => m_Wrapper.m_Main_AddSpellItem;
         public InputAction @AddSpellItem1 => m_Wrapper.m_Main_AddSpellItem1;
         public InputAction @LeftMouse => m_Wrapper.m_Main_LeftMouse;
+        public InputAction @RightMouse => m_Wrapper.m_Main_RightMouse;
         public InputActionMap Get() { return m_Wrapper.m_Main; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -444,6 +467,9 @@ public partial class @Controller : IInputActionCollection2, IDisposable
                 @LeftMouse.started -= m_Wrapper.m_MainActionsCallbackInterface.OnLeftMouse;
                 @LeftMouse.performed -= m_Wrapper.m_MainActionsCallbackInterface.OnLeftMouse;
                 @LeftMouse.canceled -= m_Wrapper.m_MainActionsCallbackInterface.OnLeftMouse;
+                @RightMouse.started -= m_Wrapper.m_MainActionsCallbackInterface.OnRightMouse;
+                @RightMouse.performed -= m_Wrapper.m_MainActionsCallbackInterface.OnRightMouse;
+                @RightMouse.canceled -= m_Wrapper.m_MainActionsCallbackInterface.OnRightMouse;
             }
             m_Wrapper.m_MainActionsCallbackInterface = instance;
             if (instance != null)
@@ -481,6 +507,9 @@ public partial class @Controller : IInputActionCollection2, IDisposable
                 @LeftMouse.started += instance.OnLeftMouse;
                 @LeftMouse.performed += instance.OnLeftMouse;
                 @LeftMouse.canceled += instance.OnLeftMouse;
+                @RightMouse.started += instance.OnRightMouse;
+                @RightMouse.performed += instance.OnRightMouse;
+                @RightMouse.canceled += instance.OnRightMouse;
             }
         }
     }
@@ -507,5 +536,6 @@ public partial class @Controller : IInputActionCollection2, IDisposable
         void OnAddSpellItem(InputAction.CallbackContext context);
         void OnAddSpellItem1(InputAction.CallbackContext context);
         void OnLeftMouse(InputAction.CallbackContext context);
+        void OnRightMouse(InputAction.CallbackContext context);
     }
 }

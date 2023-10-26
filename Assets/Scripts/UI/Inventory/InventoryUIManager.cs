@@ -1,64 +1,80 @@
 using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
+using Zenject;
 
-public class InventoryUIManager : MonoBehaviour
+public class InventoryUIManager : MonoBehaviour, IInitialize<InventoryUIManager>, IActivate<InventoryUIManager>
 {
+    [Inject] private SwapItems _swapItems;
+    [Inject] private InventoryManager _inventoryManager;
     private Controller _controller;
-    [SerializeField] public InputVarsSaveLoader inputVarsSaveLoader;
-    public StringVariableManager stringVariableManager;
     [Space]
-    public Transform inventoryPanel;
-    public Transform equipmentPanel;
-    public Transform inventoryMainPanel;
-    public Transform strengthPanel;
-    public TMP_Text itemDescriptionText;
+    [SerializeField] public Transform inventoryPanel;
+    [SerializeField] public Transform equipmentPanel;
+    [SerializeField] private Transform inventoryMainPanel;
+    [SerializeField] private Transform strengthPanel;
+    [SerializeField] private Transform itemDescriptionPanel;
+    [SerializeField] private TMP_Text itemDescriptionText;
     [Space]
-    public Transform equipmentSpellPanel;
-    public Transform equipmentWeaponPanel;
-    public Transform equipmentArtefactPanel;
+    [SerializeField] private Transform equipmentSpellPanel;
+    [SerializeField] private Transform equipmentWeaponPanel;
+    [SerializeField] private Transform equipmentArtefactPanel;
     [Space]
-    public Transform inventorySpellPanel;
-    public Transform inventoryWeaponPanel;
-    public Transform inventoryArtefactPanel;
+    [SerializeField] private Transform inventorySpellPanel;
+    [SerializeField] private Transform inventoryWeaponPanel;
+    [SerializeField] private Transform inventoryArtefactPanel;
     [Space]
-    public bool isOpen = false;
-    public bool isWeaponInventoryPanel;
+    [SerializeField] private bool isOpen = false;
+    [SerializeField] private bool isWeaponInventoryPanel;
     [Space]
-    public TMP_Text inventoryStrength;
+    [SerializeField] private TMP_Text inventoryStrength;
     [Space] 
-    public Button goToSpellPanel;
-    public Button goToWeaponPanel;
-    public Button goToArtefactPanel;
+    [SerializeField] private Button goToSpellPanel;
+    [SerializeField] private Button goToWeaponPanel;
+    [SerializeField] private Button goToArtefactPanel;
+    [SerializeField] private Button itemDescriptionPanelExitButton;
     [Space] 
-    public Button closeInventory;
+    [SerializeField] private Button closeInventory;
     
     public event Action OnOpenInventory;
     public event Action OnCloseInventory;
     public event Action<EItemType> OnChangeInventorySection;
-
-    public void Init()
+    
+    public void Activate()
     {
-        _controller = new Controller();
         goToSpellPanel.onClick.AddListener(SetSpellCurrentSection);
         goToWeaponPanel.onClick.AddListener(SetWeaponCurrentSection);
         goToArtefactPanel.onClick.AddListener(SetArtefactCurrentSection);
         closeInventory.onClick.AddListener(CloseInventoryWithButton);
+        itemDescriptionPanelExitButton.onClick.AddListener(SetItemDescriptionPanelVisibility);
         _controller.Enable();
         _controller.Main.Inventory.performed += _ => ToggleInventory();
+        _inventoryManager.OnInventoryLoaded += CloseInventory;
     }
 
-    private void OnDisable()
+    public void Deactivate()
     {
         goToSpellPanel.onClick.RemoveListener(SetSpellCurrentSection);
         goToWeaponPanel.onClick.RemoveListener(SetWeaponCurrentSection);
         goToArtefactPanel.onClick.RemoveListener(SetArtefactCurrentSection);
         closeInventory.onClick.RemoveListener(CloseInventoryWithButton);
+        itemDescriptionPanelExitButton.onClick.RemoveListener(SetItemDescriptionPanelVisibility);
+        _inventoryManager.OnInventoryLoaded -= CloseInventory;
     }
 
-    public void CloseInventoryWithButton()
+    public void Initialize()
+    {
+        _controller = new Controller();
+        VisibleAllObjects(true);
+    }
+
+    private void SetItemDescriptionPanelVisibility()
+    {
+        itemDescriptionPanel.gameObject.SetActive(false);
+    }
+
+    private void CloseInventoryWithButton() //!!!-------------------
     {
         OnOpenInventory?.Invoke();
         isOpen = false;
@@ -72,46 +88,37 @@ public class InventoryUIManager : MonoBehaviour
 
     public void SetItemDescriptionText(string text)
     {
+        _swapItems.ResetSelectedItems();
+        itemDescriptionPanel.gameObject.SetActive(true);
         itemDescriptionText.text = text;
-    }
-
-    private void Update()
-    {
-        //ToggleInventory();
     }
 
     private void ToggleInventory()
     {
-            isOpen = !isOpen;
+        isOpen = !isOpen;
 
-            if (isOpen)
-            {
-                OpenInventory();
-            }
-            else
-            {
-                OnCloseInventory.Invoke();
-                CloseInventory();
-        }
-
-        if (isWeaponInventoryPanel)
+        if (isOpen)
         {
-            strengthPanel.gameObject.SetActive(false);
+            OpenInventory();
         }
         else
         {
-            strengthPanel.gameObject.SetActive(true);
+            _swapItems.ResetSelectedItems();
+            OnCloseInventory?.Invoke();
+            CloseInventory();
         }
+        strengthPanel.gameObject.SetActive(isWeaponInventoryPanel);
     }
 
-    public void OpenInventory()
+    private void OpenInventory()
     {
+        SetWeaponCurrentSection();
         inventoryMainPanel.gameObject.SetActive(true);
         inventoryPanel.gameObject.SetActive(true);
         equipmentPanel.gameObject.SetActive(true);
     }
 
-    public void CloseInventory()
+    private void CloseInventory()
     {
         SetWeaponCurrentSection();
         inventoryPanel.gameObject.SetActive(false);
@@ -119,9 +126,11 @@ public class InventoryUIManager : MonoBehaviour
         inventoryMainPanel.gameObject.SetActive(false);
     }
 
-    public void SetSpellCurrentSection()
+    private void SetSpellCurrentSection()
     {
+        _swapItems.ResetSelectedItems();
         SetItemDescriptionText("");
+        SetItemDescriptionPanelVisibility();
         isWeaponInventoryPanel = false;
         OnChangeInventorySection?.Invoke(EItemType.Spell);
         
@@ -136,9 +145,11 @@ public class InventoryUIManager : MonoBehaviour
         equipmentWeaponPanel.gameObject.SetActive(false);
         inventoryWeaponPanel.gameObject.SetActive(false);
     }
-    public void SetWeaponCurrentSection()
+    private void SetWeaponCurrentSection()
     {
+        _swapItems.ResetSelectedItems();
         SetItemDescriptionText("");
+        SetItemDescriptionPanelVisibility();
         isWeaponInventoryPanel = true;
         OnChangeInventorySection?.Invoke(EItemType.Weapon);
         
@@ -153,9 +164,11 @@ public class InventoryUIManager : MonoBehaviour
         equipmentWeaponPanel.gameObject.SetActive(true);
         inventoryWeaponPanel.gameObject.SetActive(true);
     }
-    public void SetArtefactCurrentSection()
+    private void SetArtefactCurrentSection()
     {
+        _swapItems.ResetSelectedItems();
         SetItemDescriptionText("");
+        SetItemDescriptionPanelVisibility();
         isWeaponInventoryPanel = false;
         OnChangeInventorySection?.Invoke(EItemType.Artefact);
         
@@ -169,5 +182,17 @@ public class InventoryUIManager : MonoBehaviour
         
         equipmentWeaponPanel.gameObject.SetActive(false);
         inventoryWeaponPanel.gameObject.SetActive(false);
+    }
+
+    public void VisibleAllObjects(bool value)
+    {
+        strengthPanel.gameObject.SetActive(value);
+        itemDescriptionPanel.gameObject.SetActive(value);
+        equipmentSpellPanel.gameObject.SetActive(value);
+        equipmentWeaponPanel.gameObject.SetActive(value);
+        equipmentArtefactPanel.gameObject.SetActive(value);
+        inventorySpellPanel.gameObject.SetActive(value);
+        inventoryWeaponPanel.gameObject.SetActive(value);
+        inventoryArtefactPanel.gameObject.SetActive(value);
     }
 }

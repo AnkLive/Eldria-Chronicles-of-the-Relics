@@ -5,14 +5,13 @@ using Zenject;
 
 public class LevelManager : MonoBehaviour
 {
-    [Inject]
-    private IInitialize<PlayerStatsSaveLoader> _playerStatsInitialize;
-    [Inject]
-    private IInitialize<InventorySaveLoader> _inventoryInitialize;
-    [Inject]
-    private IInitialize<InputVarsSaveLoader> _inputVarsInitialize;
-    [Inject]
-    private IInitialize<InventoryManager> _inventoryManager;
+    [Inject] private IInitialize<PlayerStatsSaveLoader> _playerStatsInitialize;
+    [Inject] private IInitialize<InventorySaveLoader> _inventoryInitialize;
+    [Inject] private IInitialize<InventoryManager> _inventoryManagerInitialize;
+    [Inject] private IInitialize<InventoryUIManager> _inventoryUIManagerInitialize;
+    
+    [Inject] private IActivate<InventoryManager> _inventoryManagerActivate;
+    [Inject] private IActivate<InventoryUIManager> _inventoryUIManagerActivate;
     
     private bool _isLoading;
     
@@ -44,22 +43,36 @@ public class LevelManager : MonoBehaviour
     private IEnumerator LoadGameData()
     {
         _isLoading = true;
-        Debug.LogWarning("Загрузка [LoadGameData]: загрузка...");
+        Debug.LogWarning("Загрузка [LevelManager]: загрузка...");
         _inventoryInitialize.Initialize();
         _playerStatsInitialize.Initialize();
-        _inputVarsInitialize.Initialize();
         yield return new WaitUntil(() => !_isLoading);
-        Debug.LogWarning("Загрузка [LoadGameData]: данные загружены");
+        Debug.LogWarning("Загрузка [LevelManager]: данные загружены");
         DataLoaded?.Invoke();
     }
     
     private IEnumerator Initialize()
     {
         _isLoading = true;
-        Debug.LogWarning("Загрузка [Initialize]: инициализация...");
-        _inventoryManager.Initialize();
+        Debug.LogWarning("Загрузка [LevelManager]: инициализация...");
+        _inventoryUIManagerInitialize.Initialize();
+        _inventoryManagerInitialize.Initialize();
+        
+        _inventoryUIManagerActivate.Activate();
+        _inventoryManagerActivate.Activate();
         yield return new WaitUntil(() => !_isLoading);
-        Debug.LogWarning("Загрузка [Initialize]: объекты инициализированны");
+        Debug.LogWarning("Загрузка [LevelManager]: объекты инициализированны");
+        UIInitialized?.Invoke();
+    }
+    
+    private IEnumerator CloseGamePlayScene()
+    {
+        _isLoading = true;
+        Debug.LogWarning("Выход из сцены [LevelManager]: сохранение данных");
+        _inventoryUIManagerActivate.Deactivate();
+        _inventoryManagerActivate.Deactivate();
+        yield return new WaitUntil(() => !_isLoading);
+        Debug.LogWarning("Выход из сцены [LevelManager]: данные сохранены");
         UIInitialized?.Invoke();
     }
 }

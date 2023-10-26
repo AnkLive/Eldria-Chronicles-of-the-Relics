@@ -13,43 +13,50 @@ MonoBehaviour:
   m_Name: New Player
   m_EditorClassIdentifier: 
   <IsImmortal>k__BackingField: 0
-  <CanShield>k__BackingField: 0
+  <HasShieldAbility>k__BackingField: 0
+  <CanMove>k__BackingField: 1
   <CanJump>k__BackingField: 1
   <CanFly>k__BackingField: 1
   <CanDash>k__BackingField: 1
   <CanAttack>k__BackingField: 0
   <CanUseSpell>k__BackingField: 0
-  <CanMove>k__BackingField: 1
   <MaxHealth>k__BackingField: 0
   <CurrentHealth>k__BackingField: 0
-  <MaxShield>k__BackingField: 0
-  <CurrentShield>k__BackingField: 0
-  <MaxHealthMultiplier>k__BackingField: 0
-  <MaxShieldMultiplier>k__BackingField: 0
+  <Armor>k__BackingField: 0
+  <FireResistance>k__BackingField: 0
+  <IceResistance>k__BackingField: 0
+  <PoisonResistance>k__BackingField: 0
   <MovementSpeed>k__BackingField: 50
-  <MovementSpeedMultiplier>k__BackingField: 0
+  <AirborneMovementSpeed>k__BackingField: 0
   <AttackDamage>k__BackingField: 0
+  <FireDamageMultiplier>k__BackingField: 0
+  <IceDamageMultiplier>k__BackingField: 0
+  <PoisonDamageMultiplier>k__BackingField: 0
+  <StatusType>k__BackingField: 0
   <AttackSpeed>k__BackingField: 0
   <AttackRange>k__BackingField: 0
-  <AttackStatusChance>k__BackingField: 0
-  <AttackDamageMultiplier>k__BackingField: 0
-  <AttackSpeedMultiplier>k__BackingField: 0
-  <AttackRangeMultiplier>k__BackingField: 0
-  <AttackStatusChanceMultiplier>k__BackingField: 0
   <MaxMana>k__BackingField: 0
   <CurrentManaAmount>k__BackingField: 0
-  <MaxManaMultiplier>k__BackingField: 0
-  <SpellRangeMultiplier>k__BackingField: 0
-  <SpellDamageMultiplier>k__BackingField: 0
-  <SpellRecoveryTimeMultiplier>k__BackingField: 0
-  <SpellStatusChanceMultiplier>k__BackingField: 0
   <MaxJumpHeight>k__BackingField: 0
   <JumpForce>k__BackingField: 0
   <UpwardForce>k__BackingField: 0
-  <FlySpeed>k__BackingField: 0
   <FallingSpeed>k__BackingField: 0
   <MaxFallSpeed>k__BackingField: 0
   <DashingCooldown>k__BackingField: 0
   <DashingPower>k__BackingField: 0
   <DashingTime>k__BackingField: 0
+  <GroundCheckDistance>k__BackingField: 0
+  <GroundMask>k__BackingField: 0
+  <AttackDamageMultiplier>k__BackingField: 0
+  <CriticalChance>k__BackingField: 0
+  <ElementalChance>k__BackingField: 0
+  <AttackSpeedMultiplier>k__BackingField: 0
+  <AttackRangeMultiplier>k__BackingField: 0
+  <MovementSpeedMultiplier>k__BackingField: 0
+  <MaxHealthMultiplier>k__BackingField: 0
   <DashingCooldownMultiplier>k__BackingField: 0
+  <MaxManaMultiplier>k__BackingField: 0
+  <SpellRangeMultiplier>k__BackingField: 0
+  <SpellDamageMultiplier>k__BackingField: 0
+  <SpellRecoveryTimeMultiplier>k__BackingField: 0
+  <SpellStatusChanceMultiplier>k__BackingField: 0

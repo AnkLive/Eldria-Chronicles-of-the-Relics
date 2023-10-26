@@ -19,5 +19,9 @@ public class InitializeInstaller : MonoInstaller
         Container.Bind(typeof(IInitialize<InputVarsSaveLoader>)).To<InputVarsSaveLoader>().FromComponentInHierarchy().AsCached();
         Container.Bind(typeof(IInitialize<PlayerStatsSaveLoader>)).To<PlayerStatsSaveLoader>().FromComponentInHierarchy().AsCached();
         Container.Bind(typeof(IInitialize<InventoryManager>)).To<InventoryManager>().FromComponentInHierarchy().AsCached();
+        Container.Bind(typeof(IInitialize<InventoryUIManager>)).To<InventoryUIManager>().FromComponentInHierarchy().AsCached();
+        
+        Container.Bind(typeof(IActivate<InventoryManager>)).To<InventoryManager>().FromComponentInHierarchy().AsCached();
+        Container.Bind(typeof(IActivate<InventoryUIManager>)).To<InventoryUIManager>().FromComponentInHierarchy().AsCached();
     }
 }

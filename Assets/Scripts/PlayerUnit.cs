@@ -3,16 +3,17 @@ using Zenject;
 
 public class PlayerUnit : MonoBehaviour
 {
-    private PlayerUnitMovementComponent _movementComponent;
-    [Inject] private ISaveLoader<PlayerAttributes> _dataAttributes;
-    [SerializeField] private PlayerAttributes playerAttributes;
+    [Inject] private IInitialize<PlayerUnitMovementComponent> _playerUnitMovementComponentInitialize;
+    [Inject] private IActivate<PlayerUnitMovementComponent> _playerUnitMovementComponentActivate;
+    [Inject] private IInitialize<HealthComponent> _healthComponentActivate;
+    
+    [Inject] private PlayerUnitMovementComponent _playerUnitMovementComponent;
+    [Inject] private HealthComponent _healthComponent;
+    [Inject] private DamageComponent _damageComponent;
     
     private void Start()
     {
-        playerAttributes = _dataAttributes.GetData();
-        _movementComponent = gameObject.GetComponent<PlayerUnitMovementComponent>();
-        _movementComponent.SetFields(playerAttributes);
-        _movementComponent.Initialize();
-        _movementComponent.Activate();
+        _playerUnitMovementComponentInitialize.Initialize();
+        _playerUnitMovementComponentActivate.Activate();
     }
 }

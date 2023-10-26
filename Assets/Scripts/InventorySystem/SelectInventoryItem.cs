@@ -1,20 +1,28 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using Zenject;
 
 public class SelectInventoryItem : MonoBehaviour, IPointerDownHandler
 {
-    public UIItemIconSetter _slot;
-    public InventoryManager _inventoryManager;
-    public bool isEquipped = false;
-    public Transform SwapItems;
-    private SwapItems _swapItems;
+    private Controller _controller;
+    private UIItemIconSetter _slot;
+    [Inject] private InventoryManager _inventoryManager;
+    [Inject] private SwapItems _swapItems;
 
-    private void Start()
+    public void Awake()
     {
+        _controller = new Controller();
         _slot = gameObject.GetComponent<UIItemIconSetter>();
-        SwapItems = GameObject.Find("SwapItems").transform;
-        _swapItems = SwapItems.gameObject.GetComponent<SwapItems>();
-        _inventoryManager = FindObjectOfType<InventoryManager>();
+    }
+
+    public void OnEnable()
+    {
+        _controller.Enable();
+    }
+
+    public void OnDisable()
+    {
+        _controller.Disable();
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -23,8 +31,14 @@ public class SelectInventoryItem : MonoBehaviour, IPointerDownHandler
         {
             return;
         }
-        
-        _inventoryManager.SetCurrentSelectedItem(_slot.SlotId);
-        _swapItems.ExchangeSlotData(_slot.SlotId);
+
+        if (_controller.Main.RightMouse.IsPressed())
+        {
+            _inventoryManager.SetCurrentSelectedItem(_slot.SlotId);
+        }
+        else
+        {
+            _swapItems.ExchangeSlotData(_slot.SlotId);
+        }
     }
 }

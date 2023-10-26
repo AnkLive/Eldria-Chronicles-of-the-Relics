@@ -1,7 +1,6 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using ItemSystem;
 using UnityEngine;
 
 public class ItemConverter : JsonConverter<ItemBase>

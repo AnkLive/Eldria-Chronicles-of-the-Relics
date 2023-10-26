@@ -1,44 +1,50 @@
 ﻿using UnityEngine;
+using Zenject;
 
 public class SwapItems : MonoBehaviour
 {
-    public InventoryManager _InventoryManager;
-    private int EqupSlot = -1; // Используем -1, чтобы указать, что слот не выбран
-    private int DefSlot = -1;  // Используем -1, чтобы указать, что слот не выбран
-    private bool isEquipmentSlot;
+    [Inject] private InventoryManager _inventoryManager;
+    private int _equpSlot = -1;
+    private int _defSlot = -1;
+    private bool _isEquipmentSlot;
 
     public void ExchangeSlotData(int slotId)
     {
-        if (_InventoryManager.inventory.Sections[_InventoryManager.currentInventorySection].GetSlotById(slotId).IsEmpty && (EqupSlot == -1 && DefSlot == -1)) return;
+        var inventorySection = _inventoryManager.inventory.Sections[_inventoryManager.currentInventorySection];
         
-        isEquipmentSlot = _InventoryManager.inventory.Sections[_InventoryManager.currentInventorySection].GetSlotById(slotId).IsEquipmentSlot;
-
-        if (isEquipmentSlot)
+        if (inventorySection.GetSlotById(slotId).IsEmpty && (_equpSlot == -1 && _defSlot == -1)) return;
+        
+        _isEquipmentSlot = inventorySection.GetSlotById(slotId).IsEquipmentSlot;
+        
+        if (_isEquipmentSlot)
         {
-            EqupSlot = slotId;
+            _equpSlot = slotId;
         }
         else
         {
-            DefSlot = slotId;
+            _defSlot = slotId;
         }
 
-        // Проверить, что оба слота не равны -1 (не выбраны) и не пусты, и вызвать метод, когда они оба заполнены и не пусты
-        if (EqupSlot != -1 && DefSlot != -1 && 
-            (!_InventoryManager.inventory.Sections[_InventoryManager.currentInventorySection].GetSlotById(EqupSlot).IsEmpty || 
-             !_InventoryManager.inventory.Sections[_InventoryManager.currentInventorySection].GetSlotById(DefSlot).IsEmpty))
+        if (_equpSlot != -1 && _defSlot != -1 && 
+            (!inventorySection.GetSlotById(_equpSlot).IsEmpty || !inventorySection.GetSlotById(_defSlot).IsEmpty))
         {
-            if (_InventoryManager.inventory.Sections[_InventoryManager.currentInventorySection].GetSlotById(DefSlot).IsEmpty)
+            if (inventorySection.GetSlotById(_defSlot).IsEmpty)
             {
-                _InventoryManager.inventory.Sections[_InventoryManager.currentInventorySection].EquipOrUnequipItem(EqupSlot, DefSlot);
+                inventorySection.EquipOrUnequipItem(_equpSlot, _defSlot);
             }
             else
             {
-                _InventoryManager.inventory.Sections[_InventoryManager.currentInventorySection].EquipOrUnequipItem(DefSlot, EqupSlot);
+                inventorySection.EquipOrUnequipItem(_defSlot, _equpSlot);
             }
-            // Сбросить значения слотов после использования
-            EqupSlot = -1;
-            DefSlot = -1;
+            ResetSelectedItems();
         }
+    }
+
+    public void ResetSelectedItems()
+    {
+        Debug.LogWarning("Внимание [SwapItems] - выбранные предметы были сброшены");
+        _equpSlot = -1;
+        _defSlot = -1;
     }
 
 }

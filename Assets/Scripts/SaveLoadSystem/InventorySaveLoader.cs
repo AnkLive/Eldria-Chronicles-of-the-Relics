@@ -1,5 +1,4 @@
 using System.IO;
-using InventorySystem;
 using UnityEngine;
 
 public class InventorySaveLoader : MonoBehaviour, IInitialize<InventorySaveLoader>, ISaveLoader<Inventory>
@@ -23,7 +22,6 @@ public class InventorySaveLoader : MonoBehaviour, IInitialize<InventorySaveLoade
     public void SetData(Inventory data)
     {
         _data = data;
-        Debug.LogWarning(data.Sections.Count);
         _dataHandler.SaveData(data);
     }
 
