@@ -5,7 +5,6 @@ public class PlayerInstaller : MonoInstaller
     public override void InstallBindings()
     {
         Container.Bind(typeof(ISaveLoader<PlayerAttributes>)).To<PlayerStatsSaveLoader>().FromComponentInHierarchy().AsCached();
-        Container.Bind<IPlayerStatsModifier>().To<PlayerStatsModifier>().FromComponentInHierarchy().AsSingle();
         Container.Bind(typeof(IInitialize<PlayerUnitMovementComponent>)).To<PlayerUnitMovementComponent>().FromComponentInHierarchy().AsCached();
         Container.Bind(typeof(IInitialize<HealthComponent>)).To<HealthComponent>().FromComponentInHierarchy().AsCached();
         Container.Bind(typeof(IActivate<PlayerUnitMovementComponent>)).To<PlayerUnitMovementComponent>().FromComponentInHierarchy().AsCached();

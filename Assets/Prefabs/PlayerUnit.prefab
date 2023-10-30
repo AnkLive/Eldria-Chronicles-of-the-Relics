@@ -18,6 +18,8 @@ GameObject:
   - component: {fileID: -288442910890824178}
   - component: {fileID: -6012300903369255039}
   - component: {fileID: -3859295887471469570}
+  - component: {fileID: 5277790384054189504}
+  - component: {fileID: 5998863557414614426}
   m_Layer: 0
   m_Name: PlayerUnit
   m_TagString: Player
@@ -271,23 +273,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d211ee0dea29e9f468df320be5c8af61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canMove: 1
-  movementSpeed: 34.9
-  airborneMovementSpeed: 4
-  canJump: 1
-  fallingSpeed: 61.6
-  maxJumpHeight: 15
-  jumpForce: 95.3
-  maxFallSpeed: 37.7
-  upwardForce: 66.2
-  canDashing: 1
-  dashingCooldown: 1
-  dashingPower: 34.2
-  dashingTime: 4.2
-  groundCheckDistance: 1.1
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 8
 --- !u!114 &-288442910890824178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,12 +286,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isImmortal: 0
+  hasShieldAbility: 0
   maxHealth: 1000
   currentHealth: 1000
   armor: 0
   currentShield: 0
   maxShields: 0
-  hasShieldAbility: 0
   fireResistance: 0
   iceResistance: 0
   poisonResistance: 0
@@ -322,12 +307,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecfb15791581486ead08d9f4bf9b97be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <CanAttack>k__BackingField: 0
+  statusType: 0
+  attackSpeed: 0
+  attackRange: 0
   attackDamage: 100
   attackDamageMultiplier: 0
   fireDamageMultiplier: 0
   iceDamageMultiplier: 0
   poisonDamageMultiplier: 0
-  statusType: 0
   criticalChance: 0
   elementalChance: 0
 --- !u!114 &-3859295887471469570
@@ -343,3 +331,44 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detectObjectTag: Enemy
+--- !u!114 &5277790384054189504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1738081128462634354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4498646d1ec44ad9b6ab5847bd469aac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5998863557414614426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1738081128462634354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2599c4e0eb89c2a4e9681cbd15947600, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canMove: 1
+  canJump: 1
+  canDashing: 1
+  movementSpeed: 26.1
+  airborneMovementSpeed: 2
+  fallingSpeed: 26.9
+  maxJumpHeight: 27.9
+  jumpForce: 27.9
+  maxFallSpeed: 27.9
+  upwardForce: 27.4
+  dashingCooldown: 0.2
+  dashingPower: 40
+  dashingTime: 0.1
+  groundCheckDistance: 1.1
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 8
