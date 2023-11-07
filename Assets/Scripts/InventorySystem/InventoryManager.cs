@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
@@ -11,8 +12,12 @@ public class InventoryManager : MonoBehaviour, IInitialize<InventoryManager>, IA
     public ItemBase testItemBaseWeapon2;
     public ItemBase testItemBaseArtefact;
     public ItemBase testItemBaseArtefact1;
+    // public List<ItemBase> weaponItemList;
+    // public List<ItemBase> spellItemList;
+    // public List<ItemBase> artefactItemList;
     
     private Controller _controller;
+    
     [Inject] private ISaveLoader<Inventory> _inventorySaveLoader;
     [Inject] private InventoryUIManager _uIManager;
     [SerializeField] private SpellEquipmentManager spellEquipmentManager;
@@ -22,7 +27,6 @@ public class InventoryManager : MonoBehaviour, IInitialize<InventoryManager>, IA
     [SerializeField] private float startTotalStrengthLimitSpellSection;
     [SerializeField] private float startTotalStrengthLimitArtefactSection;
     public bool isCheckpoint;
-    
     public event Action OnInventoryLoaded;
     
     public void Activate()
@@ -36,8 +40,6 @@ public class InventoryManager : MonoBehaviour, IInitialize<InventoryManager>, IA
         _controller.Main.AddArtefactItem1.performed += _ => AddArtefactItem1();
         _controller.Main.AddSpellItem1.performed += _ => AddSpellItem1();
         
-        _uIManager.OnCloseInventory += SaveInventory;
-        _uIManager.OnOpenInventory += SaveInventory;
         _uIManager.OnChangeInventorySection += SetCurrentInventorySection;
         
         inventory.Sections[EItemType.Artefact].OnChangedStrengthInventory += GetStrengthInventory;
@@ -49,8 +51,6 @@ public class InventoryManager : MonoBehaviour, IInitialize<InventoryManager>, IA
     {
         _controller.Disable();
         
-        _uIManager.OnCloseInventory -= SaveInventory;
-        _uIManager.OnOpenInventory -= SaveInventory;
         _uIManager.OnChangeInventorySection -= SetCurrentInventorySection;
         inventory.Sections[EItemType.Artefact].OnChangedStrengthInventory -= GetStrengthInventory;
         inventory.Sections[EItemType.Spell].OnChangedStrengthInventory -= GetStrengthInventory;
@@ -63,7 +63,6 @@ public class InventoryManager : MonoBehaviour, IInitialize<InventoryManager>, IA
         {
             itemStorage = itemStorage
         };
-        
         inventory.InitializeInventorySections
             (
                 _inventorySaveLoader.GetData(), 
@@ -119,11 +118,6 @@ public class InventoryManager : MonoBehaviour, IInitialize<InventoryManager>, IA
     private void AddSpellItem1()
     {
         inventory.AddItem(testItemBaseSpell1);
-    }
-
-    private void SaveInventory()
-    {
-        _inventorySaveLoader.SetData(inventory);
     }
 
     public void SetCurrentSelectedItem(int slotId)

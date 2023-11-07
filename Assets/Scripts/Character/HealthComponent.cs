@@ -5,6 +5,7 @@ public class HealthComponent : MonoBehaviour, IInitialize<HealthComponent>
 {
     #region Fields
 
+    private bool _isImmortalDuringThrow;
     private float _resistance;
     private float _effectiveDamage;
     private float _remainingShields;
@@ -15,6 +16,7 @@ public class HealthComponent : MonoBehaviour, IInitialize<HealthComponent>
     
     [SerializeField] private bool isImmortal;
     [SerializeField] private bool hasShieldAbility;
+    [SerializeField] private bool isImmortalDuringThrowAbility;
     [SerializeField, Range(0, 100)] private float maxHealth;
     [SerializeField, Range(0, 100)] private float currentHealth;
     [SerializeField, Range(0, 100)] private float armor;
@@ -42,22 +44,22 @@ public class HealthComponent : MonoBehaviour, IInitialize<HealthComponent>
     
     public void TakeDamage(Damage damage)
     {
-        if (isImmortal) return;
+        if (isImmortal || _isImmortalDuringThrow) return;
         
         _resistance = 0f;
         
-        switch (damage.statusType)
+        switch (damage.StatusType)
         {
-            case StatusType.Fire:
+            case EStatusType.Fire:
                 _resistance = fireResistance;
                 break;
-            case StatusType.Ice:
+            case EStatusType.Ice:
                 _resistance = iceResistance;
                 break;
-            case StatusType.Poison:
+            case EStatusType.Poison:
                 _resistance = poisonResistance;
                 break;
-            case StatusType.Default:
+            case EStatusType.Default:
                 break;
         }
 
@@ -96,6 +98,14 @@ public class HealthComponent : MonoBehaviour, IInitialize<HealthComponent>
     {
         currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
     }
+
+    public void SetImmortalDuringThrow(bool isImmortal)
+    {
+        if (isImmortalDuringThrowAbility)
+        {
+            _isImmortalDuringThrow = isImmortal;
+        }
+    }
     
     #endregion
     
@@ -103,6 +113,7 @@ public class HealthComponent : MonoBehaviour, IInitialize<HealthComponent>
 
     public void SetFields(PlayerAttributes attributes)
     {
+        isImmortalDuringThrowAbility = attributes.IsImmortalDuringThrowAbility;
         isImmortal = attributes.IsImmortal;
         maxHealth = attributes.MaxHealth + attributes.MaxHealthMultiplier;
         currentHealth = attributes.CurrentHealth;
@@ -115,6 +126,7 @@ public class HealthComponent : MonoBehaviour, IInitialize<HealthComponent>
     
     public void GetFields(PlayerAttributes attributes)
     {
+        attributes.IsImmortalDuringThrowAbility = isImmortalDuringThrowAbility;
         attributes.IsImmortal = isImmortal;
         attributes.MaxHealth = maxHealth;
         attributes.CurrentHealth = currentHealth;

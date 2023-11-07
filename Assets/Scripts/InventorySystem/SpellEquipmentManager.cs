@@ -12,7 +12,7 @@ using UnityEngine.Serialization;
 
         public void Initialize()
         {
-            inventoryManager.inventory.Sections[EItemType.Spell].OnEquippedItem += SetCurrentEquipmentSpells;
+            //inventoryManager.inventory.Sections[EItemType.Spell].OnEquippedItem += SetCurrentEquipmentSpells;
         }
 
         private void SetCurrentEquipmentSpells(List<ItemBase> listId)

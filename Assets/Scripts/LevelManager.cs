@@ -16,7 +16,7 @@ public class LevelManager : MonoBehaviour
     private bool _isLoading;
     
     public LoadingLevel level;
-    public string levelName;
+    public ELevels levelName;
     
     public event Action UIInitialized;
     public event Action DataLoaded;
@@ -31,7 +31,7 @@ public class LevelManager : MonoBehaviour
     {
         StartCoroutine(Initialize());
         _isLoading = false;
-        level.LoadLevelFromAddressable(levelName);
+        level.LoadLevelFromAddressable(levelName, GameManager.Instance.currentCheckpoint);
     }
 
     private void StartLoadGameData()

@@ -1,46 +1,26 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using Zenject;
+
+public enum ELevels
+{
+    TestLevel
+}
 
 public class GameManager : MonoBehaviour
 {
-    [Inject] private SceneLoader _sceneLoader;
+    public ELevels currentLevel;
+    public int currentCheckpoint;
+    public static GameManager Instance { get; private set; }
     
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
-    }
-    
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Instance == null)
         {
-            _sceneLoader.LoadScene("GamePlayScene");
-            
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
-        
-    }
-    
-    private void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-    
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        
-        if (scene.name == "LoadingGameScene")
+        else
         {
-            _sceneLoader.LoadScene("MainMenuScene");
-        }
-        else if (scene.name == "GamePlayScene")
-        {
-            
+            Destroy(gameObject);
         }
     }
 }

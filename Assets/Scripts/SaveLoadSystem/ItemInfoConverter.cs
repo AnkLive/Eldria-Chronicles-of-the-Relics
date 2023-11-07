@@ -80,7 +80,15 @@ public class ItemConverter : JsonConverter<ItemBase>
         weaponItemBase.ItemId = itemId;
         weaponItemBase.ItemType = jsonObject["ItemType"].ToObject<EItemType>();
         weaponItemBase.IsEquipment = jsonObject["IsEquipment"].ToObject<bool>();
-        weaponItemBase.Damage = jsonObject["Damage"].ToObject<int>();
+        weaponItemBase.StatusType = jsonObject["StatusType"].ToObject<EStatusType>();
+        weaponItemBase.AttackDamage = jsonObject["AttackDamage"].ToObject<float>();
+        weaponItemBase.FireDamageMultiplier = jsonObject["FireDamageMultiplier"].ToObject<float>();
+        weaponItemBase.IceDamageMultiplier = jsonObject["IceDamageMultiplier"].ToObject<float>();
+        weaponItemBase.PoisonDamageMultiplier = jsonObject["PoisonDamageMultiplier"].ToObject<float>();
+        weaponItemBase.AttackDamageMultiplier = jsonObject["AttackDamageMultiplier"].ToObject<float>();
+        weaponItemBase.CriticalChance = jsonObject["CriticalChance"].ToObject<float>();
+        weaponItemBase.ElementalChance = jsonObject["ElementalChance"].ToObject<float>();
+        weaponItemBase.AttackSpeed = jsonObject["AttackSpeed"].ToObject<float>();
         return weaponItemBase;
     }
 
@@ -108,7 +116,15 @@ public class ItemConverter : JsonConverter<ItemBase>
 
     private void WriteWeaponProperties(JObject jsonObject, WeaponItemBase weaponItemBase)
     {
-        jsonObject["Damage"] = weaponItemBase.Damage;
+        jsonObject["StatusType"] = weaponItemBase.StatusType.ToString();
+        jsonObject["AttackDamage"] = weaponItemBase.AttackDamage;
+        jsonObject["FireDamageMultiplier"] = weaponItemBase.FireDamageMultiplier;
+        jsonObject["IceDamageMultiplier"] = weaponItemBase.IceDamageMultiplier;
+        jsonObject["PoisonDamageMultiplier"] = weaponItemBase.PoisonDamageMultiplier;
+        jsonObject["AttackDamageMultiplier"] = weaponItemBase.AttackDamageMultiplier;
+        jsonObject["CriticalChance"] = weaponItemBase.CriticalChance;
+        jsonObject["ElementalChance"] = weaponItemBase.ElementalChance;
+        jsonObject["AttackSpeed"] = weaponItemBase.AttackSpeed;
         // Добавьте другие свойства WeaponItem, если они есть
     }
 

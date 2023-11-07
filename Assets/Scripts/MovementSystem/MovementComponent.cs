@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using NaughtyAttributes;
 using UnityEngine;
@@ -30,7 +31,8 @@ public class MovementComponent : MonoBehaviour, IMovable
     private float _originalGravity;
     private float _velocityY;
     private float _modifiedFallingSpeed;
-    
+    public event Action<bool> OnDashing;
+        
     #endregion
     
     #region Inspector Fields
@@ -52,11 +54,6 @@ public class MovementComponent : MonoBehaviour, IMovable
     [SerializeField, Foldout(GroundCheckSettings)] private LayerMask groundMask;
     
     #endregion
-
-    private void Awake()
-    {
-        _objectRigidbody = GetComponent<Rigidbody2D>();
-    }
 
     #region Methods
     
@@ -143,6 +140,7 @@ public class MovementComponent : MonoBehaviour, IMovable
     {
         _canDash = false;
         _isDashing = true;
+        OnDashing?.Invoke(true);
         
         _originalGravity = _objectRigidbody.gravityScale;
         _objectRigidbody.gravityScale = 0;
@@ -155,6 +153,7 @@ public class MovementComponent : MonoBehaviour, IMovable
         
         _isDashing = false;
         _isJump = false;
+        OnDashing?.Invoke(false);
 
         yield return new WaitForSeconds(dashingCooldown);
 
@@ -222,9 +221,13 @@ public class MovementComponent : MonoBehaviour, IMovable
     
     #region Set Fields
 
-    public void SetFields(PlayerAttributes attributes, Rigidbody2D objectRigidbody)
+    public void SetObjectRigidbody(Rigidbody2D objectRigidbody)
     {
         _objectRigidbody = objectRigidbody;
+    }
+    
+    public void SetFields(PlayerAttributes attributes)
+    {
         movementSpeed = attributes.MovementSpeed + attributes.MovementSpeedMultiplier;
         canMove = attributes.CanMove;
         airborneMovementSpeed = attributes.AirborneMovementSpeed;

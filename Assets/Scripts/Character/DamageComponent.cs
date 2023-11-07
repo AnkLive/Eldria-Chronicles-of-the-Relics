@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class DamageComponent : MonoBehaviour
@@ -14,9 +15,10 @@ public class DamageComponent : MonoBehaviour
     
     #region Inspector Fields
     
-    [field: SerializeField] public bool CanAttack { get; private set; }
+    [field: SerializeField] public bool CanAttack { get; set; }
+    [field: SerializeField] public bool СanDealBodyDamageAbility { get; set; }
     
-    [SerializeField] private StatusType statusType;
+    [SerializeField] private EStatusType statusType;
     [SerializeField, Range(0, 100)] private float attackSpeed;
     [SerializeField, Range(0, 100)] private float attackRange;
     [SerializeField, Range(0, 100)] private float attackDamage;
@@ -39,7 +41,7 @@ public class DamageComponent : MonoBehaviour
         return new Damage(_finalDamage, statusType);
     }
 
-    private float CalculateDamage(StatusType type)
+    private float CalculateDamage(EStatusType type)
     {
         _damage = attackDamage;
 
@@ -47,13 +49,13 @@ public class DamageComponent : MonoBehaviour
         {
             switch (type)
             {
-                case StatusType.Fire:
+                case EStatusType.Fire:
                     _damage += fireDamageMultiplier;
                     break;
-                case StatusType.Ice:
+                case EStatusType.Ice:
                     _damage += iceDamageMultiplier;
                     break;
-                case StatusType.Poison:
+                case EStatusType.Poison:
                     _damage += poisonDamageMultiplier;
                     break;
             }
@@ -82,6 +84,7 @@ public class DamageComponent : MonoBehaviour
 
     public void SetFields(PlayerAttributes attributes)
     {
+        СanDealBodyDamageAbility = attributes.СanDealBodyDamageAbility;
         attackDamage = attributes.AttackDamage;
         attackDamageMultiplier = attributes.AttackDamageMultiplier;
         fireDamageMultiplier = attributes.FireDamageMultiplier;
@@ -91,12 +94,14 @@ public class DamageComponent : MonoBehaviour
         criticalChance = attributes.CriticalChance;
         elementalChance = attributes.ElementalChance;
         CanAttack = attributes.CanAttack;
-        attackSpeed = attributes.AttackSpeed;
+        attackSpeed = attributes.AttackSpeed + attributes.AttackSpeedMultiplier;
+        
         attackRange = attributes.AttackRange;
     }
     
     public void GetFields(PlayerAttributes attributes)
     {
+        attributes.СanDealBodyDamageAbility = СanDealBodyDamageAbility;
         attributes.AttackDamage = attackDamage;
         attributes.AttackDamageMultiplier = attackDamageMultiplier;
         attributes.FireDamageMultiplier = fireDamageMultiplier;
@@ -107,6 +112,7 @@ public class DamageComponent : MonoBehaviour
         attributes.ElementalChance = elementalChance;
         attributes.CanAttack = CanAttack;
         attributes.AttackSpeed = attackSpeed;
+        
         attributes.AttackRange = attackRange;
     }
 
@@ -116,12 +122,12 @@ public class DamageComponent : MonoBehaviour
 [Serializable]
 public class Damage
 {
-    public Damage(float damage, StatusType statusType)
+    public Damage(float damage, EStatusType eStatusType)
     {
         this.damage = damage;
-        this.statusType = statusType;
+        this.StatusType = eStatusType;
     }
 
     public float damage;
-    public StatusType statusType;
+    public EStatusType StatusType;
 }

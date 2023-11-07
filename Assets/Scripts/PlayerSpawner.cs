@@ -6,7 +6,7 @@ using Zenject;
 
 public class PlayerSpawner : MonoBehaviour
 {
-    [Inject] private DiContainer Container;
+    [Inject] private DiContainer _container;
     public async Task Spawn(Transform obj)
     {
         AsyncOperationHandle<GameObject> playerHandle = Addressables.LoadAssetAsync<GameObject>("Player");
@@ -20,7 +20,7 @@ public class PlayerSpawner : MonoBehaviour
             PlayerUnit playerUnitMovementComponent = playerInstance.GetComponent<PlayerUnit>();
             if (playerUnitMovementComponent != null)
             {
-                Container.InjectGameObject(playerInstance);
+                _container.InjectGameObject(playerInstance);
             }
         }
     }

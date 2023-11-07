@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using UnityEngine;
 
-public enum StatusType
+public enum EStatusType
 {
     Default,
     Fire,
@@ -19,6 +19,7 @@ public abstract class CharacterAttributes : ScriptableObject
     [JsonIgnore] private const string HealthSettings = "Health Settings";
     [JsonIgnore] private const string MovementSettings = "Movement Settings";
     [JsonIgnore] private const string AttackSettings = "Attack Settings";
+    [JsonIgnore] private const string AbilitySettings = "Ability Settings";
 
     #endregion
     
@@ -27,7 +28,6 @@ public abstract class CharacterAttributes : ScriptableObject
     [field: HorizontalLine(color: EColor.Gray)]
     [field: Header(CharacterSettings), Space]
     [field: SerializeField, Foldout(GeneralSettings)] public bool IsImmortal { get; set; }
-    [field: SerializeField, Foldout(GeneralSettings)] public bool HasShieldAbility { get; set; }
     [field: SerializeField, Foldout(GeneralSettings)] public bool CanMove { get; set; }
     [field: SerializeField, Foldout(GeneralSettings)] public bool CanJump { get; set; }
     [field: SerializeField, Foldout(GeneralSettings)] public bool CanFly { get; set; }
@@ -67,10 +67,16 @@ public abstract class CharacterAttributes : ScriptableObject
     [field: SerializeField, Range(0, 100), Foldout(AttackSettings)] public float FireDamageMultiplier { get; set; }
     [field: SerializeField, Range(0, 100), Foldout(AttackSettings)] public float IceDamageMultiplier { get; set; }
     [field: SerializeField, Range(0, 100), Foldout(AttackSettings)] public float PoisonDamageMultiplier { get; set; }
-    [field: SerializeField, Foldout(AttackSettings)] public StatusType StatusType { get; set; }
+    [field: SerializeField, Foldout(AttackSettings)] public EStatusType StatusType { get; set; }
     
     [field: SerializeField, Range(0, 100), Foldout(AttackSettings)] public float AttackSpeed { get; set; }
     [field: SerializeField, Range(0, 100), Foldout(AttackSettings)] public float AttackRange { get; set; }
+    
+    #endregion
+    
+    #region Ability
+
+    [field: SerializeField, Foldout(AbilitySettings)] public bool СanDealBodyDamageAbility { get; set; }
     
     #endregion
 }

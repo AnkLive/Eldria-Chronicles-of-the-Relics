@@ -19,6 +19,7 @@ public class PlayerAttributes : CharacterAttributes
     [JsonIgnore] private const string MovementSettings = "Movement Settings";
     [JsonIgnore] private const string HealthSettings = "Health Settings";
     [JsonIgnore] private const string SpellsSettings = "Spells Settings";
+    [JsonIgnore] private const string AbilitySettings = "Ability Settings";
     
     #endregion
     
@@ -115,6 +116,13 @@ public class PlayerAttributes : CharacterAttributes
     [field: SerializeField, Range(0, 100), Foldout(SpellsSettings)] public float SpellDamageMultiplier { get; set; }
     [field: SerializeField, Range(0, 100), Foldout(SpellsSettings)] public float SpellRecoveryTimeMultiplier { get; set; }
     [field: SerializeField, Range(0, 100), Foldout(SpellsSettings)] public float SpellStatusChanceMultiplier { get; set; }
+    
+    #endregion
+    
+    #region Ability
+
+    [field: SerializeField, Foldout(AbilitySettings)] public bool HasShieldAbility { get; set; }
+    [field: SerializeField, Foldout(AbilitySettings)] public bool IsImmortalDuringThrowAbility { get; set; }
     
     #endregion
 }

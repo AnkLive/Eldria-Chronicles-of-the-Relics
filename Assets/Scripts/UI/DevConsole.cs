@@ -7,6 +7,8 @@ public class DevConsole : MonoBehaviour
     public TMP_InputField inputField;
     public TMP_Text consoleText; // Ссылка на Text компонент для вывода команд и сообщений
     public ItemStorage itemStorage; // Подразумевается, что у вас есть класс для хранения предметов
+    public InventoryManager inventoryManager;
+    
 
     private List<ConsoleMessage> consoleMessages = new List<ConsoleMessage>();
 
@@ -33,6 +35,7 @@ public class DevConsole : MonoBehaviour
         {
             // Если предмет существует, добавляем его в инвентарь
             // inventory.AddItem(itemDescription);
+            //inventoryManager.inventory.AddItem(itemDescription.itemId);
             string successMessage = "Предмет '" + itemId + "' добавлен в инвентарь.";
             DisplayMessage(successMessage, Color.white);
         }

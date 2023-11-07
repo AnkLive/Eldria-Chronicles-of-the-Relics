@@ -17,7 +17,7 @@ public class InventorySection
     public List<InventorySlot> InventorySlotList { get; set; } = new();
     [JsonIgnore] public List<UIItemIconSetter> IconSetterList { get; set; } = new();
 
-    [field: JsonIgnore] public event Action<List<ItemBase>> OnEquippedItem = delegate { };
+    [field: JsonIgnore] public event Action<ItemBase, bool> OnEquippedItem = delegate { };
     [field: JsonIgnore] public event Action OnChangedStrengthInventory = delegate { };
     [field: JsonIgnore] public event Action OnAddItem = delegate { };
 
@@ -139,6 +139,8 @@ public class InventorySection
         {
             if (!newSlot.IsEmpty)
             {
+                OnEquippedItem?.Invoke(oldSlot.ItemBase, false);
+                OnEquippedItem?.Invoke(newSlot.ItemBase, true);
                 SwapItems(oldSlot, newSlot);
                 Debug.Log($"Предмет - {newSlot.ItemBase?.ItemId} обменен с предметом - {oldSlot.ItemBase?.ItemId}");
                 MoveUnequippedItemsToTop();
@@ -148,6 +150,7 @@ public class InventorySection
                 if (newSlot.IsEmpty)
                 {
                     MoveItemToEmptySlot(oldSlot, newSlot);
+                    OnEquippedItem?.Invoke(newSlot.ItemBase, true);
                     Debug.Log($"Предмет - {oldSlot.ItemBase?.ItemId} экипирован из слота - {newSlot.SlotId}");
                     MoveUnequippedItemsToTop();
                 }
@@ -198,6 +201,7 @@ public class InventorySection
                     Debug.LogWarning("Предмет не экипирован, превышен лимит общей силы оборудования");
                     return;
                 }
+                OnEquippedItem?.Invoke(newSlot.ItemBase, true);
                 MoveItemToEmptySlot(oldSlot, newSlot);
                 CurrentTotalStrength += equippedItemStrength;
                 OnChangedStrengthInventory.Invoke();
@@ -211,6 +215,8 @@ public class InventorySection
                     Debug.LogWarning("Предмет не экипирован, превышен лимит общей силы оборудования");
                     return;
                 }
+                OnEquippedItem?.Invoke(oldSlot.ItemBase, false);
+                OnEquippedItem?.Invoke(newSlot.ItemBase, true);
                 SwapItems(oldSlot, newSlot);
                 CurrentTotalStrength += equippedItemTotalStrength;
                 OnChangedStrengthInventory.Invoke();

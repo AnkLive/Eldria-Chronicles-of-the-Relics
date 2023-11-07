@@ -10,6 +10,7 @@ public class PlayerInput : MonoBehaviour
     public event Action<float> OnMove;
     public event Action<bool> OnJump;
     public event Action OnDash;
+    public event Action OnAttack;
     
     #endregion
     
@@ -29,6 +30,7 @@ public class PlayerInput : MonoBehaviour
         _controller.Main.Move.canceled += _ => MoveCanceled();
         _controller.Main.Jump.started += _ => JumpStarted();
         _controller.Main.Jump.canceled += _ => JumpCanceled();
+        _controller.Main.LeftMouse.performed += _ => Attack();
         _controller.Enable();
     }
 
@@ -64,6 +66,11 @@ public class PlayerInput : MonoBehaviour
     private void Dash()
     {
         OnDash?.Invoke();
+    }
+    
+    private void Attack()
+    {
+        OnAttack?.Invoke();
     }
     
     #endregion
