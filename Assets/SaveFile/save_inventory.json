@@ -105,8 +105,24 @@
           "IsEquipmentSlot": false
         },
         {
+          "ItemBase": {
+            "ItemType": "Weapon",
+            "ItemId": "test_weapon_item",
+            "IsEquipment": false,
+            "name": "New Weapon Item",
+            "hideFlags": "None",
+            "StatusType": "Ice",
+            "FireDamageMultiplier": 20.9,
+            "IceDamageMultiplier": 33.3,
+            "PoisonDamageMultiplier": 51.1,
+            "AttackDamageMultiplier": 24.7,
+            "CriticalChance": 41.0,
+            "ElementalChance": 56.4,
+            "AttackSpeedMultiplier": 32.4,
+            "AttackRangeMultiplier": 16.1
+          },
           "SlotId": 8,
-          "IsEmpty": true,
+          "IsEmpty": false,
           "IsEquipmentSlot": true
         }
       ],

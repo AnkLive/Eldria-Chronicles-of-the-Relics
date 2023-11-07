@@ -27,7 +27,7 @@ MonoBehaviour:
   <IceResistance>k__BackingField: 0
   <PoisonResistance>k__BackingField: 0
   <MovementSpeed>k__BackingField: 50
-  <AirborneMovementSpeed>k__BackingField: 0
+  <AirborneMovementSpeed>k__BackingField: 2
   <AttackDamage>k__BackingField: 0
   <FireDamageMultiplier>k__BackingField: 0
   <IceDamageMultiplier>k__BackingField: 0
@@ -37,16 +37,16 @@ MonoBehaviour:
   <AttackRange>k__BackingField: 0
   <MaxMana>k__BackingField: 0
   <CurrentManaAmount>k__BackingField: 0
-  <MaxJumpHeight>k__BackingField: 0
-  <JumpForce>k__BackingField: 0
-  <UpwardForce>k__BackingField: 0
-  <FallingSpeed>k__BackingField: 0
-  <MaxFallSpeed>k__BackingField: 0
-  <DashingCooldown>k__BackingField: 0
-  <DashingPower>k__BackingField: 0
-  <DashingTime>k__BackingField: 0
-  <GroundCheckDistance>k__BackingField: 0
-  <GroundMask>k__BackingField: 0
+  <MaxJumpHeight>k__BackingField: 10
+  <JumpForce>k__BackingField: 50
+  <UpwardForce>k__BackingField: 20
+  <FallingSpeed>k__BackingField: 20
+  <MaxFallSpeed>k__BackingField: 20
+  <DashingCooldown>k__BackingField: 1
+  <DashingPower>k__BackingField: 40
+  <DashingTime>k__BackingField: 0.1
+  <GroundCheckDistance>k__BackingField: 1.1
+  <GroundMask>k__BackingField: 3
   <AttackDamageMultiplier>k__BackingField: 0
   <CriticalChance>k__BackingField: 0
   <ElementalChance>k__BackingField: 0
