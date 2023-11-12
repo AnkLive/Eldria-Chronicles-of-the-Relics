@@ -1,12 +1,5 @@
 {
   "dependencies": {
-    "com.nighttraincode.singleton": {
-      "version": "https://github.com/MeeXaSiK/Singleton.git",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "9dfbff5dbc0d331b53be439608354b1841a6dd03"
-    },
     "com.unity.2d.animation": {
       "version": "7.0.5",
       "depth": 1,
