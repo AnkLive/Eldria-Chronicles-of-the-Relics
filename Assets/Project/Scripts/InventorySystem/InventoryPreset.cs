@@ -5,16 +5,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New inventory preset", menuName = "Inventory/Inventory preset", order = 0)]
 public class InventoryPreset : ScriptableObject
 {
-    [SerializeField] private List<ItemBase> weaponItemList = new();
-    [SerializeField] private List<ItemBase> spellItemList = new();
-    [SerializeField] private List<ItemBase> artefactItemList = new();
+    [SerializeField] private List<InventorySlot> weaponItemList = new();
+    [SerializeField] private List<InventorySlot> spellItemList = new();
+    [SerializeField] private List<InventorySlot> artefactItemList = new();
     
     [SerializeField] private float startTotalStrengthLimitSpellSection;
     [SerializeField] private float startTotalStrengthLimitArtefactSection;
-    
-    [SerializeField] private int countWeaponEquipmentSlots;
-    [SerializeField] private int countSpellEquipmentSlots;
-    [SerializeField] private int countArtefactEquipmentSlots;
     
     private readonly Dictionary<EItemType, List<InventorySlot>> _inventorySectionsList = new();
 
@@ -22,13 +18,13 @@ public class InventoryPreset : ScriptableObject
 
     public void Initialize()
     {
-        _inventorySectionsList.Add(EItemType.Spell, InitInventorySlots(spellItemList, countSpellEquipmentSlots));
-        _inventorySectionsList.Add(EItemType.Weapon, InitInventorySlots(weaponItemList, countWeaponEquipmentSlots));
-        _inventorySectionsList.Add(EItemType.Artefact, InitInventorySlots(artefactItemList, countArtefactEquipmentSlots));
+        _inventorySectionsList.Add(EItemType.Spell, spellItemList);
+        _inventorySectionsList.Add(EItemType.Weapon, weaponItemList);
+        _inventorySectionsList.Add(EItemType.Artefact, artefactItemList);
         _isInitialized = true;
     }
 
-    public float GetTotalStrengthSection(EItemType sectionType)
+    private float GetTotalStrengthSection(EItemType sectionType)
     {
         return sectionType switch
         {
@@ -58,22 +54,5 @@ public class InventoryPreset : ScriptableObject
                 ));
         }
         return new Inventory(sections);
-    }
-    
-    private List<InventorySlot> InitInventorySlots(List<ItemBase> itemBases, int countEquipmentSlots)
-    {
-        List<InventorySlot> inventorySlots = new();
-        
-        for (int i = 0; i < itemBases.Count; i++)
-        {
-            inventorySlots.Add(new InventorySlot(i, itemBases[i].ItemId, false, false));
-        }
-
-        for (int i = 0; i < countEquipmentSlots; i++)
-        {
-            inventorySlots.Add(new InventorySlot(itemBases.Count + i, null, true, true));
-        }
-
-        return inventorySlots;
     }
 }

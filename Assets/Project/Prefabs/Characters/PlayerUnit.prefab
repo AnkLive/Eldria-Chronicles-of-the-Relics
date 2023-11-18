@@ -263,6 +263,7 @@ MonoBehaviour:
   <HealthComponent>k__BackingField: {fileID: -288442910890824178}
   <DamageComponent>k__BackingField: {fileID: 3440669590825993067}
   collisionHandler: {fileID: 1989102039774774370}
+  <PlayerAttributes>k__BackingField: {fileID: 11400000, guid: 252358fbd8fb47445baa56e649b5914b, type: 2}
 --- !u!114 &1738081128462634361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -388,7 +389,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <CanAttack>k__BackingField: 1
   "<\u0421anDealBodyDamageAbility>k__BackingField": 0
-  eStatusType: 0
+  statusType: 0
   attackSpeed: 0.5
   attackRange: 0
   attackDamage: 10

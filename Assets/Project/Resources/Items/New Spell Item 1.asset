@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ItemId>k__BackingField: test_spell_item_1
   <ItemType>k__BackingField: 0
+  <ItemName>k__BackingField: 
   <ItemDescription>k__BackingField: test_spell_item_1
   <Icon>k__BackingField: {fileID: 21300000, guid: 2d089513ae4adfc48a683c362ad9992c, type: 3}
   <IsLocked>k__BackingField: 0
+  <IsEquipment>k__BackingField: 0
   <Strength>k__BackingField: 2
   <Damage>k__BackingField: 122
   <Cooldown>k__BackingField: 45126

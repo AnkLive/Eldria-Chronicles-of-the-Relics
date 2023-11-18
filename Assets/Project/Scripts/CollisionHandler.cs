@@ -22,7 +22,7 @@ public class CollisionHandler : MonoBehaviour
             
             if (_healthComponent != null)
             {
-                if (_damageComponent.СanDealBodyDamageAbility)
+                if (_damageComponent.GetDamageComponentData().СanDealBodyDamageAbility)
                 {
                     LaunchAnAttack();
                 }
@@ -41,7 +41,7 @@ public class CollisionHandler : MonoBehaviour
     {
         if (_healthComponent != null)
         {
-            if (_damageComponent.CanAttack)
+            if (_damageComponent.GetDamageComponentData().CanAttack)
             {
                 _healthComponent.TakeDamage(_damageComponent.ApplyDamage());
             }

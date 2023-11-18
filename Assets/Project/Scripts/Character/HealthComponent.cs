@@ -1,6 +1,18 @@
 ﻿using System;
 using UnityEngine;
 
+public struct HealthComponentData
+{
+    public bool IsImmortal;
+    public bool HasShieldAbility;
+    public bool IsImmortalDuringThrowAbility;
+    public float MaxHealth;
+    public float Armor;
+    public float FireResistance;
+    public float IceResistance;
+    public float PoisonResistance;
+}
+
 public class HealthComponent : MonoBehaviour, IInitialize<HealthComponent>
 {
     #region Fields
@@ -9,23 +21,10 @@ public class HealthComponent : MonoBehaviour, IInitialize<HealthComponent>
     private float _resistance;
     private float _effectiveDamage;
     private float _remainingShields;
-    
-    #endregion
-    
-    #region Inspector Fields
-    
-    [SerializeField] private bool isImmortal;
-    [SerializeField] private bool hasShieldAbility;
-    [SerializeField] private bool isImmortalDuringThrowAbility;
-    [SerializeField, Range(0, 100)] private float maxHealth;
-    [SerializeField, Range(0, 100)] private float currentHealth;
-    [SerializeField, Range(0, 100)] private float armor;
-    [SerializeField, Range(0, 100)] private float currentShield;
-    [SerializeField, Range(0, 100)] private float maxShields;
-    [SerializeField, Range(0, 100)] private float fireResistance;
-    [SerializeField, Range(0, 100)] private float iceResistance;
-    [SerializeField, Range(0, 100)] private float poisonResistance;
-
+    private float _currentShield;
+    private float _maxShields;
+    private float _currentHealth;
+    private HealthComponentData _healthComponentData;
     public event Action OnCharacterDeath; 
     
     #endregion
@@ -34,74 +33,74 @@ public class HealthComponent : MonoBehaviour, IInitialize<HealthComponent>
     
     public void Initialize()
     {
-        currentHealth = maxHealth;
-        if (hasShieldAbility)
+        _currentHealth = _healthComponentData.MaxHealth;
+        if (_healthComponentData.HasShieldAbility)
         {
-            maxShields = maxHealth / 2;
-            currentShield = maxShields;
+            _maxShields = _healthComponentData.MaxHealth / 2;
+            _currentShield = _maxShields;
         }
     }
     
     public void TakeDamage(Damage damage)
     {
-        if (isImmortal || _isImmortalDuringThrow) return;
+        if (_healthComponentData.IsImmortal || _isImmortalDuringThrow) return;
         
         _resistance = 0f;
         
-        switch (damage.StatusType)
+        switch (damage.statusType)
         {
             case EStatusType.Fire:
-                _resistance = fireResistance;
+                _resistance = _healthComponentData.FireResistance;
                 break;
             case EStatusType.Ice:
-                _resistance = iceResistance;
+                _resistance = _healthComponentData.IceResistance;
                 break;
             case EStatusType.Poison:
-                _resistance = poisonResistance;
+                _resistance = _healthComponentData.PoisonResistance;
                 break;
             case EStatusType.Default:
                 break;
         }
 
 
-        _effectiveDamage = Mathf.Max(Mathf.RoundToInt(damage.damage - (damage.damage * (armor / 100f)) - (damage.damage * (_resistance / 100f))), 0);
+        _effectiveDamage = Mathf.Max(Mathf.RoundToInt(damage.damage - (damage.damage * (_healthComponentData.Armor / 100f)) - (damage.damage * (_resistance / 100f))), 0);
 
-        if (currentShield > 0)
+        if (_currentShield > 0)
         {
-            _remainingShields = Mathf.Max(currentShield - _effectiveDamage, 0);
-            currentHealth = Mathf.Max(currentHealth - Mathf.Max(_effectiveDamage - currentShield, 0), 0);
-            currentShield = _remainingShields;
+            _remainingShields = Mathf.Max(_currentShield - _effectiveDamage, 0);
+            _currentHealth = Mathf.Max(_currentHealth - Mathf.Max(_effectiveDamage - _currentShield, 0), 0);
+            _currentShield = _remainingShields;
         }
         else
         {
-            currentHealth = Mathf.Max(currentHealth - _effectiveDamage, 0);
+            _currentHealth = Mathf.Max(_currentHealth - _effectiveDamage, 0);
         }
 
-        if (currentHealth == 0f)
+        if (_currentHealth == 0f)
         {
             OnCharacterDeath?.Invoke();
         }
-        Debug.LogWarning($"Получен урон {damage.damage} - текущее количество хп - {currentHealth}");
+        Debug.LogWarning($"Получен урон {damage.damage} - текущее количество хп - {_currentHealth}");
     }
     
     public void RestoreHealthInCheckpoint()
     {
-        currentHealth = maxHealth;
-        if (hasShieldAbility)
+        _currentHealth = _healthComponentData.MaxHealth;
+        if (_healthComponentData.HasShieldAbility)
         {
-            maxShields = maxHealth / 2;
-            currentShield = maxShields;
+            _maxShields = _healthComponentData.MaxHealth / 2;
+            _currentShield = _maxShields;
         }
     }
     
     public void Heal(int amount)
     {
-        currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
+        _currentHealth = Mathf.Min(_currentHealth + amount, _healthComponentData.MaxHealth);
     }
 
     public void SetImmortalDuringThrow(bool isImmortal)
     {
-        if (isImmortalDuringThrowAbility)
+        if (_healthComponentData.IsImmortalDuringThrowAbility)
         {
             _isImmortalDuringThrow = isImmortal;
         }
@@ -111,30 +110,14 @@ public class HealthComponent : MonoBehaviour, IInitialize<HealthComponent>
     
     #region SetFields
 
-    public void SetFields(PlayerAttributes attributes)
+    public void UpdateHealthComponentData(HealthComponentData data)
     {
-        isImmortalDuringThrowAbility = attributes.IsImmortalDuringThrowAbility;
-        isImmortal = attributes.IsImmortal;
-        maxHealth = attributes.MaxHealth + attributes.MaxHealthMultiplier;
-        currentHealth = attributes.CurrentHealth;
-        armor = attributes.Armor;
-        hasShieldAbility = attributes.HasShieldAbility;
-        fireResistance = attributes.FireResistance;
-        iceResistance = attributes.IceResistance;
-        poisonResistance = attributes.PoisonResistance;
+        _healthComponentData = data;
     }
-    
-    public void GetFields(PlayerAttributes attributes)
+
+    public HealthComponentData GetHealthComponentData()
     {
-        attributes.IsImmortalDuringThrowAbility = isImmortalDuringThrowAbility;
-        attributes.IsImmortal = isImmortal;
-        attributes.MaxHealth = maxHealth;
-        attributes.CurrentHealth = currentHealth;
-        attributes.Armor = armor;
-        attributes.HasShieldAbility = hasShieldAbility;
-        attributes.FireResistance = fireResistance;
-        attributes.IceResistance = iceResistance;
-        attributes.PoisonResistance = poisonResistance;
+        return _healthComponentData;
     }
 
     #endregion

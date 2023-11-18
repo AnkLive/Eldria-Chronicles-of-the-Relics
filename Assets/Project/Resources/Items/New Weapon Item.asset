@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ItemId>k__BackingField: test_weapon_item
   <ItemType>k__BackingField: 1
+  <ItemName>k__BackingField: 
   <ItemDescription>k__BackingField: test_weapon_item
   <Icon>k__BackingField: {fileID: 21300000, guid: d91ce643b75a45f47baee6493da5d705, type: 3}
   <IsLocked>k__BackingField: 0
+  <IsEquipment>k__BackingField: 0
   <StatusType>k__BackingField: 2
   <AttackDamage>k__BackingField: 0
   <FireDamageMultiplier>k__BackingField: 20.9
@@ -25,4 +27,4 @@ MonoBehaviour:
   <AttackDamageMultiplier>k__BackingField: 24.7
   <CriticalChance>k__BackingField: 41
   <ElementalChance>k__BackingField: 56.4
-  <AttackSpeed>k__BackingField: 0
+  <AttackSpeed>k__BackingField: 1

@@ -13,12 +13,11 @@ MonoBehaviour:
   m_Name: New Player
   m_EditorClassIdentifier: 
   <IsImmortal>k__BackingField: 0
-  <HasShieldAbility>k__BackingField: 0
   <CanMove>k__BackingField: 1
   <CanJump>k__BackingField: 1
   <CanFly>k__BackingField: 1
   <CanDash>k__BackingField: 1
-  <CanAttack>k__BackingField: 0
+  <CanAttack>k__BackingField: 1
   <CanUseSpell>k__BackingField: 0
   <MaxHealth>k__BackingField: 0
   <CurrentHealth>k__BackingField: 0
@@ -29,12 +28,13 @@ MonoBehaviour:
   <MovementSpeed>k__BackingField: 50
   <AirborneMovementSpeed>k__BackingField: 2
   <AttackDamage>k__BackingField: 0
-  <FireDamageMultiplier>k__BackingField: 0
-  <IceDamageMultiplier>k__BackingField: 0
-  <PoisonDamageMultiplier>k__BackingField: 0
-  <StatusType>k__BackingField: 0
-  <AttackSpeed>k__BackingField: 0
+  <FireDamageMultiplier>k__BackingField: 20.9
+  <IceDamageMultiplier>k__BackingField: 33.3
+  <PoisonDamageMultiplier>k__BackingField: 51.1
+  <StatusType>k__BackingField: 2
+  <AttackSpeed>k__BackingField: 1
   <AttackRange>k__BackingField: 0
+  "<\u0421anDealBodyDamageAbility>k__BackingField": 0
   <MaxMana>k__BackingField: 0
   <CurrentManaAmount>k__BackingField: 0
   <MaxJumpHeight>k__BackingField: 10
@@ -47,9 +47,9 @@ MonoBehaviour:
   <DashingTime>k__BackingField: 0.1
   <GroundCheckDistance>k__BackingField: 1.1
   <GroundMask>k__BackingField: 3
-  <AttackDamageMultiplier>k__BackingField: 0
-  <CriticalChance>k__BackingField: 0
-  <ElementalChance>k__BackingField: 0
+  <AttackDamageMultiplier>k__BackingField: 24.7
+  <CriticalChance>k__BackingField: 41
+  <ElementalChance>k__BackingField: 56.4
   <AttackSpeedMultiplier>k__BackingField: 0
   <AttackRangeMultiplier>k__BackingField: 0
   <MovementSpeedMultiplier>k__BackingField: 0
@@ -60,3 +60,5 @@ MonoBehaviour:
   <SpellDamageMultiplier>k__BackingField: 0
   <SpellRecoveryTimeMultiplier>k__BackingField: 0
   <SpellStatusChanceMultiplier>k__BackingField: 0
+  <HasShieldAbility>k__BackingField: 0
+  <IsImmortalDuringThrowAbility>k__BackingField: 0

@@ -42,7 +42,6 @@ public abstract class CharacterAttributes : ScriptableObject
     [field: HorizontalLine(color: EColor.Gray)]
     [field: Header(CharacterSettings), Space]
     [field: SerializeField, Range(0, 100), Foldout(HealthSettings)] public float MaxHealth { get; set; }
-    [field: SerializeField, Range(0, 100), Foldout(HealthSettings)] public float CurrentHealth { get; set; }
     [field: SerializeField, Range(0, 100), Foldout(HealthSettings)] public float Armor { get; set; }
     [field: SerializeField, Range(0, 100), Foldout(HealthSettings)] public float FireResistance { get; set; }
     [field: SerializeField, Range(0, 100), Foldout(HealthSettings)] public float IceResistance { get; set; }
@@ -68,7 +67,6 @@ public abstract class CharacterAttributes : ScriptableObject
     [field: SerializeField, Range(0, 100), Foldout(AttackSettings)] public float IceDamageMultiplier { get; set; }
     [field: SerializeField, Range(0, 100), Foldout(AttackSettings)] public float PoisonDamageMultiplier { get; set; }
     [field: SerializeField, Foldout(AttackSettings)] public EStatusType StatusType { get; set; }
-    
     [field: SerializeField, Range(0, 100), Foldout(AttackSettings)] public float AttackSpeed { get; set; }
     [field: SerializeField, Range(0, 100), Foldout(AttackSettings)] public float AttackRange { get; set; }
     

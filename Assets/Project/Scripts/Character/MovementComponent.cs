@@ -3,6 +3,25 @@ using System.Collections;
 using NaughtyAttributes;
 using UnityEngine;
 
+public struct MovementComponentData
+{
+    public bool CanMove;
+    public bool CanJump;
+    public bool CanDashing;
+    public float MovementSpeed;
+    public float AirborneMovementSpeed;
+    public float FallingSpeed;
+    public float MaxJumpHeight;
+    public float JumpForce;
+    public float MaxFallSpeed;
+    public float UpwardForce;
+    public float DashingCooldown;
+    public float DashingPower;
+    public float DashingTime;
+    public float GroundCheckDistance;
+    public LayerMask GroundMask;
+}
+
 [RequireComponent(typeof(Rigidbody2D))]
 public class MovementComponent : MonoBehaviour, IMovable
 {
@@ -32,27 +51,9 @@ public class MovementComponent : MonoBehaviour, IMovable
     private float _velocityY;
     private float _modifiedFallingSpeed;
     public event Action<bool> OnDashing;
+
+    private MovementComponentData _movementComponentData;
         
-    #endregion
-    
-    #region Inspector Fields
-    
-    [SerializeField, Foldout(GeneralSettings)] private bool canMove;
-    [SerializeField, Foldout(GeneralSettings)] private bool canJump;
-    [SerializeField, Foldout(GeneralSettings)] private bool canDashing;
-    [SerializeField, Range(0, 100), Foldout(MovementSettings)] private float movementSpeed;
-    [SerializeField, Range(1, 100), Foldout(MovementSettings)] private float airborneMovementSpeed;
-    [SerializeField, Range(0, 100), Foldout(JumpSettings)] private float fallingSpeed;
-    [SerializeField, Range(0, 100), Foldout(JumpSettings)] private float maxJumpHeight;
-    [SerializeField, Range(0, 100), Foldout(JumpSettings)] private float jumpForce;
-    [SerializeField, Range(0, 100), Foldout(JumpSettings)] private float maxFallSpeed;
-    [SerializeField, Range(0, 100), Foldout(JumpSettings)] private float upwardForce;
-    [SerializeField, Range(0, 100), Foldout(DashSettings)] private float dashingCooldown;
-    [SerializeField, Range(0, 100), Foldout(DashSettings)] private float dashingPower;
-    [SerializeField, Range(0, 100), Foldout(DashSettings)] private float dashingTime;
-    [SerializeField, Range(0, 100), Foldout(GroundCheckSettings)] private float groundCheckDistance;
-    [SerializeField, Foldout(GroundCheckSettings)] private LayerMask groundMask;
-    
     #endregion
 
     #region Methods
@@ -72,9 +73,9 @@ public class MovementComponent : MonoBehaviour, IMovable
         
         if (_isGrounded)
         {
-            return new Vector2(_objectMovement * movementSpeed, CalculateGravityModifier());
+            return new Vector2(_objectMovement * _movementComponentData.MovementSpeed, CalculateGravityModifier());
         }
-        return new Vector2(_objectMovement * movementSpeed / airborneMovementSpeed, CalculateGravityModifier());
+        return new Vector2(_objectMovement * _movementComponentData.MovementSpeed / _movementComponentData.AirborneMovementSpeed, CalculateGravityModifier());
     }
     
     #endregion
@@ -90,7 +91,7 @@ public class MovementComponent : MonoBehaviour, IMovable
 
         if (!_isMaxHeightJump)
         {
-            _objectRigidbody.velocity = new Vector2(_objectMovement * movementSpeed / airborneMovementSpeed, jumpForce);
+            _objectRigidbody.velocity = new Vector2(_objectMovement * _movementComponentData.MovementSpeed / _movementComponentData.AirborneMovementSpeed, _movementComponentData.JumpForce);
         }
 
         UpdateIsMaxHeightJump();
@@ -103,7 +104,7 @@ public class MovementComponent : MonoBehaviour, IMovable
 
     private void UpdateIsMaxHeightJump()
     {
-        _isMaxHeightJump = _currentPositionJump - _lastPositionBeforeJump >= maxJumpHeight;
+        _isMaxHeightJump = _currentPositionJump - _lastPositionBeforeJump >= _movementComponentData.MaxJumpHeight;
     }
 
     private void UpdateLastPositionBeforeJump()
@@ -145,9 +146,9 @@ public class MovementComponent : MonoBehaviour, IMovable
         _originalGravity = _objectRigidbody.gravityScale;
         _objectRigidbody.gravityScale = 0;
         
-        _objectRigidbody.velocity = new Vector2(_objectMovement * dashingPower, 0f);
+        _objectRigidbody.velocity = new Vector2(_objectMovement * _movementComponentData.DashingPower, 0f);
 
-        yield return new WaitForSeconds(dashingTime);
+        yield return new WaitForSeconds(_movementComponentData.DashingTime);
 
         _objectRigidbody.gravityScale = _originalGravity;
         
@@ -155,7 +156,7 @@ public class MovementComponent : MonoBehaviour, IMovable
         _isJump = false;
         OnDashing?.Invoke(false);
 
-        yield return new WaitForSeconds(dashingCooldown);
+        yield return new WaitForSeconds(_movementComponentData.DashingCooldown);
 
         _canDash = true;
     }
@@ -179,16 +180,16 @@ public class MovementComponent : MonoBehaviour, IMovable
         if (_isMaxHeightJump && _velocityY >= 0.0f)
         {
             _fallingTime = 0.0f;
-            _velocityY = Mathf.Lerp(_velocityY, 0.0f, Time.deltaTime * upwardForce);
+            _velocityY = Mathf.Lerp(_velocityY, 0.0f, Time.deltaTime * _movementComponentData.UpwardForce);
         }
         else if (!_isJump && _velocityY >= 0.0f)
         {
-            _velocityY = Mathf.Lerp(_velocityY, 0.0f, Time.deltaTime * upwardForce);
+            _velocityY = Mathf.Lerp(_velocityY, 0.0f, Time.deltaTime * _movementComponentData.UpwardForce);
         }
         else if (!_isJump && _velocityY <= 0.0f)
         {
-            _modifiedFallingSpeed = -fallingSpeed * _fallingTime;
-            _modifiedFallingSpeed = Mathf.Clamp(_modifiedFallingSpeed, -maxFallSpeed, 0.0f);
+            _modifiedFallingSpeed = -_movementComponentData.FallingSpeed * _fallingTime;
+            _modifiedFallingSpeed = Mathf.Clamp(_modifiedFallingSpeed, -_movementComponentData.MaxFallSpeed, 0.0f);
             return _modifiedFallingSpeed;
         }
 
@@ -197,7 +198,7 @@ public class MovementComponent : MonoBehaviour, IMovable
 
     public void CheckGroundedStatus()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, groundMask);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, _movementComponentData.GroundCheckDistance, _movementComponentData.GroundMask);
         
         if (hit.collider != null)
         {
@@ -213,7 +214,7 @@ public class MovementComponent : MonoBehaviour, IMovable
         var position = transform.position;
         Gizmos.color = _isGrounded ? Color.green : Color.red;
         Vector3 start = position;
-        Vector3 end = position + Vector3.down * groundCheckDistance;
+        Vector3 end = position + Vector3.down * _movementComponentData.GroundCheckDistance;
         Gizmos.DrawLine(start, end);
     }
     
@@ -225,43 +226,10 @@ public class MovementComponent : MonoBehaviour, IMovable
     {
         _objectRigidbody = objectRigidbody;
     }
-    
-    public void SetFields(PlayerAttributes attributes)
+
+    public void UpdateMovementComponentData(MovementComponentData componentData)
     {
-        movementSpeed = attributes.MovementSpeed + attributes.MovementSpeedMultiplier;
-        canMove = attributes.CanMove;
-        airborneMovementSpeed = attributes.AirborneMovementSpeed;
-        canJump = attributes.CanJump;
-        fallingSpeed = attributes.FallingSpeed;
-        maxJumpHeight = attributes.MaxJumpHeight;
-        jumpForce = attributes.JumpForce;
-        maxFallSpeed = attributes.MaxFallSpeed;
-        upwardForce = attributes.UpwardForce;
-        canDashing = attributes.CanDash;
-        dashingCooldown = attributes.DashingCooldown + attributes.DashingCooldownMultiplier;
-        dashingPower = attributes.DashingPower;
-        dashingTime = attributes.DashingTime;
-        groundCheckDistance = attributes.GroundCheckDistance;
-        groundMask = attributes.GroundMask;
-    }
-    
-    public void GetFields(PlayerAttributes attributes)
-    {
-        attributes.MovementSpeed = movementSpeed;
-        attributes.CanMove = canMove;
-        attributes.AirborneMovementSpeed = airborneMovementSpeed;
-        attributes.CanJump = canJump;
-        attributes.FallingSpeed = fallingSpeed;
-        attributes.MaxJumpHeight = maxJumpHeight;
-        attributes.JumpForce = jumpForce;
-        attributes.MaxFallSpeed = maxFallSpeed;
-        attributes.UpwardForce = upwardForce;
-        attributes.CanDash = canDashing;
-        attributes.DashingCooldown = dashingCooldown;
-        attributes.DashingPower = dashingPower;
-        attributes.DashingTime = dashingTime;
-        attributes.GroundCheckDistance = groundCheckDistance;
-        attributes.GroundMask = groundMask;
+        _movementComponentData = componentData;
     }
 
     #endregion

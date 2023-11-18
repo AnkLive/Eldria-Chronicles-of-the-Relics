@@ -1,14 +1,13 @@
-using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using UnityEngine;
 using Formatting = Newtonsoft.Json.Formatting;
 
-public interface ISaveLoader<T>
-{
-    void SetData(T data);
-    T GetData();
-}
+// public interface ISaveLoader<T>
+// {
+//     void SetData(T data);
+//     T GetData();
+// }
 
 // Обобщенный интерфейс для сохранения и загрузки данных
 public interface IDataHandler<T>

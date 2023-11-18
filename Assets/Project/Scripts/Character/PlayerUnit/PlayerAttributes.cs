@@ -28,7 +28,6 @@ public class PlayerAttributes : CharacterAttributes
     [field: HorizontalLine(color: EColor.Gray)]
     [field: Header(PlayerSettings), Space]
     [field: SerializeField, Range(0, 100), Foldout(ManaSettings)] public float MaxMana { get; set; }
-    [field: SerializeField, Range(0, 100), Foldout(ManaSettings)] public float CurrentManaAmount { get; set; }
     
     #endregion
     
@@ -72,7 +71,7 @@ public class PlayerAttributes : CharacterAttributes
     [field: SerializeField, Range(0, 100), Foldout(AttackSettings)] public float ElementalChance { get; set; }
     
     [field: SerializeField, Range(0, 100), Foldout(AttackSettings)] public float AttackSpeedMultiplier { get; set; }
-    [field: SerializeField, Range(0, 100), Foldout(AttackSettings)] public float AttackRangeMultiplier { get; set; }
+    [field: SerializeField, Range(0, 100), Foldout(AttackSettings)] public float AttackRangeMultiplier { get; set; } //!!!
     
     #endregion
     
@@ -89,6 +88,10 @@ public class PlayerAttributes : CharacterAttributes
     [field: HorizontalLine(color: EColor.Gray)]
     [field: Header(AdditionalSettings), Space]
     [field: SerializeField, Range(0, 100), Foldout(HealthSettings)] public float MaxHealthMultiplier { get; set; }
+    [field: SerializeField, Range(0, 100), Foldout(HealthSettings)] public float ArmorMultiplier { get; set; }
+    [field: SerializeField, Range(0, 100), Foldout(HealthSettings)] public float FireResistanceMultiplier { get; set; }
+    [field: SerializeField, Range(0, 100), Foldout(HealthSettings)] public float IceResistanceMultiplier { get; set; }
+    [field: SerializeField, Range(0, 100), Foldout(HealthSettings)] public float PoisonResistanceMultiplier { get; set; }
     
     #endregion
     

@@ -37,7 +37,7 @@ public class SelectInventoryItem : MonoBehaviour, IPointerDownHandler
         }
         else
         {
-            _inventoryManager.ExchangeSlotData(_slotInfo.GetSlotId());
+            _inventoryManager.Inventory.ExchangeSlotData(_slotInfo.GetSlotId(), _inventoryManager.CurrentInventorySection);
         }
     }
 }

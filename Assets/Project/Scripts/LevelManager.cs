@@ -5,8 +5,6 @@ using Zenject;
 
 public class LevelManager : MonoBehaviour
 {
-    [Inject] private IInitialize<PlayerStatsSaveLoader> _playerStatsInitialize;
-    [Inject] private IInitialize<InventorySaveLoader> _inventoryInitialize;
     [Inject] private IInitialize<InventoryManager> _inventoryManagerInitialize;
     [Inject] private IInitialize<InventoryUIManager> _inventoryUIManagerInitialize;
     
@@ -44,8 +42,6 @@ public class LevelManager : MonoBehaviour
     {
         _isLoading = true;
         Debug.LogWarning("Загрузка [LevelManager]: загрузка...");
-        _inventoryInitialize.Initialize();
-        _playerStatsInitialize.Initialize();
         yield return new WaitUntil(() => !_isLoading);
         Debug.LogWarning("Загрузка [LevelManager]: данные загружены");
         DataLoaded?.Invoke();
@@ -55,6 +51,7 @@ public class LevelManager : MonoBehaviour
     {
         _isLoading = true;
         Debug.LogWarning("Загрузка [LevelManager]: инициализация...");
+        SaveLoadManager.Instance.LoadGame();
         _inventoryUIManagerInitialize.Initialize();
         _inventoryManagerInitialize.Initialize();
         

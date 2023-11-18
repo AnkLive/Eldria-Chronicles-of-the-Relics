@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 [Serializable]
 public class InventorySlot
@@ -11,8 +12,8 @@ public class InventorySlot
         IsEquipment = isEquipment;
     }
 
-    public string ItemId { get; set; }
-    public int SlotId { get; }
-    public bool IsEquipment { get; }
-    public bool IsEmpty { get; set; }
+    [field: SerializeField] public string ItemId { get; set; }
+    [field: SerializeField] public int SlotId { get; set; }
+    [field: SerializeField] public bool IsEquipment { get; set; }
+    [field: SerializeField] public bool IsEmpty { get; set; }
 }

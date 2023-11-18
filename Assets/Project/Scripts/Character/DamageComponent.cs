@@ -4,6 +4,22 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
+public struct DamageComponentData
+{
+    public bool CanAttack;
+    public bool СanDealBodyDamageAbility;
+    public EStatusType StatusType;
+    public float AttackSpeed;
+    public float AttackRange;
+    public float AttackDamage;
+    public float AttackDamageMultiplier;
+    public float FireDamageMultiplier;
+    public float IceDamageMultiplier;
+    public float PoisonDamageMultiplier;
+    public float CriticalChance;
+    public float ElementalChance;
+}
+
 public class DamageComponent : MonoBehaviour
 {
     #region Fields
@@ -14,20 +30,8 @@ public class DamageComponent : MonoBehaviour
     #endregion
     
     #region Inspector Fields
-    
-    [field: SerializeField] public bool CanAttack { get; set; }
-    [field: SerializeField] public bool СanDealBodyDamageAbility { get; set; }
-    
-    [SerializeField] private EStatusType statusType;
-    [SerializeField, Range(0, 100)] private float attackSpeed;
-    [SerializeField, Range(0, 100)] private float attackRange;
-    [SerializeField, Range(0, 100)] private float attackDamage;
-    [SerializeField, Range(0, 100)] private float attackDamageMultiplier;
-    [SerializeField, Range(0, 100)] private float fireDamageMultiplier;
-    [SerializeField, Range(0, 100)] private float iceDamageMultiplier;
-    [SerializeField, Range(0, 100)] private float poisonDamageMultiplier;
-    [SerializeField, Range(0, 100)] private float criticalChance;
-    [SerializeField, Range(0, 100)] private float elementalChance;
+
+    private DamageComponentData _damageComponentData;
     
     #endregion
     
@@ -35,35 +39,35 @@ public class DamageComponent : MonoBehaviour
     
     public Damage ApplyDamage()
     {
-        _finalDamage = CalculateDamage(statusType);
+        _finalDamage = CalculateDamage(_damageComponentData.StatusType);
         StartCoroutine(AttackCooldown());
         
-        return new Damage(_finalDamage, statusType);
+        return new Damage(_finalDamage, _damageComponentData.StatusType);
     }
 
     private float CalculateDamage(EStatusType type)
     {
-        _damage = attackDamage;
+        _damage = _damageComponentData.AttackDamage;
 
-        if (Random.Range(0.0f, 100.0f) < elementalChance)
+        if (Random.Range(0.0f, 100.0f) < _damageComponentData.ElementalChance)
         {
             switch (type)
             {
                 case EStatusType.Fire:
-                    _damage += fireDamageMultiplier;
+                    _damage += _damageComponentData.FireDamageMultiplier;
                     break;
                 case EStatusType.Ice:
-                    _damage += iceDamageMultiplier;
+                    _damage += _damageComponentData.IceDamageMultiplier;
                     break;
                 case EStatusType.Poison:
-                    _damage += poisonDamageMultiplier;
+                    _damage += _damageComponentData.PoisonDamageMultiplier;
                     break;
             }
         }
 
-        if (Random.Range(0.0f, 100.0f) < criticalChance)
+        if (Random.Range(0.0f, 100.0f) < _damageComponentData.CriticalChance)
         {
-            _damage += attackDamageMultiplier;
+            _damage += _damageComponentData.AttackDamageMultiplier;
         }
         
         return _damage;
@@ -71,63 +75,39 @@ public class DamageComponent : MonoBehaviour
     
     private IEnumerator AttackCooldown()
     {
-        CanAttack = false;
+        _damageComponentData.CanAttack = false;
             
-        yield return new WaitForSeconds(attackSpeed);
+        yield return new WaitForSeconds(_damageComponentData.AttackSpeed);
         
-        CanAttack = true;
+        _damageComponentData.CanAttack = true;
     }
     
     #endregion
     
     #region SetFields
 
-    public void SetFields(PlayerAttributes attributes)
+    public void UpdateDamageComponentData(DamageComponentData data)
     {
-        СanDealBodyDamageAbility = attributes.СanDealBodyDamageAbility;
-        attackDamage = attributes.AttackDamage;
-        attackDamageMultiplier = attributes.AttackDamageMultiplier;
-        fireDamageMultiplier = attributes.FireDamageMultiplier;
-        iceDamageMultiplier = attributes.IceDamageMultiplier;
-        poisonDamageMultiplier = attributes.PoisonDamageMultiplier;
-        statusType = attributes.StatusType;
-        criticalChance = attributes.CriticalChance;
-        elementalChance = attributes.ElementalChance;
-        CanAttack = attributes.CanAttack;
-        attackSpeed = attributes.AttackSpeed + attributes.AttackSpeedMultiplier;
-        
-        attackRange = attributes.AttackRange;
-    }
-    
-    public void GetFields(PlayerAttributes attributes)
-    {
-        attributes.СanDealBodyDamageAbility = СanDealBodyDamageAbility;
-        attributes.AttackDamage = attackDamage;
-        attributes.AttackDamageMultiplier = attackDamageMultiplier;
-        attributes.FireDamageMultiplier = fireDamageMultiplier;
-        attributes.IceDamageMultiplier = iceDamageMultiplier;
-        attributes.PoisonDamageMultiplier = poisonDamageMultiplier;
-        attributes.StatusType = statusType;
-        attributes.CriticalChance = criticalChance;
-        attributes.ElementalChance = elementalChance;
-        attributes.CanAttack = CanAttack;
-        attributes.AttackSpeed = attackSpeed;
-        
-        attributes.AttackRange = attackRange;
+        _damageComponentData = data;
     }
 
+    public DamageComponentData GetDamageComponentData()
+    {
+        return _damageComponentData;
+    }
+    
     #endregion
 }
 
 [Serializable]
 public class Damage
 {
-    public Damage(float damage, EStatusType eStatusType)
+    public Damage(float damage, EStatusType statusType)
     {
         this.damage = damage;
-        this.StatusType = eStatusType;
+        this.statusType = statusType;
     }
 
     public float damage;
-    public EStatusType StatusType;
+    public EStatusType statusType;
 }

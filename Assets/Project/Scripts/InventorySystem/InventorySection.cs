@@ -19,7 +19,7 @@ public class InventorySection
         TotalStrengthLimit = totalStrengthLimit;
     }
 
-    private List<InventorySlot> InventorySlotList { get; set; }
+    public List<InventorySlot> InventorySlotList { get; set; }
 
     [field: JsonIgnore] public event Action<SlotTransferInfo> OnItemMoved;
     [field: JsonIgnore] public event Action OnChangedStrengthInventory;
@@ -29,29 +29,14 @@ public class InventorySection
 
     public EItemType InventoryType { get; }
 
-    public int GetEquipmentInventorySlotListCount()
-    {
-        int count = 0;
-        
-        foreach (var slot in InventorySlotList)
-        {
-            if (slot.IsEquipment)
-            {
-                count++;
-            }
-        }
-
-        return count;
-    }
-
-    public int GetInventorySlotListCount()
-    {
-        return InventorySlotList.Count;
-    }
-
     public List<InventorySlot> GetAllNotEmptyInventorySlots()
     {
         return new List<InventorySlot>(InventorySlotList.FindAll(slot => slot.IsEmpty == false));
+    }
+    
+    public List<InventorySlot> GetInventorySlotList()
+    {
+        return new List<InventorySlot>(InventorySlotList);
     }
 
     public List<string> GetAllEquipmentInventoryItems()
@@ -68,12 +53,19 @@ public class InventorySection
         return list;
     }
 
-    public int GetEquippedSlotIdByItemId(string itemId)
+    public InventorySlot GetEquippedSlotByItemId(string itemId)
     {
-        return InventorySlotList.Find(slot => slot.ItemId == itemId && slot.IsEquipment).SlotId;
+        for (int i = 0; i < InventorySlotList.Count; i++)
+        {
+            if (InventorySlotList[i].ItemId == itemId && InventorySlotList[i].IsEquipment)
+            {
+                return InventorySlotList[i];
+            }
+        }
+        return null;
     }
 
-    public InventorySlot GetSlotById(int slotId)
+    public InventorySlot GetSlotBySlotId(int slotId)
     {
         return InventorySlotList.FirstOrDefault(slot => slot.SlotId == slotId);
     }
@@ -94,13 +86,39 @@ public class InventorySection
         
         InventorySlot slot = InventorySlotList.Find(slot => slot.SlotId == slotId);
         
-        if (slot.IsEquipment)
+        
+        if (item as ArtefactItemBase || item as SpellItemBase)
         {
-            RemoveItem(item, slotId);
+            if (slot.IsEquipment)
+            {
+                RemoveItem(item, slotId);
+                return;
+            }
+            EquipItem(item, slotId);
             return;
         }
 
-        EquipItem(item, slotId);
+        if (!slot.IsEquipment)
+        {
+            SwapItems(item);
+        }
+    }
+
+    private void SwapItems(ItemBase item)
+    {
+        InventorySlot standardSlot = InventorySlotList.Find(slot => slot.ItemId == item.ItemId);
+        InventorySlot equipSlot = InventorySlotList.Find(slot => slot.IsEquipment);
+        
+        Debug.Log($"Попытка поменять предметы - {standardSlot.ItemId} и {equipSlot.ItemId} местами");
+
+        if (!item.IsLocked)
+        {
+            equipSlot.ItemId = standardSlot.ItemId;
+            
+            OnItemMoved?.Invoke(new SlotTransferInfo(standardSlot.SlotId, equipSlot.SlotId, InventoryType, true));
+            Debug.Log($"Предметы поменяны местами");
+        }
+        Debug.LogWarning("Предмет заблокирован");
     }
 
     private void RemoveItem(ItemBase item, int slotId)
@@ -110,11 +128,7 @@ public class InventorySection
         
         Debug.Log($"Попытка снять предмет - {item.ItemId}");
         SetItemValues(item, equipSlot, false);
-        
-        if (item is SpellItemBase || item is ArtefactItemBase)
-        {
-            CurrentStrength -= GetItemStrength(item);
-        }
+        CurrentStrength -= GetItemStrength(item);
         
         OnItemMoved?.Invoke(new SlotTransferInfo(standardSlot.SlotId, equipSlot.SlotId, InventoryType, false));
         OnChangedStrengthInventory?.Invoke();
@@ -135,20 +149,15 @@ public class InventorySection
                 if (GetFirstEmptyEquipmentSlot() != null)
                 {
                     SetItemValues(item, equipSlot, true);
+                    float equippedItemTotalStrength = GetItemStrength(item) + CurrentStrength;
 
-                    if (item is SpellItemBase || item is ArtefactItemBase)
+                    if (equippedItemTotalStrength > TotalStrengthLimit)
                     {
-                        float equippedItemTotalStrength = GetItemStrength(item) + CurrentStrength;
-
-                        if (equippedItemTotalStrength > TotalStrengthLimit)
-                        {
-                            Debug.LogWarning("Предмет не экипирован, превышен лимит общей силы");
-                            return;
-                        }
-
-                        CurrentStrength += GetItemStrength(item);
+                        Debug.LogWarning("Предмет не экипирован, превышен лимит общей силы");
+                        return;
                     }
 
+                    CurrentStrength += GetItemStrength(item);
                     Debug.Log($"Предмет - {item.ItemId} экипирован");
                     OnItemMoved?.Invoke(
                         new SlotTransferInfo(standardSlot.SlotId, equipSlot.SlotId, InventoryType, true));
@@ -216,5 +225,4 @@ public class SlotTransferInfo
     public readonly bool IsEquipment;
     public readonly int StandardSlotId;
     public readonly int EquipSlotId;
-
 }

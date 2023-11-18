@@ -13,19 +13,79 @@ MonoBehaviour:
   m_Name: New inventory preset
   m_EditorClassIdentifier: 
   weaponItemList:
-  - {fileID: 11400000, guid: 43a7433958f1c974bbb5c62ebde22053, type: 2}
-  - {fileID: 11400000, guid: e995bc900b8eb644b91ba7d3b58174f0, type: 2}
-  - {fileID: 11400000, guid: 83908b36d5986eb4fbd94a97b1b6db32, type: 2}
+  - <ItemId>k__BackingField: test_weapon_item
+    <SlotId>k__BackingField: 0
+    <IsEquipment>k__BackingField: 0
+    <IsEmpty>k__BackingField: 0
+  - <ItemId>k__BackingField: test_weapon_item_1
+    <SlotId>k__BackingField: 1
+    <IsEquipment>k__BackingField: 0
+    <IsEmpty>k__BackingField: 0
+  - <ItemId>k__BackingField: test_weapon_item_2
+    <SlotId>k__BackingField: 2
+    <IsEquipment>k__BackingField: 0
+    <IsEmpty>k__BackingField: 0
+  - <ItemId>k__BackingField: test_weapon_item_2
+    <SlotId>k__BackingField: 3
+    <IsEquipment>k__BackingField: 1
+    <IsEmpty>k__BackingField: 0
   spellItemList:
-  - {fileID: 11400000, guid: 303cba2cb5e87424ea46fa5dc7437617, type: 2}
-  - {fileID: 11400000, guid: c5ee8446159e35b479ff7c5303435ef3, type: 2}
-  - {fileID: 11400000, guid: f309f8e779ed9d54c905e6f94cc0e4c8, type: 2}
+  - <ItemId>k__BackingField: test_spell_item
+    <SlotId>k__BackingField: 0
+    <IsEquipment>k__BackingField: 0
+    <IsEmpty>k__BackingField: 0
+  - <ItemId>k__BackingField: test_spell_item_1
+    <SlotId>k__BackingField: 1
+    <IsEquipment>k__BackingField: 0
+    <IsEmpty>k__BackingField: 0
+  - <ItemId>k__BackingField: test_spell_item_2
+    <SlotId>k__BackingField: 2
+    <IsEquipment>k__BackingField: 0
+    <IsEmpty>k__BackingField: 0
+  - <ItemId>k__BackingField: 
+    <SlotId>k__BackingField: 3
+    <IsEquipment>k__BackingField: 1
+    <IsEmpty>k__BackingField: 1
+  - <ItemId>k__BackingField: 
+    <SlotId>k__BackingField: 4
+    <IsEquipment>k__BackingField: 1
+    <IsEmpty>k__BackingField: 1
+  - <ItemId>k__BackingField: 
+    <SlotId>k__BackingField: 5
+    <IsEquipment>k__BackingField: 1
+    <IsEmpty>k__BackingField: 1
   artefactItemList:
-  - {fileID: 11400000, guid: 6bcf967f1706d2448be400914e5e1e8a, type: 2}
-  - {fileID: 11400000, guid: bd86819a94b3c104bacad5046d4db7b6, type: 2}
-  - {fileID: 11400000, guid: c6b992c44a90bcb4fb827ccdbde75953, type: 2}
+  - <ItemId>k__BackingField: test_artefact_item
+    <SlotId>k__BackingField: 0
+    <IsEquipment>k__BackingField: 0
+    <IsEmpty>k__BackingField: 0
+  - <ItemId>k__BackingField: test_artefact_item_1
+    <SlotId>k__BackingField: 1
+    <IsEquipment>k__BackingField: 0
+    <IsEmpty>k__BackingField: 0
+  - <ItemId>k__BackingField: test_artefact_item_2
+    <SlotId>k__BackingField: 2
+    <IsEquipment>k__BackingField: 0
+    <IsEmpty>k__BackingField: 0
+  - <ItemId>k__BackingField: 
+    <SlotId>k__BackingField: 3
+    <IsEquipment>k__BackingField: 1
+    <IsEmpty>k__BackingField: 1
+  - <ItemId>k__BackingField: 
+    <SlotId>k__BackingField: 4
+    <IsEquipment>k__BackingField: 1
+    <IsEmpty>k__BackingField: 1
+  - <ItemId>k__BackingField: 
+    <SlotId>k__BackingField: 5
+    <IsEquipment>k__BackingField: 1
+    <IsEmpty>k__BackingField: 1
+  - <ItemId>k__BackingField: 
+    <SlotId>k__BackingField: 6
+    <IsEquipment>k__BackingField: 1
+    <IsEmpty>k__BackingField: 1
+  - <ItemId>k__BackingField: 
+    <SlotId>k__BackingField: 7
+    <IsEquipment>k__BackingField: 1
+    <IsEmpty>k__BackingField: 1
   startTotalStrengthLimitSpellSection: 10
   startTotalStrengthLimitArtefactSection: 10
-  countWeaponEquipmentSlots: 1
-  countSpellEquipmentSlots: 3
-  countArtefactEquipmentSlots: 5

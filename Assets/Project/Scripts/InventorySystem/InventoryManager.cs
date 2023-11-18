@@ -10,7 +10,6 @@ public class InventoryManager : MonoBehaviour, IInitialize<InventoryManager>, IA
     public Inventory Inventory { get; private set; }
     public EItemType CurrentInventorySection { get; private set; } = EItemType.Weapon;
     
-    [Inject] private ISaveLoader<Inventory> _inventorySaveLoader;
     [Inject, SerializeField] private InventoryUIManager uIManager;
     
     [SerializeField] private InventoryPreset inventoryPreset;
@@ -50,13 +49,15 @@ public class InventoryManager : MonoBehaviour, IInitialize<InventoryManager>, IA
         inventoryPreset.Initialize();
         _controller = new Controller();
         
-        if (initializeByDefault)
+        if (SaveLoadManager.Instance.GetGameData<Inventory>("Inventory") == null)
         {
             Inventory = inventoryPreset.GetDefaultInventoryPreset();
+            Inventory.ItemStorage = itemStorage;
         }
         else
         {
-            Inventory = _inventorySaveLoader.GetData();
+            Inventory = SaveLoadManager.Instance.GetGameData<Inventory>("Inventory");
+            Inventory.ItemStorage = itemStorage;
         }
         
         foreach (EItemType type in Enum.GetValues(typeof(EItemType)))
@@ -68,13 +69,13 @@ public class InventoryManager : MonoBehaviour, IInitialize<InventoryManager>, IA
                 var slot = Inventory.Sections[type].GetAllNotEmptyInventorySlots()[i];
                 var item = itemStorage.GetItemById(slot.ItemId);
                 
-                if (slot.IsEquipment)
+                if (Inventory.Sections[type].GetEquippedSlotByItemId(slot.ItemId) != null)
                 {
                     inventoryIconManager.SetIcon(new SlotTransferInfo(
                         slot.SlotId,
-                        Inventory.Sections[type].GetEquippedSlotIdByItemId(slot.ItemId),
+                        Inventory.Sections[type].GetEquippedSlotByItemId(slot.ItemId).SlotId,
                         type,
-                        true
+                        Inventory.Sections[type].GetEquippedSlotByItemId(slot.ItemId).IsEquipment
                         ), item.IsLocked, item.Icon);
                     continue;
                 }
@@ -90,7 +91,7 @@ public class InventoryManager : MonoBehaviour, IInitialize<InventoryManager>, IA
 
     private void ManageEquippedItem(SlotTransferInfo slotTransferInfo)
     {
-        var slot = Inventory.Sections[CurrentInventorySection].GetSlotById(slotTransferInfo.StandardSlotId);
+        var slot = Inventory.Sections[CurrentInventorySection].GetSlotBySlotId(slotTransferInfo.StandardSlotId);
         var item = itemStorage.GetItemById(slot.ItemId);
         inventoryIconManager.SetIcon(slotTransferInfo, item.IsLocked, item.Icon);
     }
@@ -104,13 +105,6 @@ public class InventoryManager : MonoBehaviour, IInitialize<InventoryManager>, IA
     {
         CurrentInventorySection = section;
         uIManager.SetInventoryStrength(Inventory.Sections[CurrentInventorySection].CurrentStrength);
-    }
-    
-    public void ExchangeSlotData(int slotId)
-    {
-        var inventorySection = Inventory.Sections[CurrentInventorySection];
-        string itemId = inventorySection.GetItemIdBySlotId(slotId);
-        inventorySection.MoveItem(itemStorage.GetItemById(itemId), slotId);
     }
 
     public void SetCurrentSelectedItem(int slotId)
